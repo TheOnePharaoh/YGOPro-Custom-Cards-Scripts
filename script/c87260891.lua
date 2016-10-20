@@ -21,6 +21,14 @@ function c87260891.initial_effect(c)
 	local e3=e2:Clone()
 	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
 	c:RegisterEffect(e3)
+	--name change
+	local e4=Effect.CreateEffect(c)
+	e4:SetType(EFFECT_TYPE_SINGLE)
+	e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e4:SetCode(EFFECT_CHANGE_CODE)
+	e4:SetRange(LOCATION_MZONE+LOCATION_GRAVE)
+	e4:SetValue(70095154)
+	c:RegisterEffect(e4)
 end
 
 function c87260891.spcon(e,c)
