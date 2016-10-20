@@ -1,0 +1,47 @@
+--Awaking the Body
+function c66165090.initial_effect(c)
+	--Activate
+	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_ACTIVATE)
+	e1:SetCode(EVENT_FREE_CHAIN)
+	e1:SetCountLimit(1,66165090+EFFECT_COUNT_CODE_OATH)
+	e1:SetCost(c66165090.cost)
+	e1:SetOperation(c66165090.activate)
+	c:RegisterEffect(e1)
+end
+function c66165090.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.GetCustomActivityCount(66165090,tp,ACTIVITY_SPSUMMON)==0 end
+	local e1=Effect.CreateEffect(e:GetHandler())
+	e1:SetType(EFFECT_TYPE_FIELD)
+	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_OATH)
+	e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+	e1:SetReset(RESET_PHASE+PHASE_END)
+	e1:SetTargetRange(1,0)
+	e1:SetTarget(c66165090.splimit)
+	Duel.RegisterEffect(e1,tp)
+end
+function c66165090.splimit(e,c,tp,sumtp,sumpos)
+	return not c:IsAttribute(ATTRIBUTE_EARTH)
+end
+function c66165090.activate(e,tp,eg,ep,ev,re,r,rp)
+	local e1=Effect.CreateEffect(e:GetHandler())
+	e1:SetType(EFFECT_TYPE_FIELD)
+	e1:SetCode(EFFECT_EXTRA_RELEASE_SUM)
+	e1:SetTargetRange(0,LOCATION_MZONE)
+	e1:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
+	e1:SetCountLimit(1)
+	e1:SetReset(RESET_PHASE+PHASE_END)
+	Duel.RegisterEffect(e1,tp)
+	local e2=Effect.CreateEffect(e:GetHandler())
+	e2:SetType(EFFECT_TYPE_FIELD)
+	e2:SetTargetRange(LOCATION_HAND,0)
+	e2:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
+	e2:SetTarget(aux.TargetBoolFunction(c66165090.extrasummontg))
+	e2:SetValue(0x1)
+	e2:SetReset(RESET_PHASE+PHASE_END)
+	Duel.RegisterEffect(e2,tp)
+	Duel.RegisterFlagEffect(tp,66165090,RESET_PHASE+PHASE_END,0,1)
+end
+function c66165090.extrasummontg(c)
+	return c:IsSetCard(0xea010) and c:IsLevelAbove(5)
+end

@@ -1,0 +1,58 @@
+--Wave - Song of a Strong Desire
+function c98100027.initial_effect(c)
+	c:SetUniqueOnField(1,0,98100027)
+	--Activate
+	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_ACTIVATE)
+	e1:SetCode(EVENT_FREE_CHAIN)
+	c:RegisterEffect(e1)
+	--spsummon
+	local e2=Effect.CreateEffect(c)
+	e2:SetDescription(aux.Stringid(98100027,0))
+	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e2:SetType(EFFECT_TYPE_IGNITION)
+	e2:SetRange(LOCATION_SZONE)
+	e2:SetCountLimit(1)
+	e2:SetCost(c98100027.spcost)
+	e2:SetTarget(c98100027.sptg)
+	e2:SetOperation(c98100027.spop)
+	c:RegisterEffect(e2)
+end
+function c98100027.rfilter(c,e,tp)
+	local lv=c:GetOriginalLevel()
+	return lv>0 and c:IsRace(RACE_MACHINE) and c:IsSetCard(0x0dac405) and c:IsAttribute(ATTRIBUTE_DARK) and c:IsReleasable()
+		and Duel.IsExistingMatchingCard(c98100027.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp,lv)
+end
+function c98100027.spfilter(c,e,tp,lv)
+	return c:GetLevel()==lv and c:IsRace(RACE_MACHINE) and c:IsSetCard(0x0dac405) and c:IsAttribute(ATTRIBUTE_DARK) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+end
+function c98100027.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.CheckReleaseGroup(tp,c98100027.rfilter,1,nil,e,tp) end
+	local g=Duel.SelectReleaseGroup(tp,c98100027.rfilter,1,1,nil,e,tp)
+	local tc=g:GetFirst()
+	e:SetLabel(tc:GetOriginalLevel())
+	Duel.Release(g,REASON_COST)
+end
+function c98100027.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>-1 end
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK)
+end
+function c98100027.spop(e,tp,eg,ep,ev,re,r,rp)
+	if not e:GetHandler():IsRelateToEffect(e) then return end
+	local lv=e:GetLabel()
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
+	local g=Duel.SelectMatchingCard(tp,c98100027.spfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp,lv)
+	local tc=g:GetFirst()
+	if tc then
+		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
+		local e1=Effect.CreateEffect(e:GetHandler())
+		e1:SetType(EFFECT_TYPE_SINGLE)
+		e1:SetCode(EFFECT_SET_ATTACK_FINAL)
+		e1:SetValue(0)
+		e1:SetReset(RESET_EVENT+0xfe0000)
+		tc:RegisterEffect(e1)
+		local e2=e1:Clone()
+		e2:SetCode(EFFECT_SET_DEFENSE_FINAL)
+		tc:RegisterEffect(e2)
+	end
+end
