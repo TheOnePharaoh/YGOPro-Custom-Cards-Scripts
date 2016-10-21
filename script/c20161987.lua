@@ -74,7 +74,8 @@ function c20161987.val(e,c)
 	return Duel.GetMatchingGroupCount(c20161987.valfilter,c:GetControler(),LOCATION_ONFIELD,LOCATION_ONFIELD,e:GetHandler())*500
 end
 function c20161987.aclimit(e,re,tp)
-	return not re:GetHandler():IsImmuneToEffect(e)
+	local rc=re:GetHandler()
+	return not re:GetHandler():IsImmuneToEffect(e) and not rc:IsCode(20161987)
 end
 function c20161987.actcon(e)
 	return Duel.GetAttacker()==e:GetHandler() or Duel.GetAttackTarget()==e:GetHandler()

@@ -3,10 +3,12 @@ function c20161993.initial_effect(c)
 	--search
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(20161993,0))
-	e1:SetCategory(CATEGORY_SEARCH+CATEGORY_TOHAND)
+	e1:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
+	e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
 	e1:SetRange(LOCATION_MZONE)
 	e1:SetCode(EVENT_TO_DECK)
+	e1:SetCountLimit(1)
 	e1:SetCondition(c20161993.condition)
 	e1:SetTarget(c20161993.target)
 	e1:SetOperation(c20161993.operation)
@@ -31,11 +33,13 @@ function c20161993.initial_effect(c)
 	e4:SetCode(EVENT_TO_DECK)
 	c:RegisterEffect(e4)
 end
-function c20161993.confilter(c)
-	return c:IsPreviousLocation(LOCATION_HAND) or c:IsPreviousLocation(LOCATION_ONFIELD)
+function c20161993.cfilter(c,tp)
+	return c:IsControler(tp) and c:GetPreviousControler()==tp
+		and (c:IsPreviousLocation(LOCATION_HAND) or (c:IsPreviousLocation(LOCATION_ONFIELD) and c:IsPreviousPosition(POS_FACEUP)))
+		and c:IsRace(RACE_REPTILE)
 end
 function c20161993.condition(e,tp,eg,ep,ev,re,r,rp)
-	return bit.band(r,REASON_EFFECT)~=0 and eg:IsExists(c20161993.confilter,1,nil)
+	return bit.band(r,REASON_COST+REASON_EFFECT)~=0 and eg:IsExists(c20161993.cfilter,1,nil,tp)
 end
 function c20161993.thfilter(c)
 	return c:IsSetCard(0xab90) and not c:IsCode(20161993) and c:IsAbleToHand()
@@ -45,6 +49,7 @@ function c20161993.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 end
 function c20161993.operation(e,tp,eg,ep,ev,re,r,rp)
+	if not e:GetHandler():IsRelateToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local g=Duel.SelectMatchingCard(tp,c20161993.thfilter,tp,LOCATION_DECK,0,1,1,nil)
 	if g:GetCount()>0 then
@@ -55,13 +60,13 @@ end
 function c20161993.sumcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsPreviousPosition(POS_FACEUP) and e:GetHandler():IsPreviousLocation(LOCATION_ONFIELD)
 end
-function c20161993.cfilter(c)
+function c20161993.costfilter(c)
 	return c:IsAbleToDeckAsCost()
 end
 function c20161993.sumcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c20161993.cfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,2,nil) end
+	if chk==0 then return Duel.IsExistingMatchingCard(c20161993.costfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,2,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-	local g=Duel.SelectMatchingCard(tp,c20161993.cfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,2,2,nil)
+	local g=Duel.SelectMatchingCard(tp,c20161993.costfilter,tp,LOCATION_HAND+LOCATION_MZONE,0,2,2,nil)
 	Duel.SendtoDeck(g,nil,1,REASON_COST)
 end
 function c20161993.spfilter(c,e,tp)

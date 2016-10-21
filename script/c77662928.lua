@@ -74,7 +74,7 @@ function c77662928.initial_effect(c)
 	--def
 	local e9=Effect.CreateEffect(c)
 	e9:SetType(EFFECT_TYPE_SINGLE)
-	e9:SetCode(EFFECT_UPDATE_DEFENSE)
+	e9:SetCode(EFFECT_UPDATE_DEFENCE)
 	e9:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e9:SetRange(LOCATION_MZONE)
 	e9:SetValue(c77662928.atkval)

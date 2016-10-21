@@ -6,7 +6,7 @@ function c544454445.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetCode(EFFECT_SPSUMMON_PROC)
 	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
-	e1:SetRange(LOCATION_HAND+LOCATION_GRAVE)
+	e1:SetRange(LOCATION_HAND)
 	e1:SetCondition(c544454445.spcon)
 	e1:SetOperation(c544454445.spop)
 	c:RegisterEffect(e1)
@@ -65,27 +65,8 @@ function c544454445.initial_effect(c)
 	e9:SetValue(c544454445.adval)
 	c:RegisterEffect(e9)
 	local e10=e9:Clone()
-	e10:SetCode(EFFECT_UPDATE_DEFENSE)
+	e10:SetCode(EFFECT_UPDATE_DEFENCE)
 	c:RegisterEffect(e10)
-	--spson
-	local e11=Effect.CreateEffect(c)
-	e11:SetType(EFFECT_TYPE_SINGLE)
-	e11:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
-	e11:SetCode(EFFECT_SPSUMMON_CONDITION)
-	e11:SetValue(aux.FALSE)
-	c:RegisterEffect(e11)
-	--to grave
-	local e12=Effect.CreateEffect(c)
-	e12:SetDescription(aux.Stringid(10000020,0))
-	e12:SetCategory(CATEGORY_TOGRAVE)
-	e12:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
-	e12:SetRange(LOCATION_MZONE)
-	e12:SetCountLimit(1)
-	e12:SetCode(EVENT_PHASE+PHASE_END)
-	e12:SetCondition(c544454445.tgcon)
-	e12:SetTarget(c544454445.tgtg)
-	e12:SetOperation(c544454445.tgop)
-	c:RegisterEffect(e12)
 end
 function c544454445.sumlimit(e,c)
 	return c:IsSetCard(0x23)
@@ -106,9 +87,8 @@ function c544454445.spcon(e,c)
 		and not Duel.IsExistingMatchingCard(c544454445.exfilter,0,LOCATION_MZONE,LOCATION_MZONE,1,nil)
 end
 function c544454445.spop(e,tp,eg,ep,ev,re,r,rp,c)
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectMatchingCard(tp,c544454445.spfilter,tp,LOCATION_DECK,0,1,1,nil)
-	Duel.Remove(g,POS_FACEUP,REASON_COST)
+	local tc=Duel.GetFirstMatchingCard(c544454445.spfilter,tp,LOCATION_DECK,0,nil)
+	Duel.Remove(tc,POS_FACEUP,REASON_COST)
 end
 function c544454445.descon(e)
 	local f1=Duel.GetFieldCard(0,LOCATION_SZONE,5)
@@ -123,18 +103,4 @@ function c544454445.antarget(e,c)
 end
 function c544454445.adval(e,c)
 	return Duel.GetFieldGroupCount(c:GetControler(),LOCATION_HAND,0)*1000
-end
-function c544454445.tgcon(e,tp,eg,ep,ev,re,r,rp)
-	return bit.band(e:GetHandler():GetSummonType(),SUMMON_TYPE_SPECIAL)==SUMMON_TYPE_SPECIAL 
-		and e:GetHandler():IsPreviousLocation(LOCATION_GRAVE)
-end
-function c544454445.tgtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return true end
-	Duel.SetOperationInfo(0,CATEGORY_TOGRAVE,e:GetHandler(),1,0,0)
-end
-function c544454445.tgop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	if c:IsRelateToEffect(e) and c:IsFaceup() then
-		Duel.SendtoGrave(c,REASON_EFFECT)
-	end
 end

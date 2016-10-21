@@ -56,33 +56,19 @@ function c544454448.initial_effect(c)
 	e8:SetTargetRange(LOCATION_MZONE,0)
 	e8:SetTarget(c544454448.antarget)
 	c:RegisterEffect(e8)
-	--spson
+	--negate
 	local e9=Effect.CreateEffect(c)
-	e9:SetType(EFFECT_TYPE_SINGLE)
-	e9:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
-	e9:SetCode(EFFECT_SPSUMMON_CONDITION)
-	e9:SetValue(aux.FALSE)
+	e9:SetDescription(aux.Stringid(544454448,0))
+	e9:SetCategory(CATEGORY_NEGATE+CATEGORY_DESTROY)
+	e9:SetType(EFFECT_TYPE_QUICK_O)
+	e9:SetCode(EVENT_CHAINING)
+	e9:SetCountLimit(1)
+	e9:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DAMAGE_CAL)
+	e9:SetRange(LOCATION_MZONE)
+	e9:SetCondition(c544454448.discon)
+	e9:SetTarget(c544454448.distg)
+	e9:SetOperation(c544454448.disop)
 	c:RegisterEffect(e9)
-	local e10=Effect.CreateEffect(c)
-	e10:SetType(EFFECT_TYPE_SINGLE)
-	e10:SetCode(EFFECT_INDESTRUCTABLE_COUNT)
-	e10:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-	e10:SetCountLimit(1)
-	e10:SetValue(c544454448.valcon)
-	c:RegisterEffect(e10)
-	--special summon malefic
-	local e11=Effect.CreateEffect(c)
-	e11:SetDescription(aux.Stringid(4779091,2))
-	e11:SetCategory(CATEGORY_SPECIAL_SUMMON)
-	e11:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
-	e11:SetCode(EVENT_LEAVE_FIELD)
-	e11:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
-	e11:SetTarget(c544454448.msptg)
-	e11:SetOperation(c544454448.mspop)
-	c:RegisterEffect(e11)
-end
-function c544454448.valcon(e,re,r,rp)
-	return bit.band(r,REASON_BATTLE+REASON_EFFECT)~=0
 end
 function c544454448.sumlimit(e,c)
 	return c:IsSetCard(0x23)
@@ -103,9 +89,8 @@ function c544454448.spcon(e,c)
 		and not Duel.IsExistingMatchingCard(c544454448.exfilter,0,LOCATION_MZONE,LOCATION_MZONE,1,nil)
 end
 function c544454448.spop(e,tp,eg,ep,ev,re,r,rp,c)
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectMatchingCard(tp,c544454448.spfilter,tp,LOCATION_EXTRA,0,1,1,nil)
-	Duel.Remove(g,POS_FACEUP,REASON_COST)
+	local tc=Duel.GetFirstMatchingCard(c544454448.spfilter,tp,LOCATION_EXTRA,0,nil)
+	Duel.Remove(tc,POS_FACEUP,REASON_COST)
 end
 function c544454448.descon(e)
 	local f1=Duel.GetFieldCard(0,LOCATION_SZONE,5)
@@ -118,35 +103,19 @@ end
 function c544454448.antarget(e,c)
 	return c~=e:GetHandler()
 end
-function c544454448.fifilter(c,fc,tp)
-	return c:IsType(TYPE_FIELD) and c:GetActivateEffect():IsActivatable(tp) and fc==nil
+function c544454448.discon(e,tp,eg,ep,ev,re,r,rp)
+	return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and Duel.IsChainNegatable(ev)
 end
-function c544454448.mspfilter(c,e,tp)
-	return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and c:IsSetCard(0x23) and c:IsType(TYPE_MONSTER) 
-		and c:IsCanBeSpecialSummoned(e,0,tp,true,false) and c:GetCode()~=544454448 and c:GetCode()~=37115575
-end
-function c544454448.msptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	local fc=Duel.GetFieldCard(tp,LOCATION_SZONE,5)
-	if chk==0 then return Duel.IsExistingMatchingCard(c544454448.fifilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil,fc,tp) 
-		or Duel.IsExistingMatchingCard(c544454448.mspfilter,tp,LOCATION_HAND+LOCATION_DECK,0,1,nil,e,tp) end
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND+LOCATION_DECK)
-end
-function c544454448.mspop(e,tp,eg,ep,ev,re,r,rp)
-	local fc=Duel.GetFieldCard(tp,LOCATION_SZONE,5)
-	local g1=Duel.GetMatchingGroup(c544454448.fifilter,tp,LOCATION_HAND+LOCATION_DECK,0,nil,fc,tp)
-	local chk=0
-	if g1:GetCount()>0 and Duel.SelectYesNo(tp,aux.Stringid(26640671,0)) then
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EFFECT)
-		local sc=g1:Select(tp,1,1,nil):GetFirst()
-		Duel.MoveToField(sc,tp,tp,LOCATION_SZONE,POS_FACEUP,true)
-		Duel.RaiseEvent(sc,EVENT_CHAIN_SOLVED,sc:GetActivateEffect(),0,tp,tp,Duel.GetCurrentChain())
-		chk=1
+function c544454448.distg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return true end
+	Duel.SetOperationInfo(0,CATEGORY_NEGATE,eg,1,0,0)
+	if re:GetHandler():IsDestructable() and re:GetHandler():IsRelateToEffect(re) then
+		Duel.SetOperationInfo(0,CATEGORY_DESTROY,eg,1,0,0)
 	end
-	local g2=Duel.GetMatchingGroup(c544454448.mspfilter,tp,LOCATION_HAND+LOCATION_DECK,0,nil,e,tp)
-	if g2:GetCount()>0 and (chk==0 or Duel.SelectYesNo(tp,aux.Stringid(440556,0))) then
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-		local spg=g2:Select(tp,1,1,nil)
-		Duel.SpecialSummon(spg,0,tp,tp,true,false,POS_FACEUP)
-		spg:GetFirst():CompleteProcedure()
+end
+function c544454448.disop(e,tp,eg,ep,ev,re,r,rp)
+	Duel.NegateActivation(ev)
+	if re:GetHandler():IsRelateToEffect(re) then
+		Duel.Destroy(eg,REASON_EFFECT)
 	end
 end

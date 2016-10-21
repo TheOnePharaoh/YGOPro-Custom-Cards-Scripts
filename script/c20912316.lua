@@ -6,7 +6,7 @@ function c20912316.initial_effect(c)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_TOHAND+CATEGORY_SEARCH)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e1:SetCode(EVENT_SUMMON_SUCCESS)
-	e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DELAY)
+	e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
 	e1:SetCountLimit(1,20912316)
 	e1:SetTarget(c20912316.sptg)
 	e1:SetOperation(c20912316.spop)
@@ -40,7 +40,7 @@ function c20912316.initial_effect(c)
 	c:RegisterEffect(e5)
 end
 function c20912316.spfilter(c,e,tp)
-	return c:IsType(TYPE_MONSTER) and c:IsRace(RACE_WARRIOR) and c:IsSetCard(0xd0a2) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsType(TYPE_MONSTER) and c:IsRace(RACE_WARRIOR) and c:IsSetCard(0xd0a2) and not c:IsCode(20912316) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c20912316.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_HAND) and chkc:IsControler(tp) and c20912316.spfilter(chkc,e,tp) end

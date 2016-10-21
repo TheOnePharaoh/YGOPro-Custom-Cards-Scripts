@@ -56,18 +56,7 @@ function c544454446.initial_effect(c)
 	e8:SetTargetRange(LOCATION_MZONE,0)
 	e8:SetTarget(c544454446.antarget)
 	c:RegisterEffect(e8)
-	--destroy
-	local e9=Effect.CreateEffect(c)
-	e9:SetDescription(aux.Stringid(544454446,0))
-	e9:SetCategory(CATEGORY_DESTROY)
-	e9:SetType(EFFECT_TYPE_IGNITION)
-	e9:SetRange(LOCATION_MZONE)
-	e9:SetCost(c544454446.descost)
-	e9:SetTarget(c544454446.destg)
-	e9:SetOperation(c544454446.desop)
-	c:RegisterEffect(e9)
 end
-c544454446.dark_magician_list=true
 function c544454446.sumlimit(e,c)
 	return c:IsSetCard(0x23)
 end
@@ -87,9 +76,8 @@ function c544454446.spcon(e,c)
 		and not Duel.IsExistingMatchingCard(c544454446.exfilter,0,LOCATION_MZONE,LOCATION_MZONE,1,nil)
 end
 function c544454446.spop(e,tp,eg,ep,ev,re,r,rp,c)
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectMatchingCard(tp,c544454446.spfilter,tp,LOCATION_DECK,0,1,1,nil)
-	Duel.Remove(g,POS_FACEUP,REASON_COST)
+	local tc=Duel.GetFirstMatchingCard(c544454446.spfilter,tp,LOCATION_DECK,0,nil)
+	Duel.Remove(tc,POS_FACEUP,REASON_COST)
 end
 function c544454446.descon(e)
 	local f1=Duel.GetFieldCard(0,LOCATION_SZONE,5)
@@ -101,27 +89,4 @@ function c544454446.destarget(e,c)
 end
 function c544454446.antarget(e,c)
 	return c~=e:GetHandler()
-end
-function c544454446.cfilter(c)
-	return c:IsType(TYPE_SPELL) and c:IsAbleToGraveAsCost()
-end
-function c544454446.descost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c544454446.cfilter,tp,LOCATION_HAND,0,1,e:GetHandler()) end
-	Duel.DiscardHand(tp,c544454446.cfilter,1,1,REASON_COST)
-end
-function c544454446.destg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDestructable,tp,0,LOCATION_ONFIELD,1,nil) end
-	local g=Duel.GetMatchingGroup(Card.IsDestructable,tp,0,LOCATION_ONFIELD,nil)
-	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
-end
-function c544454446.desop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
-	local g=Duel.SelectMatchingCard(tp,Card.IsDestructable,tp,0,LOCATION_ONFIELD,1,1,nil)
-	if g:GetCount()>0 then
-		Duel.HintSelection(g)
-		Duel.Destroy(g,REASON_EFFECT)
-	else
-		local sg=Duel.GetMatchingGroup(Card.IsDestructable,tp,LOCATION_ONFIELD,0,nil)
-		Duel.Destroy(sg,REASON_EFFECT)
-	end
 end

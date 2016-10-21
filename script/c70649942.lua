@@ -48,12 +48,12 @@ function c70649942.sumcost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c70649942.tmpfilter1(c,e,tp)
 	return c:IsSetCard(0xd0a214) and c:IsType(TYPE_SYNCHRO) 
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,c:GetCode(),cc,0x21,c:GetAttack(),c:GetDefense(),c:GetLevel(),c:GetRace(),c:GetAttribute(),POS_FACEUP_ATTACK,tp)
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,c:GetCode(),cc,0x21,c:GetAttack(),c:GetDefence(),c:GetLevel(),c:GetRace(),c:GetAttribute(),POS_FACEUP_ATTACK,tp)
 		and Duel.IsExistingMatchingCard(c70649942.tmpfilter2,tp,LOCATION_GRAVE,0,1,nil,e,tp,c:GetCode())
 end
 function c70649942.tmpfilter2(c,e,tp,cd)
 	return c:IsSetCard(0xd0a214) and c:IsType(TYPE_SYNCHRO) and not c:IsCode(cd)
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,c:GetCode(),cc,0x21,c:GetAttack(),c:GetDefense(),c:GetLevel(),c:GetRace(),c:GetAttribute(),POS_FACEUP_ATTACK,1-tp)
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,c:GetCode(),cc,0x21,c:GetAttack(),c:GetDefence(),c:GetLevel(),c:GetRace(),c:GetAttribute(),POS_FACEUP_ATTACK,1-tp)
 end
 function c70649942.filter1(c,e,tp)
 	return c:IsSetCard(0xd0a214) and c:IsType(TYPE_SYNCHRO) and c:IsCanBeSpecialSummoned(e,0,tp,true,false)

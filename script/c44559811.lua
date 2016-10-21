@@ -35,6 +35,6 @@ function c44559811.spcon(e,c)
 	return ct>9
 end
 function c44559811.spop(e,tp,eg,ep,ev,re,r,rp,c)
-	local WIN_REASON_LORDBUDDHA = 0x58
+	local WIN_REASON_LORDBUDDHA = 0x61
 	Duel.Win(tp,WIN_REASON_LORDBUDDHA)
 end

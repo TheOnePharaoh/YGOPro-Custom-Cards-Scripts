@@ -63,7 +63,7 @@ function c22769901.initial_effect(c)
 end
 c22769901.xyz_count=2
 function c22769901.winop(e,tp,eg,ep,ev,re,r,rp)
-	local WIN_REASON_THE_DREADNOUGHT_Z06=0x57
+	local WIN_REASON_THE_DREADNOUGHT_Z06=0x60
 	if e:GetHandler():GetOverlayCount()==10 then
 		Duel.Win(tp,WIN_REASON_THE_DREADNOUGHT_Z06)
 	end

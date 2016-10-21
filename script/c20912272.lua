@@ -70,7 +70,7 @@ function c20912272.wincon(e)
 	return e:GetHandler():GetEquipCount()>4
 end
 function c20912272.winop(e,tp,eg,ep,ev,re,r,rp)
-	local WIN_REASON_SWORD_ART_KIRITO_II=0x55
+	local WIN_REASON_SWORD_ART_KIRITO_II=0x58
 	Duel.Win(tp,WIN_REASON_SWORD_ART_KIRITO_II)
 end
 function c20912272.destg(e,tp,eg,ep,ev,re,r,rp,chk)

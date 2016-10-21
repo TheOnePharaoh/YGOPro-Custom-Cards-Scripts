@@ -86,13 +86,13 @@ end
 function c59821117.flipop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) and tc:IsFacedown() then
-		Duel.ChangePosition(tc,0,POS_FACEUP_ATTACK,0,POS_FACEUP_DEFENSE)
+		Duel.ChangePosition(tc,0,POS_FACEUP_ATTACK,0,POS_FACEUP_DEFENCE)
 		if tc:IsAttackBelow(1500) then
 			Duel.BreakEffect()
 			Duel.Destroy(tc,REASON_EFFECT)
 		else
 			Duel.ConfirmCards(1-tc:GetControler(),tc)
-			Duel.ChangePosition(tc,POS_FACEDOWN_DEFENSE)
+			Duel.ChangePosition(tc,POS_FACEDOWN_DEFENCE)
 		end
 	end
 end

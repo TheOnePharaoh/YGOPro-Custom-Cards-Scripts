@@ -157,7 +157,7 @@ function c990815.desop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c990815.winop(e,tp,eg,ep,ev,re,r,rp)
-	local WIN_REASON_THE_FALSE_ANGEL=0x56
+	local WIN_REASON_THE_FALSE_ANGEL=0x59
 	if e:GetHandler():GetOverlayCount()==10 then
 		Duel.Win(tp,WIN_REASON_THE_FALSE_ANGEL)
 	end

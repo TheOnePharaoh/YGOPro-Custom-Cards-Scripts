@@ -56,19 +56,6 @@ function c544454452.initial_effect(c)
 	e8:SetTargetRange(LOCATION_MZONE,0)
 	e8:SetTarget(c544454452.antarget)
 	c:RegisterEffect(e8)
-	local e9=Effect.CreateEffect(c)
-	e9:SetCode(EFFECT_ADD_TYPE)
-	e9:SetType(EFFECT_TYPE_SINGLE)
-	e9:SetValue(TYPE_XYZ)
-	c:RegisterEffect(e9)
-	--atk
-	local e10=Effect.CreateEffect(c)
-	e10:SetType(EFFECT_TYPE_SINGLE)
-	e10:SetCode(EFFECT_UPDATE_ATTACK)
-	e10:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-	e10:SetRange(LOCATION_MZONE)
-	e10:SetValue(c544454452.atkval)
-	c:RegisterEffect(e10)
 end
 function c544454452.sumlimit(e,c)
 	return c:IsSetCard(0x23)
@@ -102,7 +89,4 @@ function c544454452.destarget(e,c)
 end
 function c544454452.antarget(e,c)
 	return c~=e:GetHandler()
-end
-function c544454452.atkval(e,c)
-	return c:GetOverlayCount()*500
 end

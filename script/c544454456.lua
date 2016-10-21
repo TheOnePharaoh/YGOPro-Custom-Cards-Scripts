@@ -1,6 +1,5 @@
 --Malefic Red Dragon Archfiend
 function c544454456.initial_effect(c)
-	Duel.EnableGlobalFlag(GLOBALFLAG_SELF_TOGRAVE)
 	c:EnableReviveLimit()
 	--special summon
 	local e1=Effect.CreateEffect(c)
@@ -39,7 +38,7 @@ function c544454456.initial_effect(c)
 	e7:SetType(EFFECT_TYPE_SINGLE)
 	e7:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e7:SetRange(LOCATION_MZONE)
-	e7:SetCode(EFFECT_SELF_TOGRAVE)
+	e7:SetCode(EFFECT_SELF_DESTROY)
 	e7:SetCondition(c544454456.descon)
 	c:RegisterEffect(e7)
 	local e8=Effect.CreateEffect(c)
@@ -57,21 +56,16 @@ function c544454456.initial_effect(c)
 	e8:SetTargetRange(LOCATION_MZONE,0)
 	e8:SetTarget(c544454456.antarget)
 	c:RegisterEffect(e8)
-	--spson
+	--destroy all
 	local e9=Effect.CreateEffect(c)
-	e9:SetType(EFFECT_TYPE_SINGLE)
-	e9:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
-	e9:SetCode(EFFECT_SPSUMMON_CONDITION)
-	e9:SetValue(aux.FALSE)
+	e9:SetDescription(aux.Stringid(544454456,0))
+	e9:SetCategory(CATEGORY_DESTROY)
+	e9:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
+	e9:SetCode(EVENT_BATTLED)
+	e9:SetCondition(c544454456.destructcon)
+	e9:SetTarget(c544454456.destructtg)
+	e9:SetOperation(c544454456.destructop)
 	c:RegisterEffect(e9)
-	--
-	local e10=Effect.CreateEffect(c)
-	e10:SetType(EFFECT_TYPE_SINGLE)
-	e10:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-	e10:SetRange(LOCATION_MZONE)
-	e10:SetCode(EFFECT_INDESTRUCTABLE)
-	e10:SetValue(1)
-	c:RegisterEffect(e10)
 end
 function c544454456.sumlimit(e,c)
 	return c:IsSetCard(0x23)
@@ -105,4 +99,19 @@ function c544454456.destarget(e,c)
 end
 function c544454456.antarget(e,c)
 	return c~=e:GetHandler()
+end
+function c544454456.destructcon(e,tp,eg,ep,ev,re,r,rp)
+	return Duel.GetAttacker()==e:GetHandler() and Duel.GetAttackTarget() and not Duel.GetAttackTarget():IsAttackPos()
+end
+function c544454456.destructfilter(c)
+	return not c:IsAttackPos() and c:IsDestructable()
+end
+function c544454456.destructtg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return true end
+	local g=Duel.GetMatchingGroup(c544454456.destructfilter,tp,0,LOCATION_MZONE,nil)
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
+end
+function c544454456.destructop(e,tp,eg,ep,ev,re,r,rp)
+	local g=Duel.GetMatchingGroup(c544454456.destructfilter,tp,0,LOCATION_MZONE,nil)
+	Duel.Destroy(g,REASON_EFFECT)
 end

@@ -14,7 +14,7 @@ function c20162004.initial_effect(c)
 	e2:SetDescription(aux.Stringid(20162004,0))
 	e2:SetCategory(CATEGORY_DRAW)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
-	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+	e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_DELAY)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCode(EVENT_TO_DECK)
 	e2:SetCondition(c20162004.condition)
@@ -43,7 +43,7 @@ function c20162004.syntg(e,syncard,f,minc,maxc)
 	local lv=syncard:GetLevel()-c:GetLevel()
 	if lv<=0 then return false end
 	local g=Duel.GetMatchingGroup(c20162004.synfilter1,syncard:GetControler(),LOCATION_MZONE,LOCATION_MZONE,c,syncard,c,f)
-	if syncard:IsSetCard(0xab90) then
+	if syncard:IsRace(RACE_REPTILE) then
 		local exg=Duel.GetMatchingGroup(c20162004.synfilter2,syncard:GetControler(),LOCATION_HAND,0,c,syncard,c,f)
 		g:Merge(exg)
 	end
@@ -67,7 +67,7 @@ function c20162004.cfilter(c,tp)
 		and c:IsRace(RACE_REPTILE)
 end
 function c20162004.condition(e,tp,eg,ep,ev,re,r,rp)
-	return bit.band(r,REASON_EFFECT)~=0 and eg:IsExists(c20162004.cfilter,1,nil,tp)
+	return bit.band(r,REASON_COST+REASON_EFFECT)~=0 and eg:IsExists(c20162004.cfilter,1,nil,tp)
 end
 function c20162004.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsPlayerCanDraw(tp,1) end

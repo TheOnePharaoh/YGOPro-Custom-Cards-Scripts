@@ -84,7 +84,7 @@ function c938.initial_effect(c)
 	--def down
 	local e9=Effect.CreateEffect(c)
 	e9:SetType(EFFECT_TYPE_FIELD)
-	e9:SetCode(EFFECT_UPDATE_DEFENSE)
+	e9:SetCode(EFFECT_UPDATE_DEFENCE)
 	e9:SetRange(LOCATION_PZONE)
 	e9:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
 	e9:SetTarget(c938.atkdowntg)

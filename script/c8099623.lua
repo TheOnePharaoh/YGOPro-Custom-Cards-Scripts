@@ -20,5 +20,5 @@ end
 function c8099623.condition(e,tp,eg,ep,ev,re,r,rp)
 	local tc=eg:GetFirst()
 	local bc=tc:GetBattleTarget()
-	return tc:IsControler(tp) and bc and bc:IsDefensePos() and tc:IsCode(86221218)
+	return tc:IsControler(tp) and bc and bc:IsDefencePos() and tc:IsCode(86221218)
 end

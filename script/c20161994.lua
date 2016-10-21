@@ -3,10 +3,11 @@ function c20161994.initial_effect(c)
 	--todeck
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(20161994,0))
-	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e1:SetCategory(CATEGORY_TODECK)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e1:SetCode(EVENT_LEAVE_FIELD)
+	e1:SetCountLimit(1,20161994)
 	e1:SetCondition(c20161994.tdcon)
 	e1:SetTarget(c20161994.tdtg)
 	e1:SetOperation(c20161994.tdop)
@@ -17,6 +18,7 @@ function c20161994.initial_effect(c)
 	e2:SetCategory(CATEGORY_TODECK)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e2:SetCode(EVENT_BE_MATERIAL)
+	e2:SetCountLimit(1,20161994)
 	e2:SetCondition(c20161994.reccon)
 	e2:SetTarget(c20161994.rectg)
 	e2:SetOperation(c20161994.recop)
@@ -24,21 +26,21 @@ function c20161994.initial_effect(c)
 end
 function c20161994.tdcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	return c:IsPreviousPosition(POS_FACEUP) and not c:IsLocation(LOCATION_DECK)
+	return c:IsPreviousPosition(POS_FACEUP)
 end
 function c20161994.tdfilter(c)
 	return c:IsAbleToDeck()
 end
 function c20161994.tdtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and c20161994.tdfilter(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(c20161994.tdfilter,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,nil) end
+	if chkc then return c20161994.tdfilter(chkc) end
+	if chk==0 then return true end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-	local g=Duel.SelectTarget(tp,c20161994.tdfilter,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,1,nil)
-	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,1,0,0)
+	local g=Duel.SelectTarget(tp,Card.IsAbleToDeck,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,1,nil)
+	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,g:GetCount(),0,0)
 end
 function c20161994.tdop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
-	if tc:IsRelateToEffect(e) then
+	if tc and tc:IsRelateToEffect(e) then
 		Duel.SendtoDeck(tc,nil,1,REASON_EFFECT)
 	end
 end
