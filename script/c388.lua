@@ -1,5 +1,6 @@
 --Evolute Summoning Procedure
 function c388.initial_effect(c)
+c:EnableCounterPermit(0x88)
 	if not c388.global_check then
 		c388.global_check=true
 		--register
@@ -42,10 +43,17 @@ function c388.op(e,tp,eg,ep,ev,re,r,rp)
 			local e3=Effect.CreateEffect(tc)
 			e3:SetType(EFFECT_TYPE_SINGLE)
 			e3:SetCode(EFFECT_REMOVE_TYPE)
-			e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_IGNORE_IMMUNE+EFFECT_FLAG_SET_AVAILABLE)
+			e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_IGNORE_IMMUNE)
 			e3:SetReset(RESET_EVENT+EVENT_ADJUST,1)
 			e3:SetValue(TYPE_XYZ)
 			tc:RegisterEffect(e3)
+			local e4=Effect.CreateEffect(tc)
+			e4:SetType(EFFECT_TYPE_SINGLE)
+			e4:SetCode(EFFECT_ADD_TYPE)
+			e4:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_IGNORE_IMMUNE)
+			e4:SetReset(RESET_EVENT+EVENT_ADJUST,1)
+			e4:SetValue(388)
+			tc:RegisterEffect(e4)
 			tc:RegisterFlagEffect(388,RESET_EVENT+EVENT_ADJUST,0,1) 	
 		end
 		tc=g:GetNext()
@@ -80,5 +88,5 @@ function c388.addcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():GetSummonType()==SUMMON_TYPE_SPECIAL+388
 end
 function c388.addc(e,tp,eg,ep,ev,re,r,rp)
-	e:GetHandler():AddCounter(0x1088,e:GetHandler():GetRank())
+	e:GetHandler():AddCounter(0x88,e:GetHandler():GetRank())
 end
