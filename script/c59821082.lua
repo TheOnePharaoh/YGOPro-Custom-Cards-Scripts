@@ -16,7 +16,7 @@ function c59821082.initial_effect(c)
 end
 function c59821082.condition(e,tp,eg,ep,ev,re,r,rp)
 	local ph=Duel.GetCurrentPhase()
-	return ph==PHASE_BATTLE or (ph==PHASE_DAMAGE and not Duel.IsDamageCalculated())
+	return (ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE) or (ph==PHASE_DAMAGE and not Duel.IsDamageCalculated())
 end
 function c59821082.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end

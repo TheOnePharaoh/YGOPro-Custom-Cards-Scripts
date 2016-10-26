@@ -47,7 +47,7 @@ end
 function c66165076.condition(e,tp,eg,ep,ev,re,r,rp)
 	local tn=Duel.GetTurnPlayer()
 	local ph=Duel.GetCurrentPhase()
-	return tn~=tp and (ph==PHASE_MAIN1 or ph==PHASE_MAIN2 or ph==PHASE_BATTLE)
+	return tn~=tp and (ph==PHASE_MAIN1 or ph==PHASE_MAIN2 or (ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE))
 end
 function c66165076.tribsumfilter(c)
 	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0xea010) and c:IsSummonable(true,nil,1) or c:IsMSetable(true,nil,1)
@@ -66,7 +66,7 @@ function c66165076.operation(e,tp,eg,ep,ev,re,r,rp)
 	if tc then
 		local s1=tc:IsSummonable(true,nil,1)
 		local s2=tc:IsMSetable(true,nil,1)
-		if (s1 and s2 and Duel.SelectPosition(tp,tc,POS_FACEUP_ATTACK+POS_FACEDOWN_DEFENCE)==POS_FACEUP_ATTACK) or not s2 then
+		if (s1 and s2 and Duel.SelectPosition(tp,tc,POS_FACEUP_ATTACK+POS_FACEDOWN_DEFENSE)==POS_FACEUP_ATTACK) or not s2 then
 			Duel.Summon(tp,tc,true,nil,1)
 		else
 			Duel.MSet(tp,tc,true,nil,1)

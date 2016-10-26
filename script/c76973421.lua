@@ -109,7 +109,7 @@ function c76973421.synop(e,tp,eg,ep,ev,re,r,rp,c,tuner)
 	Duel.Hint(HINT_MESSAGE,1-tp,aux.Stringid(76973421,4))
 end
 function c76973421.sccon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetCurrentPhase()==PHASE_BATTLE
+	return (Duel.GetCurrentPhase()>=PHASE_BATTLE_START and Duel.GetCurrentPhase()<=PHASE_BATTLE)
 end
 function c76973421.sctg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsSynchroSummonable,tp,LOCATION_EXTRA,0,1,nil,nil) end

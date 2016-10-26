@@ -49,7 +49,7 @@ function c59821112.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 function c59821112.condition(e,tp,eg,ep,ev,re,r,rp)
-	return tp~=Duel.GetTurnPlayer() and Duel.GetCurrentPhase()==PHASE_BATTLE
+	return tp~=Duel.GetTurnPlayer() and (Duel.GetCurrentPhase()>=PHASE_BATTLE_START and Duel.GetCurrentPhase()<=PHASE_BATTLE)
 end
 function c59821112.filter1(c,e,tp)
 	local rk=c:GetRank()

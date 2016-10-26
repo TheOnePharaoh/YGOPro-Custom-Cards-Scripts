@@ -16,7 +16,7 @@ function c59821123.initial_effect(c)
 end
 function c59821123.condition(e,tp,eg,ep,ev,re,r,rp)
 	local ph=Duel.GetCurrentPhase()
-	return ph==PHASE_BATTLE or (ph==PHASE_DAMAGE and not Duel.IsDamageCalculated())
+	return (ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE) or (ph==PHASE_DAMAGE and not Duel.IsDamageCalculated())
 end
 function c59821123.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then return Duel.IsExistingMatchingCard(c59821123.filter,tp,LOCATION_MZONE,0,1,nil)end
@@ -37,7 +37,7 @@ function c59821123.atkop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetValue(800)
 		tc:RegisterEffect(e1)
 		local e2=e1:Clone()
-		e2:SetCode(EFFECT_UPDATE_DEFENCE)
+		e2:SetCode(EFFECT_UPDATE_DEFENSE)
 		tc:RegisterEffect(e2)
 		tc=g:GetNext()
 	end

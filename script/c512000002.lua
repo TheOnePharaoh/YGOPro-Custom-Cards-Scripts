@@ -113,7 +113,7 @@ function c512000002.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	sg:GetFirst():RegisterFlagEffect(5120002,RESET_PHASE+PHASE_STANDBY+RESET_OPPO_TURN,0,0)
 end
 function c512000002.atkcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetTurnPlayer()==tp and Duel.GetCurrentPhase()==PHASE_BATTLE and not e:GetHandler():IsStatus(STATUS_CHAINING)
+	return Duel.GetTurnPlayer()==tp and Duel.GetCurrentPhase()>=PHASE_BATTLE_START and Duel.GetCurrentPhase()<=PHASE_BATTLE and not e:GetHandler():IsStatus(STATUS_CHAINING)
 end
 function c512000002.atktg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsAbleToRemove,tp,0,LOCATION_DECK,1,nil) end

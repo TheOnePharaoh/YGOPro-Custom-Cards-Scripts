@@ -104,6 +104,6 @@ function c11478408.atkop(e,tp,eg,ep,ev,re,r,rp,chk)
 	e1:SetValue(1650)
 	a:RegisterEffect(e1)
 	local e2=e1:Clone()
-	e2:SetCode(EFFECT_UPDATE_DEFENCE)
+	e2:SetCode(EFFECT_UPDATE_DEFENSE)
 	a:RegisterEffect(e2)
 end

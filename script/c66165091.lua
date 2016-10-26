@@ -58,7 +58,7 @@ function c66165091.cost1(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabel(0)
 	local tn=Duel.GetTurnPlayer()
 	local ph=Duel.GetCurrentPhase()
-	if (tn~=tp and (ph==PHASE_MAIN1 or ph==PHASE_MAIN2 or ph==PHASE_BATTLE))
+	if (tn~=tp and (ph==PHASE_MAIN1 or ph==PHASE_MAIN2 or (ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE)))
 		and Duel.IsExistingMatchingCard(c66165091.filter,tp,LOCATION_HAND,0,1,nil)
 		and Duel.SelectYesNo(tp,94) then
 		e:SetLabel(1)
@@ -90,7 +90,7 @@ end
 function c66165091.condition2(e,tp,eg,ep,ev,re,r,rp)
 	local tn=Duel.GetTurnPlayer()
 	local ph=Duel.GetCurrentPhase()
-	return tn~=tp and (ph==PHASE_MAIN1 or ph==PHASE_MAIN2 or ph==PHASE_BATTLE)
+	return tn~=tp and (ph==PHASE_MAIN1 or ph==PHASE_MAIN2 or (ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE))
 end
 function c66165091.target2(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():GetFlagEffect(66165091)==0

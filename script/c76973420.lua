@@ -107,7 +107,7 @@ end
 function c76973420.atkcon(e)
 	local ph=Duel.GetCurrentPhase()
 	local tp=Duel.GetTurnPlayer()
-	return tp==e:GetHandlerPlayer() and (ph==PHASE_BATTLE or ph==PHASE_DAMAGE or ph==PHASE_DAMAGE_CAL)
+	return tp==e:GetHandlerPlayer() and ((ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE) or ph==PHASE_DAMAGE or ph==PHASE_DAMAGE_CAL)
 end
 function c76973420.penfilter1(c)
     return c:IsDestructable() and c:GetSequence()==6

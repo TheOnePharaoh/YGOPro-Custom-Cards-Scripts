@@ -41,10 +41,10 @@ function c888000007.splimit(e,se,sp,st)
 	return st==SUMMON_TYPE_FUSION+0x10
 end
 function c888000007.poscon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetTurnPlayer()==tp and Duel.GetCurrentPhase()==PHASE_BATTLE and e:GetHandler():IsDefensePos()
+	return Duel.GetTurnPlayer()==tp and (Duel.GetCurrentPhase()>=PHASE_BATTLE_START and Duel.GetCurrentPhase()<=PHASE_BATTLE) and e:GetHandler():IsDefensePos()
 end
 function c888000007.efcon(e)
-	return Duel.GetTurnPlayer()==e:GetHandler():GetControler() and Duel.GetCurrentPhase()==PHASE_BATTLE
+	return Duel.GetTurnPlayer()==e:GetHandler():GetControler() and (Duel.GetCurrentPhase()>=PHASE_BATTLE_START and Duel.GetCurrentPhase()<=PHASE_BATTLE)
 end
 function c888000007.posop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()

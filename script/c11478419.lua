@@ -14,7 +14,7 @@ function c11478419.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c11478419.condition(e,tp,eg,ep,ev,re,r,rp)
-	return tp~=Duel.GetTurnPlayer() and Duel.GetCurrentPhase()==PHASE_BATTLE
+	return tp~=Duel.GetTurnPlayer() and (Duel.GetCurrentPhase()>=PHASE_BATTLE_START and Duel.GetCurrentPhase()<=PHASE_BATTLE)
 end
 function c11478419.filter1(c,e,tp)
 	return c:IsFaceup() and c:IsCode(11478402) and c:IsType(TYPE_TUNER) and c:IsAttribute(ATTRIBUTE_LIGHT)

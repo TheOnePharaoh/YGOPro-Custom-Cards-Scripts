@@ -65,7 +65,7 @@ function c544454445.initial_effect(c)
 	e9:SetValue(c544454445.adval)
 	c:RegisterEffect(e9)
 	local e10=e9:Clone()
-	e10:SetCode(EFFECT_UPDATE_DEFENCE)
+	e10:SetCode(EFFECT_UPDATE_DEFENSE)
 	c:RegisterEffect(e10)
 end
 function c544454445.sumlimit(e,c)

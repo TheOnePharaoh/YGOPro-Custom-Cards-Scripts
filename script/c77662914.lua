@@ -101,7 +101,7 @@ function c77662914.spcon(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetTurnPlayer()==tp then
 		return ph==PHASE_MAIN1 or ph==PHASE_MAIN2
 	else
-		return ph==PHASE_BATTLE
+		return (ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE)
 	end
 end
 function c77662914.specfilter(c,e,tp)

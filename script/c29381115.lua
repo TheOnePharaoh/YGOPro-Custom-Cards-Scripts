@@ -12,7 +12,7 @@ function c29381115.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c29381115.condition(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetCurrentPhase()==PHASE_BATTLE
+	return (Duel.GetCurrentPhase()>=PHASE_BATTLE_START and Duel.GetCurrentPhase()<=PHASE_BATTLE)
 end
 function c29381115.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and 
@@ -24,7 +24,8 @@ function c29381115.activate(e,tp,eg,ep,ev,re,r,rp)
 	if not c:IsRelateToEffect(e) then return end
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0
 		or not Duel.IsPlayerCanSpecialSummonMonster(tp,29381115,0,0x11,2000,800,4,RACE_MACHINE,ATTRIBUTE_DARK) then return end
-	c:AddTrapMonsterAttribute(TYPE_TUNER,ATTRIBUTE_DARK,RACE_MACHINE,4,2000,800)
-	Duel.SpecialSummon(c,0,tp,tp,true,false,POS_FACEUP)
-	c:TrapMonsterBlock()
+	c:AddMonsterAttribute(TYPE_TUNER,ATTRIBUTE_DARK,RACE_MACHINE,4,2000,800)
+	Duel.SpecialSummonStep(c,0,tp,tp,true,false,POS_FACEUP)
+	c:AddMonsterAttributeComplete()
+	Duel.SpecialSummonComplete()
 end

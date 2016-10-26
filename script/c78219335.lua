@@ -152,7 +152,7 @@ function c78219335.specifilter(c,e,tp)
 end
 function c78219335.chkfilter(c,e,tp,cc,code)
 	return c:IsSetCard(0x7ad30) and not c:IsCode(code) 
-		and Duel.IsPlayerCanSpecialSummonMonster(tp,c:GetCode(),cc,0x21,c:GetAttack(),c:GetDefence(),c:GetLevel(),c:GetRace(),c:GetAttribute())
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,c:GetCode(),cc,0x21,c:GetAttack(),c:GetDefense(),c:GetLevel(),c:GetRace(),c:GetAttribute())
 end
 function c78219335.spfilter(c,e,tp,cc,code)
 	return c:IsSetCard(0x7ad30) and not c:IsCode(code) and c:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP,cc)

@@ -30,7 +30,7 @@ function c11111128.infilter(e,c)
 end
 function c11111128.con(e)
 	local ph=Duel.GetCurrentPhase()
-	return ph==PHASE_MAIN or ph==PHASE_BATTLE or ph==PHASE_DAMAGE or ph==PHASE_DAMAGE_CAL
+	return ph==PHASE_MAIN or (ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE) or ph==PHASE_DAMAGE or ph==PHASE_DAMAGE_CAL
 end
 function c11111128.aclimit(e,re,tp)
 	return re:GetHandler():IsType(TYPE_TRAP) and re:IsHasType(EFFECT_TYPE_ACTIVATE)

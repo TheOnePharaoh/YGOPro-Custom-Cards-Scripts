@@ -30,7 +30,7 @@ function c999.op(e,tp,eg,ep,ev,re,r,rp,chk)
 				if op==0 then
 					Duel.SendtoDeck(token,1-tp,2,REASON_EFFECT)
 				else
-					Duel.PSendtoExtra(token,1-tp,REASON_EFFECT)
+					Duel.SendtoExtraP(token,1-tp,REASON_EFFECT)
 				end
 			else
 				Duel.SendtoDeck(token,1-tp,2,REASON_EFFECT)
@@ -46,7 +46,7 @@ function c999.op(e,tp,eg,ep,ev,re,r,rp,chk)
 				if op==0 then
 					Duel.SendtoDeck(token,tp,2,REASON_EFFECT)
 				else
-					Duel.PSendtoExtra(token,tp,REASON_EFFECT)
+					Duel.SendtoExtraP(token,tp,REASON_EFFECT)
 				end
 			else
 				Duel.SendtoDeck(token,tp,2,REASON_EFFECT)

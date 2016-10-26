@@ -125,7 +125,7 @@ end
 function c11111112.indestg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_MZONE) and c11111112.indesfilter(chkc) end
 	if chk==0 then return Duel.IsExistingTarget(c11111112.indesfilter,tp,LOCATION_MZONE,0,1,nil) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUPDEFENCE)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUPDEFENSE)
 	Duel.SelectTarget(tp,c11111112.indesfilter,tp,LOCATION_MZONE,0,1,1,nil)
 end
 function c11111112.indesop(e,tp,eg,ep,ev,re,r,rp)

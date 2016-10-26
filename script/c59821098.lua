@@ -65,5 +65,5 @@ function c59821098.activate(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummon(tc,0,tp,tp,false,false,POS_FACEUP)
 	end
 	sg1:RemoveCard(tc)
-	Duel.PSendtoExtra(sg1,nil,REASON_EFFECT)
+	Duel.SendtoExtraP(sg1,nil,REASON_EFFECT)
 end

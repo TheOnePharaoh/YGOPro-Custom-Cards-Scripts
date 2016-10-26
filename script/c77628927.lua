@@ -32,9 +32,10 @@ function c77628927.activate(e,tp,eg,ep,ev,re,r,rp)
 	if not c:IsRelateToEffect(e) then return end
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0
 		or not Duel.IsPlayerCanSpecialSummonMonster(tp,77628927,0,0x11,1900,0,4,RACE_ZOMBIE,ATTRIBUTE_DARK) then return end
-	c:AddTrapMonsterAttribute(TYPE_EFFECT+TYPE_TUNER,ATTRIBUTE_DARK,RACE_ZOMBIE,4,1900,0)
-	Duel.SpecialSummon(c,0,tp,tp,true,false,POS_FACEUP)
-	c:TrapMonsterBlock()
+	c:AddMonsterAttribute(TYPE_EFFECT+TYPE_TUNER,ATTRIBUTE_DARK,RACE_ZOMBIE,4,1900,0)
+	Duel.SpecialSummonStep(c,0,tp,tp,true,false,POS_FACEUP)
+	c:AddMonsterAttributeComplete()
+	Duel.SpecialSummonComplete()
 end
 function c77628927.thcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsLocation(LOCATION_GRAVE) and r==REASON_FUSION

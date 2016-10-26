@@ -85,7 +85,7 @@ function c86221225.operation2(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c86221225.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return tp~=Duel.GetTurnPlayer() and Duel.GetCurrentPhase()==PHASE_BATTLE
+	return tp~=Duel.GetTurnPlayer() and (Duel.GetCurrentPhase()>=PHASE_BATTLE_START and Duel.GetCurrentPhase()<=PHASE_BATTLE)
 end
 function c86221225.scfilter(c)
 	return c:IsSetCard(0x0dac402) and c:IsSynchroSummonable(nil)

@@ -17,7 +17,8 @@ end
 
 --Negate Attack condition
 function c103950026.condition(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetCurrentPhase()==PHASE_BATTLE and
+	local ph=Duel.GetCurrentPhase()
+    return (ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE) and
 			(Duel.GetAttackTarget() == e:GetHandler() or Duel.GetAttacker() == e:GetHandler()) and
 			e:GetHandler():IsPosition(POS_FACEUP_ATTACK)
 end

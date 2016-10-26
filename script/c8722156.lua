@@ -21,7 +21,7 @@ function c8722156.operation(e,tp,eg,ep,ev,re,r,rp)
 	if not Duel.IsPlayerCanSpecialSummonMonster(tp,8722164,0,0x4011,800,800,2,RACE_DRAGON,ATTRIBUTE_EARTH) then return end
 	for i=1,2 do
 		local token=Duel.CreateToken(tp,8722164)
-		Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP_DEFENCE)
+		Duel.SpecialSummonStep(token,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UNRELEASABLE_SUM)

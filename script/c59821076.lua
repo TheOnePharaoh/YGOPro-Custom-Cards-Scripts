@@ -110,14 +110,14 @@ end
 function c59821076.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
 	local c=e:GetHandler()
-	local g=Duel.GetMatchingGroup(c59821076.desfilter,tp,LOCATION_MZONE,LOCATION_MZONE,c,c:GetDefence())
+	local g=Duel.GetMatchingGroup(c59821076.desfilter,tp,LOCATION_MZONE,LOCATION_MZONE,c,c:GetDefense())
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,g:GetCount(),0,0)
 	Duel.SetChainLimit(aux.FALSE)
 end
 function c59821076.desop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
-	local g=Duel.GetMatchingGroup(c59821076.desfilter,tp,LOCATION_MZONE,LOCATION_MZONE,c,c:GetDefence())
+	local g=Duel.GetMatchingGroup(c59821076.desfilter,tp,LOCATION_MZONE,LOCATION_MZONE,c,c:GetDefense())
 	local ct=Duel.Destroy(g,REASON_EFFECT)
 	if ct>0 then
 		local e1=Effect.CreateEffect(c)

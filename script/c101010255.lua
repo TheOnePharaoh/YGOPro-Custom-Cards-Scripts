@@ -33,7 +33,8 @@ function c101010255.val(e,c)
 	return Duel.GetMatchingGroupCount(c101010255.atkfilter,e:GetHandlerPlayer(),LOCATION_MZONE,0,c)*100
 end
 function c101010255.xyzcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetTurnPlayer()==tp and Duel.GetCurrentPhase()==PHASE_BATTLE
+		local ph=Duel.GetCurrentPhase()
+	return Duel.GetTurnPlayer()==tp and  ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE
 end
 function c101010255.mfilter(c)
 	return (c:IsSetCard(0xbb2) or c:IsSetCard(0xbb3)) and c:IsFaceup() and not c:IsType(TYPE_TOKEN+TYPE_XYZ)
