@@ -1,4 +1,4 @@
---Dark Solenm Xyz Dragon
+--Dark Solemn Xyz Dragon
 function c7830642.initial_effect(c)
 	--xyz monster
 	aux.AddXyzProcedure(c,nil,7,4)
