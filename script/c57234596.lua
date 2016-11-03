@@ -19,7 +19,7 @@ function c57234596.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c57234596.filter(c)
-	return c:IsSetCard(0xf3) and c:IsLocation(LOCATION_GRAVE) and c:IsAbleToDeck()
+	return c:IsSetCard(0x10f3) and c:IsLocation(LOCATION_GRAVE) and c:IsAbleToDeck()
 		and c:IsType(TYPE_MONSTER) and not c:IsHasEffect(EFFECT_NECRO_VALLEY)
 end
 function c57234596.target(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -41,7 +41,7 @@ function c57234596.activate(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c57234596.cfilter(c)
-	return c:IsSetCard(0xf3)
+	return c:IsSetCard(0x10f3)
 end
 function c57234596.indcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsExistingMatchingCard(c57234596.cfilter,tp,LOCATION_MZONE,0,1,nil)

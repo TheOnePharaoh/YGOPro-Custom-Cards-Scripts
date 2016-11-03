@@ -24,7 +24,7 @@ function c68972633.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c68972633.ffilter(c)
-	return c:GetLevel()==4 and c:IsSetCard(0xf3)
+	return c:GetLevel()==4 and c:IsSetCard(0x10f3)
 end
 function c68972633.ccon(e,tp,eg,ep,ev,re,r,rp)
     local c=e:GetHandler()

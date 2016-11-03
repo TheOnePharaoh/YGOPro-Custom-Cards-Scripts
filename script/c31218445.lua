@@ -48,7 +48,7 @@ function c31218445.con(e,tp,eg,ep,ev,re,r,rp)
 	local a=Duel.GetAttacker()
 	local d=Duel.GetAttackTarget()
 	if a:IsControler(1-tp) then a,d=d,a end
-	return a and a:IsSetCard(0xf3) and d
+	return a and a:IsSetCard(0x10f3) and d
 end
 function c31218445.op(e,tp,eg,ep,ev,re,r,rp)
 	local a=Duel.GetAttacker()

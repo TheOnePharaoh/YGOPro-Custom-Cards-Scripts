@@ -19,7 +19,7 @@ function c22869462.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c22869462.filter(c)
-	return c:IsSetCard(0xf3) and c:IsType(TYPE_MONSTER) and c:IsAbleToDeck()
+	return c:IsSetCard(0x10f3) and c:IsType(TYPE_MONSTER) and c:IsAbleToDeck()
 end
 function c22869462.con(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()

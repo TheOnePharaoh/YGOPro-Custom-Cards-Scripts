@@ -23,7 +23,7 @@ c96100573.collection={
 	[7306]=true;[7307]=true;[7308]=true;[95100761]=true;
 }
 function c96100573.filter(c,e,sp)
-	return (c95100827.collection[c:GetCode()] or c:IsSetCard(0xf3)) and c:IsLevelBelow(4) and c:IsCanBeSpecialSummoned(e,0,sp,false,false)
+	return (c95100827.collection[c:GetCode()] or c:IsSetCard(0x10f3)) and c:IsLevelBelow(4) and c:IsCanBeSpecialSummoned(e,0,sp,false,false)
 end
 function c96100573.ffilter(c)
 	return c:IsCode(24094653) and c:IsAbleToHand()

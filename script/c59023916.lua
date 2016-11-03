@@ -19,7 +19,7 @@ function c59023916.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c59023916.cfilter(c,tp)
-	return c:GetPreviousControler()==tp and c:IsSetCard(0xf3) and c:GetPreviousLevelOnField()>0 and (c:IsReason(REASON_BATTLE) or c:IsReason(REASON_EFFECT)) and c:GetReasonPlayer()~=tp
+	return c:GetPreviousControler()==tp and c:IsSetCard(0x10f3) and c:GetPreviousLevelOnField()>0 and (c:IsReason(REASON_BATTLE) or c:IsReason(REASON_EFFECT)) and c:GetReasonPlayer()~=tp
 end
 function c59023916.condition(e,tp,eg,ep,ev,re,r,rp)
 	local g=eg:Filter(c59023916.cfilter,nil,tp)
@@ -28,7 +28,7 @@ function c59023916.condition(e,tp,eg,ep,ev,re,r,rp)
 	return tc
 end
 function c59023916.spfilter(c,e,tp,lv)
-	return c:IsSetCard(0xf3) and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and c:GetLevel()<lv
+	return c:IsSetCard(0x10f3) and c:IsCanBeSpecialSummoned(e,0,tp,false,false) and c:GetLevel()<lv
 end
 function c59023916.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	local lv=e:GetLabel()

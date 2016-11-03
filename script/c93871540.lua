@@ -33,7 +33,7 @@ function c93871540.initial_effect(c)
 end
 
 function c93871540.filter0(c,e)
-	return c:IsCanBeFusionMaterial() and c:IsSetCard(0xf3) and not c:IsImmuneToEffect(e)
+	return c:IsCanBeFusionMaterial() and c:IsSetCard(0x10f3) and not c:IsImmuneToEffect(e)
 end
 function c93871540.filter1(c,e)
 	return c:IsCanBeFusionMaterial() and not c:IsImmuneToEffect(e)

@@ -29,7 +29,7 @@ function c37567645.atcon(e,tp,eg,ep,ev,re,r,rp)
 	return bc and bc:IsStatus(STATUS_BATTLE_DESTROYED)	and bc:GetCounter(0x1041)>0
 end
 function c37567645.filter(c,e,sp)
-	return c:IsSetCard(0xf3) and c:IsAbleToHand()
+	return c:IsSetCard(0x10f3) and c:IsAbleToHand()
 end
 function c37567645.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c37567645.filter,tp,LOCATION_GRAVE,0,1,nil,e,tp) end
@@ -51,7 +51,7 @@ function c37567645.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return c:IsLocation(LOCATION_GRAVE) and c:IsReason(REASON_BATTLE) and bc:IsRelateToBattle() and bc:GetCounter(0x1041)>0 
 end
 function c37567645.filter(c,e,tp)
-	return c:IsSetCard(0xf3) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsSetCard(0x10f3) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c37567645.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0

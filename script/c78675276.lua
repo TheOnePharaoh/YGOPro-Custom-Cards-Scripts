@@ -53,7 +53,7 @@ c78675276.collection={
 	[22011689]=true;[69105797]=true;[96622984]=true;
 }
 function c78675276.spfilter(c,e,sp)
-	return (c78675276.collection[c:GetCode()] or c:IsSetCard(0xf3)) and c:IsCanBeSpecialSummoned(e,0,sp,false,false)
+	return (c78675276.collection[c:GetCode()] or c:IsSetCard(0x10f3)) and c:IsCanBeSpecialSummoned(e,0,sp,false,false)
 end
 function c78675276.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c78675276.spfilter,tp,LOCATION_GRAVE,0,1,nil,e,tp) end

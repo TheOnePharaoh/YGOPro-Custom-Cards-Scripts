@@ -34,7 +34,7 @@ function c55596574.initial_effect(c)
 end
 
 function c55596574.ffilter(c)
-	return c:GetLevel()==3 and c:IsSetCard(0xf3)
+	return c:GetLevel()==3 and c:IsSetCard(0x10f3)
 end
 function c55596574.ctg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(1-tp) end

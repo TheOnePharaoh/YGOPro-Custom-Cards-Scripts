@@ -25,7 +25,7 @@ function c58603144.initial_effect(c)
 end
 
 function c58603144.ffilter(c)
-	return c:GetLevel()==3 and c:IsSetCard(0xf3)
+	return c:GetLevel()==3 and c:IsSetCard(0x10f3)
 end
 
 function c58603144.ccon(e,tp,eg,ep,ev,re,r,rp)
@@ -68,7 +68,7 @@ function c58603144.atcon(e,tp,eg,ep,ev,re,r,rp)
 	return bc and bc:IsStatus(STATUS_BATTLE_DESTROYED)	and bc:GetCounter(0x1041)>0
 end
 function c58603144.filter(c,e,sp)
-	return c:IsSetCard(0xf3) and c:IsCanBeSpecialSummoned(e,0,sp,false,false)
+	return c:IsSetCard(0x10f3) and c:IsCanBeSpecialSummoned(e,0,sp,false,false)
 end
 function c58603144.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c58603144.filter,tp,LOCATION_GRAVE,0,1,nil,e,tp) end
