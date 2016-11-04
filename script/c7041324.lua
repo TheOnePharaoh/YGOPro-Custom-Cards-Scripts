@@ -41,7 +41,7 @@ function c7041324.initial_effect(c)
 	e4:SetTarget(c7041324.datg)
 	e4:SetOperation(c7041324.daop)
 	c:RegisterEffect(e4)
-		--Revive
+	--Revive
 	local e5=Effect.CreateEffect(c)
 	e5:SetDescription(aux.Stringid(61257789,1))
 	e5:SetType(EFFECT_TYPE_TRIGGER_F+EFFECT_TYPE_FIELD)
@@ -52,7 +52,7 @@ function c7041324.initial_effect(c)
 	e5:SetTarget(c7041324.sumtg)
 	e5:SetOperation(c7041324.sumop)
 	c:RegisterEffect(e5)
-	--Special summon
+	--Special summon Shooting Star
 	local e6=Effect.CreateEffect(c)
 	e6:SetDescription(aux.Stringid(35952884,1))
 	e6:SetType(EFFECT_TYPE_TRIGGER_O+EFFECT_TYPE_SINGLE)
@@ -90,7 +90,7 @@ function c7041324.distg(e,tp,eg,ep,ev,re,r,rp,chk)
 	end
 end
 function c7041324.disop(e,tp,eg,ep,ev,re,r,rp)
-	Duel.NegateEffect(ev)
+	Duel.NegateActivation(ev)
 	if re:GetHandler():IsRelateToEffect(re) then
 		Duel.Destroy(eg,REASON_EFFECT)
 	end
@@ -118,12 +118,12 @@ end
 function c7041324.sumtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and c:GetFlagEffect(7041324)>0
-		and c:IsCanBeSpecialSummoned(e,0,tp,true,false) end
+		and c:IsCanBeSpecialSummoned(e,0,tp,false,false) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,c,1,0,0)
 end
 function c7041324.sumop(e,tp,eg,ep,ev,re,r,rp)
 	if e:GetHandler():IsRelateToEffect(e) then
-		Duel.SpecialSummon(e:GetHandler(),0,tp,tp,true,false,POS_FACEUP)
+		Duel.SpecialSummon(e:GetHandler(),0,tp,tp,false,false,POS_FACEUP)
 	end
 end
 function c7041324.spcon(e,tp,eg,ep,ev,re,r,rp)

@@ -33,11 +33,11 @@ function c101010255.val(e,c)
 	return Duel.GetMatchingGroupCount(c101010255.atkfilter,e:GetHandlerPlayer(),LOCATION_MZONE,0,c)*100
 end
 function c101010255.xyzcon(e,tp,eg,ep,ev,re,r,rp)
-		local ph=Duel.GetCurrentPhase()
-	return Duel.GetTurnPlayer()==tp and  ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE
+	local ph=Duel.GetCurrentPhase()
+	return Duel.GetTurnPlayer()==tp and ph>=0x8 and ph<=0x80
 end
 function c101010255.mfilter(c)
-	return (c:IsSetCard(0xbb2) or c:IsSetCard(0xbb3)) and c:IsFaceup() and not c:IsType(TYPE_TOKEN+TYPE_XYZ)
+	return c:IsSetCard(0xbb2) and c:IsFaceup() and not c:IsType(TYPE_TOKEN)
 end
 function c101010255.xyzfilter(c,mg)
 	return c:IsAttribute(ATTRIBUTE_LIGHT) and c:IsRace(RACE_WARRIOR) and c:IsXyzSummonable(mg)
@@ -55,9 +55,7 @@ function c101010255.xyzop(e,tp,eg,ep,ev,re,r,rp)
 	if xyzg:GetCount()>0 then
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
 		local xyz=xyzg:Select(tp,1,1,nil):GetFirst()
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_XMATERIAL)
-		local sg=g:FilterSelect(tp,xyz.xyz_filter,xyz.xyz_count,xyz.xyz_count,nil)
-		Duel.XyzSummon(tp,xyz,sg)
+		Duel.XyzSummon(tp,xyz,sg,1,5)
 		local tc=xyz
 		local e1=Effect.CreateEffect(e:GetHandler())
 		e1:SetType(EFFECT_TYPE_SINGLE)

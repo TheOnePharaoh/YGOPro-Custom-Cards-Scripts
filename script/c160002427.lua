@@ -26,7 +26,7 @@ end
 	if chk==0 then return Duel.IsPlayerCanDiscardDeck(tp,5) end
 end
 function c160002427.filter(c)
-	return c:IsAbleToHand() and c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsSetCard(0x786d)
+	return c:IsAbleToHand() and (c:IsSetCard(0x786d) and c:IsType(TYPE_SPELL+TYPE_TRAP)) 
 end
 function c160002427.operation(e,tp,eg,ep,ev,re,r,rp)
 	if not Duel.IsPlayerCanDiscardDeck(tp,5) then return end

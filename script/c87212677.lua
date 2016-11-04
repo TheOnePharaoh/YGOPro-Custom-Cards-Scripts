@@ -1,5 +1,5 @@
 --Vocaloid Len Kagamine - Servant of Evil
-function c2677.initial_effect(c)
+function c87212677.initial_effect(c)
 	--synchro summon
 	aux.AddSynchroProcedure2(c,nil,aux.FilterBoolFunction(Card.IsCode,61352035))
 	c:EnableReviveLimit()
@@ -22,17 +22,17 @@ function c2677.initial_effect(c)
 	e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e3:SetRange(LOCATION_MZONE)
 	e3:SetCode(EFFECT_IMMUNE_EFFECT)
-	e3:SetCondition(c2677.con)
-	e3:SetValue(c2677.efilter)
+	e3:SetCondition(c87212677.con)
+	e3:SetValue(c87212677.efilter)
 	c:RegisterEffect(e3)
 end
-function c2677.filter(c)
+function c87212677.filter(c)
 	return c:IsFaceup() and c:IsCode(7221167)
 end
-function c2677.con(e)
-	return Duel.IsExistingMatchingCard(c2677.filter,0,LOCATION_MZONE,LOCATION_MZONE,1,nil)
+function c87212677.con(e)
+	return Duel.IsExistingMatchingCard(c87212677.filter,0,LOCATION_MZONE,LOCATION_MZONE,1,nil)
 		or Duel.IsEnvironment(7221167)
 end
-function c2677.efilter(e,te)
+function c87212677.efilter(e,te)
 	return te:GetOwner()~=e:GetOwner()
 end
