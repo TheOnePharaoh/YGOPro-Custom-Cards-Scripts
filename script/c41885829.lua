@@ -37,7 +37,7 @@ function c41885829.op(e,tp,eg,ep,ev,re,r,rp)
 	if d then
 		d:AddCounter(0x1041,1)
 		if d:GetLevel()>1 then
-			local e1=Effect.CreateEffect(c)
+			local e1=Effect.CreateEffect(e:GetHandler())
 			e1:SetType(EFFECT_TYPE_SINGLE)
 			e1:SetCode(EFFECT_CHANGE_LEVEL)
 			e1:SetReset(RESET_EVENT+0x1fe0000)

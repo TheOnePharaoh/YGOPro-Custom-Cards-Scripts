@@ -39,7 +39,7 @@ function c195200027.initial_effect(c)
 end
 
 function c195200027.filter(c,e,sp)
-	return c:IsSetCard(0x10f3)) and c:IsLevelBelow(4) and c:IsCanBeSpecialSummoned(e,0,sp,false,false)
+	return c:IsSetCard(0x10f3) and c:IsLevelBelow(4) and c:IsCanBeSpecialSummoned(e,0,sp,false,false) 
 end
 function c195200027.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c195200027.filter,tp,LOCATION_DECK,0,1,nil,e,tp) end

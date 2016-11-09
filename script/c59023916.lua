@@ -24,7 +24,9 @@ end
 function c59023916.condition(e,tp,eg,ep,ev,re,r,rp)
 	local g=eg:Filter(c59023916.cfilter,nil,tp)
 	local tc=g:GetFirst()
+	if tc then
 	e:SetLabel(tc:GetPreviousLevelOnField())
+	end
 	return tc
 end
 function c59023916.spfilter(c,e,tp,lv)

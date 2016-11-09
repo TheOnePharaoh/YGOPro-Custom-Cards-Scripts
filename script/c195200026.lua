@@ -3,7 +3,6 @@ function c195200026.initial_effect(c)
 	--fusion
   c:EnableReviveLimit()
   aux.AddFusionProcFunRep(c,c195200026.mat_filter,2,false)
- 
 	--atk,def
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
@@ -42,7 +41,7 @@ function c195200026.ctop(e,tp,eg,ep,ev,re,r,rp)
 		tc=g:GetNext()
 	end
 	--
-	local e3=Effect.CreateEffect(c)
+	local e3=Effect.CreateEffect(e:GetHandler())
 	e3:SetType(EFFECT_TYPE_FIELD)
 	e3:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
 	e3:SetCode(EFFECT_CHANGE_LEVEL)
