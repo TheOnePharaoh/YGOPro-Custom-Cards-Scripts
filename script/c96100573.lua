@@ -18,12 +18,8 @@ function c96100573.condition(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)>1
 		and Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==0
 end
---Predator Plant collection
-c96100573.collection={
-	[7306]=true;[7307]=true;[7308]=true;[95100761]=true;
-}
 function c96100573.filter(c,e,sp)
-	return (c95100827.collection[c:GetCode()] or c:IsSetCard(0x10f3)) and c:IsLevelBelow(4) and c:IsCanBeSpecialSummoned(e,0,sp,false,false)
+	return c:IsSetCard(0x10f3) and c:IsLevelBelow(4) and c:IsCanBeSpecialSummoned(e,0,sp,false,false)
 end
 function c96100573.ffilter(c)
 	return c:IsCode(24094653) and c:IsAbleToHand()
