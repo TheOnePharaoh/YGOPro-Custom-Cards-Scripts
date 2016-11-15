@@ -1,3 +1,4 @@
+ --Created and coded by Rising Phoenix
 function c100000970.initial_effect(c)
 --pendulum summon
 	aux.EnablePendulumAttribute(c)

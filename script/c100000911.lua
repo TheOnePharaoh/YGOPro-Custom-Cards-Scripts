@@ -1,4 +1,4 @@
---寄生虫パラサイド
+ --Created and coded by Rising Phoenix
 function c100000911.initial_effect(c)
 	Duel.EnableGlobalFlag(GLOBALFLAG_DECK_REVERSE_CHECK)
 		--cannot release

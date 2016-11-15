@@ -1,4 +1,4 @@
---pd
+ --Created and coded by Rising Phoenix
 function c100000888.initial_effect(c)
 	--synchro summon
 	aux.AddSynchroProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x110F),aux.NonTuner(Card.IsSetCard,0x110F),1)

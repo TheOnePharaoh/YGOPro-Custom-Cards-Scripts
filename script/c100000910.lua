@@ -1,3 +1,4 @@
+ --Created and coded by Rising Phoenix
 function c100000910.initial_effect(c)
 	Duel.EnableGlobalFlag(GLOBALFLAG_DECK_REVERSE_CHECK)
 		--cannot release

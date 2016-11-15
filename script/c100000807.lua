@@ -1,4 +1,4 @@
---魔轟神グリムロ
+ --Created and coded by Rising Phoenix
 function c100000807.initial_effect(c)
 	c:EnableReviveLimit()
 	--special summon

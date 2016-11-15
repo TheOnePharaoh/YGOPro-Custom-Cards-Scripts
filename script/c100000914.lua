@@ -1,3 +1,4 @@
+ --Created and coded by Rising Phoenix
 function c100000914.initial_effect(c)	
 	--to deck
 	local e6=Effect.CreateEffect(c)

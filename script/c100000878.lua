@@ -1,4 +1,4 @@
---fieldsp
+ --Created and coded by Rising Phoenix
 function c100000878.initial_effect(c)
 	local e3=Effect.CreateEffect(c)
 		e3:SetCountLimit(1,100000878+EFFECT_COUNT_CODE_OATH)

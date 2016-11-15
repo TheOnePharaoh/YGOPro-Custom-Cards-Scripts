@@ -1,3 +1,4 @@
+ --Created and coded by Rising Phoenix
 function c100000944.initial_effect(c)
 		--cannot special summon
 	local e10=Effect.CreateEffect(c)

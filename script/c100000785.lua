@@ -1,3 +1,4 @@
+ --Created and coded by Rising Phoenix
 function c100000785.initial_effect(c)
 	--spsummon
 	local e4=Effect.CreateEffect(c)

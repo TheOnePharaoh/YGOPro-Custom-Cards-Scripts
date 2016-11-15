@@ -1,4 +1,4 @@
---fieldsp
+ --Created and coded by Rising Phoenix
 function c100000880.initial_effect(c)
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(100000880,0))

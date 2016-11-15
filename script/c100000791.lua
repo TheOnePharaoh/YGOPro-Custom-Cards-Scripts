@@ -1,3 +1,4 @@
+ --Created and coded by Rising Phoenix
 function c100000791.initial_effect(c)
 	c:EnableReviveLimit()
 	--spsummon condition

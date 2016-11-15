@@ -1,4 +1,4 @@
---fieldsp
+ --Created and coded by Rising Phoenix
 function c100000860.initial_effect(c)
 	--trigger
 	local e2=Effect.CreateEffect(c)

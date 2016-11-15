@@ -1,4 +1,4 @@
---wrathm
+ --Created and coded by Rising Phoenix
 function c100000905.initial_effect(c)
 	c:EnableReviveLimit()
 	c:EnableCounterPermit(0x50)

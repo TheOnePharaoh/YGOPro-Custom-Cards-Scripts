@@ -1,4 +1,4 @@
---serket
+ --Created and coded by Rising Phoenix
 function c100000819.initial_effect(c)
 	--lp
 	local e1=Effect.CreateEffect(c)

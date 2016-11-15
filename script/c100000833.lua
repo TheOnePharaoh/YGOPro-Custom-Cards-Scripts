@@ -1,4 +1,4 @@
---object r3
+ --Created and coded by Rising Phoenix
 function c100000833.initial_effect(c)
 	--xyz summon
 	aux.AddXyzProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x10B),3,1)

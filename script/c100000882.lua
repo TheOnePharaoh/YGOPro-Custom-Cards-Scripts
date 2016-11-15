@@ -1,4 +1,4 @@
---pd
+ --Created and coded by Rising Phoenix
 function c100000882.initial_effect(c)
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(100000882,0))

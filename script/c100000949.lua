@@ -1,3 +1,4 @@
+ --Created and coded by Rising Phoenix
 function c100000949.initial_effect(c)
 c:SetUniqueOnField(1,0,100000949)
 	--synchro summon

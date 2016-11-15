@@ -1,3 +1,4 @@
+ --Created and coded by Rising Phoenix
 function c100000995.initial_effect(c)
 	--search
 	local e1=Effect.CreateEffect(c)

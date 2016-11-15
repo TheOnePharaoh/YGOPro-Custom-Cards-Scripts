@@ -1,4 +1,4 @@
---offering
+ --Created and coded by Rising Phoenix
 function c100000826.initial_effect(c)
 		--activate
 	local e1=Effect.CreateEffect(c)

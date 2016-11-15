@@ -1,4 +1,4 @@
---hiero
+ --Created and coded by Rising Phoenix
 function c100000822.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)

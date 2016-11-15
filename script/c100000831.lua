@@ -1,4 +1,4 @@
---object 4
+ --Created and coded by Rising Phoenix
 function c100000831.initial_effect(c)
 	--destroy
 	local e1=Effect.CreateEffect(c)

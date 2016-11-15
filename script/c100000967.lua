@@ -1,3 +1,4 @@
+ --Created and coded by Rising Phoenix
 function c100000967.initial_effect(c)
 	c:EnableCounterPermit(0x51)
 	--Activate

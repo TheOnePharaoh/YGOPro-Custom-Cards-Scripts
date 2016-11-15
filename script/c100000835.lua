@@ -1,4 +1,4 @@
---drache
+ --Created and coded by Rising Phoenix
 function c100000835.initial_effect(c)
 	c:EnableReviveLimit()
 	--destroy

@@ -1,4 +1,4 @@
---brave
+ --Created and coded by Rising Phoenix
 function c100000874.initial_effect(c)
 c:SetUniqueOnField(1,0,100000874)
 	--xyz summon

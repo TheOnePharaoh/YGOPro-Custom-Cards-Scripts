@@ -1,3 +1,4 @@
+ --Created and coded by Rising Phoenix
 function c100000999.initial_effect(c)
 	--spsummon limit
 		c:EnableUnsummonable()

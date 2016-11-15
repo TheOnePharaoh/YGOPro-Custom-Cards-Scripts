@@ -1,4 +1,4 @@
---s2
+ --Created and coded by Rising Phoenix
 function c100000838.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)

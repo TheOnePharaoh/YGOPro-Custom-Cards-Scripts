@@ -1,4 +1,4 @@
---fieldsp
+ --Created and coded by Rising Phoenix
 function c100000921.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()

@@ -1,4 +1,4 @@
---perf
+ --Created and coded by Rising Phoenix
 function c100000891.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()

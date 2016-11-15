@@ -1,4 +1,4 @@
---オシリスの天空竜
+ --Created and coded by Rising Phoenix
 function c100000849.initial_effect(c)
 	c:EnableReviveLimit()
 		--attack up

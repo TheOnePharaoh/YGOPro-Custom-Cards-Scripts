@@ -1,4 +1,4 @@
---高等儀式術
+ --Created and coded by Rising Phoenix
 function c100000898.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)

@@ -1,4 +1,4 @@
-
+ --Created and coded by Rising Phoenix
 function c100000922.initial_effect(c)
 	c:EnableReviveLimit()
 	--Activate

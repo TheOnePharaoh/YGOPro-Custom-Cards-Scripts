@@ -1,4 +1,4 @@
---オシリスの天空竜
+ --Created and coded by Rising Phoenix
 function c100000843.initial_effect(c)
 	--salvage
 	local e1=Effect.CreateEffect(c)

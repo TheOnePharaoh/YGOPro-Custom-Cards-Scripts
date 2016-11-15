@@ -1,4 +1,4 @@
---fieldsp
+ --Created and coded by Rising Phoenix
 function c100000863.initial_effect(c)
 	c:SetUniqueOnField(1,0,100000863)
 	--Special summon

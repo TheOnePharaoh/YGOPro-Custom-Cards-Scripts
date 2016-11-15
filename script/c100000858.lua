@@ -1,4 +1,4 @@
---fieldmonster
+ --Created and coded by Rising Phoenix
 function c100000858.initial_effect(c)
 	--trigger
 	local e2=Effect.CreateEffect(c)

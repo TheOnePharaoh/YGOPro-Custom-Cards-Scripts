@@ -1,3 +1,4 @@
+ --Created and coded by Rising Phoenix
 function c100000994.initial_effect(c)
 	c:EnableReviveLimit()
 	--special summon

@@ -1,3 +1,4 @@
+ --Created and coded by Rising Phoenix
 function c100000808.initial_effect(c)
 	--synchro limit
 	local e1=Effect.CreateEffect(c)

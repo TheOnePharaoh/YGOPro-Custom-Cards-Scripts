@@ -1,4 +1,4 @@
---銀龍の轟咆
+ --Created and coded by Rising Phoenix
 function c100000952.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)

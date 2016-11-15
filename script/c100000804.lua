@@ -1,4 +1,4 @@
---魔轟神グリムロ
+ --Created and coded by Rising Phoenix
 function c100000804.initial_effect(c)
 	--search
 	local e1=Effect.CreateEffect(c)

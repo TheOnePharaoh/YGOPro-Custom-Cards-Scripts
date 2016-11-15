@@ -1,4 +1,4 @@
---sebek
+ --Created and coded by Rising Phoenix
 function c100000817.initial_effect(c)
 	--lp
 	local e1=Effect.CreateEffect(c)

@@ -1,4 +1,4 @@
---魔轟神ヴァルキュルス
+ --Created and coded by Rising Phoenix
 function c100000802.initial_effect(c)
 	--synchro summon
 	aux.AddSynchroProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x109),aux.NonTuner(Card.IsSetCard,0x109),1)

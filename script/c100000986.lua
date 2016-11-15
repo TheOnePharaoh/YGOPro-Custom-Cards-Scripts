@@ -1,3 +1,4 @@
+ --Created and coded by Rising Phoenix
 function c100000986.initial_effect(c)
 aux.AddSynchroProcedure(c,nil,aux.NonTuner(nil),1)
 	c:EnableReviveLimit()

@@ -1,4 +1,4 @@
---マジック・キャンセラー
+ --Created and coded by Rising Phoenix
 function c100000855.initial_effect(c)
 	c:EnableReviveLimit()
 	--spsummon limit

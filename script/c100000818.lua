@@ -1,4 +1,4 @@
---thot
+ --Created and coded by Rising Phoenix
 function c100000818.initial_effect(c)
 	--lp
 	local e1=Effect.CreateEffect(c)

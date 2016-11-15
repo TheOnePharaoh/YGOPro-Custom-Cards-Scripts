@@ -1,3 +1,4 @@
+ --Created and coded by Rising Phoenix
 function c100000983.initial_effect(c)
 	--handes
 	local e1=Effect.CreateEffect(c)

@@ -1,4 +1,4 @@
---fight
+ --Created and coded by Rising Phoenix
 function c100000824.initial_effect(c)
 		--activate
 	local e1=Effect.CreateEffect(c)

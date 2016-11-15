@@ -1,4 +1,4 @@
---治療の神 ディアン・ケト
+ --Created and coded by Rising Phoenix
 function c100000851.initial_effect(c)
 	--act
 	local e1=Effect.CreateEffect(c)
