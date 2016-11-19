@@ -1,4 +1,4 @@
---Royal Raid Captain
+--Royal Raid Supervisor
 function c90000051.initial_effect(c)
 	--Xyz Material
 	aux.AddXyzProcedure(c,aux.FilterBoolFunction(Card.IsRace,RACE_MACHINE),1,2)

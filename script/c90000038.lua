@@ -29,7 +29,7 @@ function c90000038.initial_effect(c)
 	local e5=e4:Clone()
 	e5:SetCode(EFFECT_UPDATE_DEFENSE)
 	c:RegisterEffect(e5)
-	--Negate
+	--Negate Effect
 	local e6=Effect.CreateEffect(c)
 	e6:SetCategory(CATEGORY_NEGATE)
 	e6:SetType(EFFECT_TYPE_QUICK_O)

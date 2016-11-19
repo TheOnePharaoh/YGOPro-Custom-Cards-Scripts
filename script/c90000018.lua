@@ -1,6 +1,6 @@
 --Night Clock Sound Wave
 function c90000018.initial_effect(c)
-	--Negate
+	--Negate Effect
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_NEGATE+CATEGORY_DESTROY)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -9,7 +9,7 @@ function c90000018.initial_effect(c)
 	e1:SetTarget(c90000018.target)
 	e1:SetOperation(c90000018.operation)
 	c:RegisterEffect(e1)
-	--Negate
+	--Negate Effect
 	local e2=Effect.CreateEffect(c)
 	e2:SetCategory(CATEGORY_NEGATE+CATEGORY_TODECK)
 	e2:SetType(EFFECT_TYPE_QUICK_O)

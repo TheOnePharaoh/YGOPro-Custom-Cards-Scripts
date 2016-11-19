@@ -1,68 +1,147 @@
---Ritual Dimension
+--Black Flag Artificer
 function c90000078.initial_effect(c)
-	--Activate
+	--Pendulum Summon
+	aux.EnablePendulumAttribute(c)
+	--Pendulum Limit
 	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
-	e1:SetType(EFFECT_TYPE_ACTIVATE)
-	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetCost(c90000078.cost)
-	e1:SetTarget(c90000078.target)
-	e1:SetOperation(c90000078.operation)
+	e1:SetType(EFFECT_TYPE_FIELD)
+	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_CANNOT_NEGATE)
+	e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
+	e1:SetRange(LOCATION_PZONE)
+	e1:SetTargetRange(1,0)
+	e1:SetTarget(c90000078.tg)
 	c:RegisterEffect(e1)
+	--Scale Change
+	local e2=Effect.CreateEffect(c)
+	e2:SetType(EFFECT_TYPE_IGNITION)
+	e2:SetRange(LOCATION_PZONE)
+	e2:SetCountLimit(1)
+	e2:SetCost(c90000078.cost)
+	e2:SetOperation(c90000078.operation)
+	c:RegisterEffect(e2)
+	--Special Summon
+	local e3=Effect.CreateEffect(c)
+	e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
+	e3:SetCode(EVENT_BATTLE_DESTROYED)
+	e3:SetRange(LOCATION_PZONE)
+	e3:SetCountLimit(1)
+	e3:SetTarget(c90000078.target)
+	e3:SetOperation(c90000078.operation2)
+	c:RegisterEffect(e3)
+	--Special Summon
+	local e4=Effect.CreateEffect(c)
+	e4:SetType(EFFECT_TYPE_FIELD)
+	e4:SetProperty(EFFECT_FLAG_UNCOPYABLE)
+	e4:SetCode(EFFECT_SPSUMMON_PROC)
+	e4:SetRange(LOCATION_HAND)
+	e4:SetCondition(c90000078.condition)
+	c:RegisterEffect(e4)
+	--Pierce
+	local e5=Effect.CreateEffect(c)
+	e5:SetType(EFFECT_TYPE_FIELD)
+	e5:SetCode(EFFECT_PIERCE)
+	e5:SetRange(LOCATION_MZONE)
+	e5:SetTargetRange(LOCATION_MZONE,0)
+	e5:SetTarget(aux.TargetBoolFunction(Card.IsRace,RACE_ZOMBIE))
+	c:RegisterEffect(e5)
+	--Pierce X2
+	local e6=Effect.CreateEffect(c)
+	e6:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e6:SetCode(EVENT_PRE_BATTLE_DAMAGE)
+	e6:SetRange(LOCATION_MZONE)
+	e6:SetCondition(c90000078.condition2)
+	e6:SetOperation(c90000078.operation3)
+	c:RegisterEffect(e6)
+	--Change Equip
+	local e7=Effect.CreateEffect(c)
+	e7:SetCategory(CATEGORY_EQUIP)
+	e7:SetType(EFFECT_TYPE_QUICK_O)
+	e7:SetProperty(EFFECT_FLAG_CARD_TARGET)
+	e7:SetCode(EVENT_FREE_CHAIN)
+	e7:SetRange(LOCATION_MZONE)
+	e7:SetHintTiming(0,TIMING_EQUIP)
+	e7:SetCountLimit(1)
+	e7:SetTarget(c90000078.target2)
+	e7:SetOperation(c90000078.operation4)
+	c:RegisterEffect(e7)
+end
+function c90000078.tg(e,c,sump,sumtype,sumpos,targetp)
+	return not c:IsRace(RACE_ZOMBIE) and bit.band(sumtype,SUMMON_TYPE_PENDULUM)==SUMMON_TYPE_PENDULUM
 end
 function c90000078.filter(c)
-	return c:GetType()==TYPE_SPELL+TYPE_RITUAL and c:IsAbleToRemoveAsCost()
+	return c:IsRace(RACE_ZOMBIE) and not c:IsPublic()
 end
 function c90000078.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c90000078.filter,tp,LOCATION_HAND+LOCATION_GRAVE,0,1,nil) end
-	Duel.Remove(Duel.SelectMatchingCard(tp,c90000078.filter,tp,LOCATION_HAND+LOCATION_GRAVE,0,1,1,nil),POS_FACEUP,REASON_COST)
-end
-function c90000078.filter1(c,e,tp,m)
-	if not c:IsSetCard(0x2d) or bit.band(c:GetType(),0x81)~=0x81
-		or not c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_RITUAL,tp,false,true) then return false end
-	if c.mat_filter then
-		m=m:Filter(c.mat_filter,nil)
-	end
-	return m:CheckWithSumEqual(Card.GetRitualLevel,c:GetLevel(),1,99,c)
-end
-function c90000078.filter2(c)
-	return c:IsSetCard(0x2d) and c:IsType(TYPE_MONSTER) and c:IsAbleToGrave()
-end
-function c90000078.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then
-		if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return false end
-		local mg=Duel.GetMatchingGroup(c90000078.filter2,tp,LOCATION_DECK,0,nil)
-		return Duel.IsExistingMatchingCard(c90000078.filter1,tp,LOCATION_HAND,0,1,nil,e,tp,mg)
-	end
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND)
+	if chk==0 then return Duel.IsExistingMatchingCard(c90000078.filter,tp,LOCATION_HAND,0,1,nil) end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONFIRM)
+	local g=Duel.SelectMatchingCard(tp,c90000078.filter,tp,LOCATION_HAND,0,1,1,nil)
+	Duel.ConfirmCards(1-tp,g)
+	Duel.ShuffleHand(tp)
+	e:SetLabel(g:GetFirst():GetLevel())
 end
 function c90000078.operation(e,tp,eg,ep,ev,re,r,rp)
-	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-	local mg=Duel.GetMatchingGroup(c90000078.filter2,tp,LOCATION_DECK,0,nil)
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local tg=Duel.SelectMatchingCard(tp,c90000078.filter1,tp,LOCATION_HAND,0,1,1,nil,e,tp,mg)
-	if tg:GetCount()>0 then
-		local tc=tg:GetFirst()
-		if tc.mat_filter then
-			mg=mg:Filter(tc.mat_filter,nil)
-		end
-		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-		local mat=mg:SelectWithSumEqual(tp,Card.GetRitualLevel,tc:GetLevel(),1,99,tc)
-		tc:SetMaterial(mat)
-		Duel.SendtoGrave(mat,REASON_EFFECT+REASON_MATERIAL+REASON_RITUAL)
-		Duel.BreakEffect()
-		if Duel.SpecialSummon(tc,SUMMON_TYPE_RITUAL,tp,tp,false,true,POS_FACEUP)~=0 then
-			local e1=Effect.CreateEffect(e:GetHandler())
-			e1:SetType(EFFECT_TYPE_SINGLE)
-			e1:SetCode(EFFECT_CANNOT_ATTACK)
-			e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,2)
-			tc:RegisterEffect(e1)
-			local e2=Effect.CreateEffect(e:GetHandler())
-			e2:SetType(EFFECT_TYPE_SINGLE)
-			e2:SetCode(EFFECT_DISABLE)
-			e2:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,2)
-			tc:RegisterEffect(e2)
-			tc:CompleteProcedure()
+	local e1=Effect.CreateEffect(e:GetHandler())
+	e1:SetType(EFFECT_TYPE_SINGLE)
+	e1:SetCode(EFFECT_CHANGE_LSCALE)
+	e1:SetValue(e:GetLabel())
+	e1:SetReset(RESET_EVENT+0x1ff0000)
+	e:GetHandler():RegisterEffect(e1)
+	local e2=e1:Clone()
+	e2:SetCode(EFFECT_CHANGE_RSCALE)
+	e:GetHandler():RegisterEffect(e2)
+end
+function c90000078.target(e,tp,eg,ep,ev,re,r,rp,chk)
+	local tc=eg:GetFirst()
+	if chk==0 then return Duel.GetLocationCount(tc:GetPreviousControler(),LOCATION_MZONE)>0 and eg:GetCount()==1 and tc:IsRace(RACE_ZOMBIE)
+		and tc:IsReason(REASON_BATTLE) and tc:IsCanBeSpecialSummoned(e,0,tp,false,false,POS_FACEUP_ATTACK,tc:GetPreviousControler()) end
+	tc:CreateEffectRelation(e)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,eg,1,0,0)
+end
+function c90000078.operation2(e,tp,eg,ep,ev,re,r,rp)
+	local tc=eg:GetFirst()
+	if tc:IsRelateToEffect(e) then
+		Duel.SpecialSummon(tc,0,tp,tc:GetPreviousControler(),false,false,POS_FACEUP_ATTACK)
+	end
+end
+function c90000078.condition(e,c)
+	if c==nil then return true end
+	return Duel.GetLocationCount(c:GetControler(),LOCATION_MZONE)>0
+		and Duel.GetFieldGroupCount(c:GetControler(),LOCATION_MZONE,0,nil)<Duel.GetFieldGroupCount(c:GetControler(),0,LOCATION_MZONE,nil)
+end
+function c90000078.condition2(e,tp,eg,ep,ev,re,r,rp)
+	local tc=eg:GetFirst()
+	return ep~=tp and tc:IsRace(RACE_ZOMBIE) and tc:GetBattleTarget()~=nil and tc:GetBattleTarget():IsDefensePos()
+end
+function c90000078.operation3(e,tp,eg,ep,ev,re,r,rp)
+	Duel.ChangeBattleDamage(ep,ev*2)
+end
+function c90000078.filter2(tc,ec)
+	return tc:IsFaceup() and ec:CheckEquipTarget(tc)
+end
+function c90000078.filter3(c)
+	return c:IsType(TYPE_EQUIP) and c:GetEquipTarget()~=nil
+		and Duel.IsExistingTarget(c90000078.filter2,0,LOCATION_MZONE,LOCATION_MZONE,1,c:GetEquipTarget(),c)
+end
+function c90000078.target2(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsExistingTarget(c90000078.filter3,tp,LOCATION_SZONE,LOCATION_SZONE,1,nil) end
+	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(90000078,0))
+	local g=Duel.SelectTarget(tp,c90000078.filter3,tp,LOCATION_SZONE,LOCATION_SZONE,1,1,nil)
+	local ec=g:GetFirst()
+	e:SetLabelObject(ec)
+	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(90000078,1))
+	local tc=Duel.SelectTarget(tp,c90000078.filter2,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,ec:GetEquipTarget(),ec)
+end
+function c90000078.operation4(e,tp,eg,ep,ev,re,r,rp)
+	local ec=e:GetLabelObject()
+	local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
+	local tc=g:GetFirst()
+	if tc==ec then tc=g:GetNext() end
+	if ec:IsFaceup() and ec:IsRelateToEffect(e) then 
+		if tc:IsFaceup() and tc:IsRelateToEffect(e) then
+			Duel.Equip(tp,ec,tc)
+		else 
+			Duel.SendtoGrave(ec,REASON_EFFECT) 
 		end
 	end
 end

@@ -40,14 +40,14 @@ function c90000031.initial_effect(c)
 	e4:SetOperation(c90000031.operation)
 	c:RegisterEffect(e4)
 end
+function c90000031.filter(c)
+	return c:IsFaceup() and c:IsSetCard(0x14)
+end
 function c90000031.condition(e)
-	return Duel.IsExistingMatchingCard(c90000031.filter2,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,e:GetHandler())
+	return Duel.IsExistingMatchingCard(c90000031.filter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,e:GetHandler())
 end
 function c90000031.condition2(e)
 	return Duel.GetAttacker()==e:GetHandler()
-end
-function c90000031.filter(c)
-	return c:IsFaceup() and c:IsSetCard(0x14)
 end
 function c90000031.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
