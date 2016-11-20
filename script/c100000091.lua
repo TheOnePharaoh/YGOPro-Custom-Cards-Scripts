@@ -2,7 +2,7 @@
 function c100000091.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_SEARCH)
+	e1:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetCost(c100000091.cost)
@@ -11,7 +11,7 @@ function c100000091.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c100000091.cfilter(c)
-	return c:IsSetCard(0x23) and c:IsAbleToRemoveAsCost()
+	return c:IsSetCard(0x23) and c:IsType(TYPE_MONSTER) and c:IsAbleToRemoveAsCost()
 end
 function c100000091.filter(c)
 	return c:IsSetCard(0x23) and c:IsAbleToHand()

@@ -21,5 +21,4 @@ function c512000099.activate(e,tp,eg,ep,ev,re,r,rp)
 	local sg=Duel.GetMatchingGroup(c512000099.filter,tp,0,LOCATION_DECK+LOCATION_HAND,nil)
 	Duel.SendtoGrave(sg,REASON_EFFECT)
 	local p=e:GetHandler():GetControler()
-	Duel.SetLP(tp,100,REASON_EFFECT)
-end
+	end
