@@ -169,13 +169,13 @@ function c494476154.spop(e,tp,eg,ep,ev,re,r,rp)
         e2:SetReset(RESET_EVENT+0x1fe0000)
         tc:RegisterEffect(e2,true)
         local e3=e2:Clone()
-        e3:SetCode(EFFECT_SET_DEFENCE)
+        e3:SetCode(EFFECT_SET_DEFENSE)
         tc:RegisterEffect(e3,true)
         Duel.SpecialSummonComplete()
     end
 end
 function c494476154.accon(e,tp,eg,ep,ev,re,r,rp)
-    return Duel.GetCurrentPhase()==PHASE_BATTLE and not Duel.CheckPhaseActivity()
+    return (Duel.GetCurrentPhase()>=PHASE_BATTLE_START and Duel.GetCurrentPhase()<=PHASE_BATTLE) and not Duel.CheckPhaseActivity()
 end
 function c494476154.accost(e,tp,eg,ep,ev,re,r,rp,chk)
     if chk==0 then return e:GetHandler():CheckRemoveOverlayCard(tp,1,REASON_COST) end

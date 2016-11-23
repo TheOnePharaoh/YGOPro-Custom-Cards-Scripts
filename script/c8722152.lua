@@ -30,7 +30,7 @@ function c8722152.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 function c8722152.filter(c,e,tp)
-	return c:IsType(TYPE_MONSTER) and c:IsCode(8722154) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsCode(8722154) or c:IsCode(8722172) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c8722152.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_DECK+LOCATION_HAND) and chkc:IsControler(tp) and c8722152.filter(chkc,e,tp) end

@@ -24,12 +24,11 @@ function c66652241.initial_effect(c)
 	--spsummon count limit
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_FIELD)
-	e3:SetCode(EFFECT_SPSUMMON_COUNT_LIMIT)
 	e3:SetRange(LOCATION_MZONE)
+	e3:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
 	e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
-	e3:SetTarget(c66652241.tg2)
 	e3:SetTargetRange(1,1)
-	e3:SetValue(1)
+	e3:SetTarget(c66652241.sumlimit)
 	c:RegisterEffect(e3)
 	--to pzone
 	local e4=Effect.CreateEffect(c)
@@ -67,8 +66,8 @@ end
 function c66652241.tgcon(e)
 	return Duel.GetTurnPlayer()~=e:GetHandlerPlayer() or Duel.GetCurrentPhase()~=PHASE_BATTLE
 end
-function c66652241.tg2(e,c)
-	return not c:IsRace(RACE_MACHINE)
+function c66652241.sumlimit(e,c,sp,st)
+	return not c:IsRace(RACE_MACHINE) and Duel.GetFieldGroupCount(sp,LOCATION_MZONE,0)>=1
 end
 function c66652241.penfilter1(c)
     return c:IsDestructable() and c:GetSequence()==6
@@ -132,4 +131,26 @@ function c66652241.atkop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
 		tc:RegisterEffect(e1)
 	end
+end
+function c66652241.aclimit1(e,tp,eg,ep,ev,re,r,rp)
+	if ep~=tp or not re:IsActiveType(TYPE_SPELL+TYPE_TRAP) then return end
+	e:GetHandler():RegisterFlagEffect(66652241,RESET_EVENT+0x3ff0000+RESET_PHASE+PHASE_END,0,1)
+end
+function c66652241.aclimit2(e,tp,eg,ep,ev,re,r,rp)
+	if ep~=tp or not re:IsHasType(EFFECT_TYPE_ACTIVATE) then return end
+	e:GetHandler():ResetFlagEffect(66652241)
+end
+function c66652241.econ(e)
+	return e:GetHandler():GetFlagEffect(66652241+1)~=0
+end
+function c66652241.aclimit3(e,tp,eg,ep,ev,re,r,rp)
+	if ep==tp or not re:IsActiveType(TYPE_SPELL+TYPE_TRAP) then return end
+	e:GetHandler():RegisterFlagEffect(66652241+1,RESET_EVENT+0x3ff0000+RESET_PHASE+PHASE_END,0,1)
+end
+function c66652241.aclimit4(e,tp,eg,ep,ev,re,r,rp)
+	if ep==tp or not re:IsHasType(EFFECT_TYPE_ACTIVATE) then return end
+	e:GetHandler():ResetFlagEffect(66652241+1)
+end
+function c66652241.elimit(e,re,tp)
+	return re:IsActiveType(TYPE_SPELL+TYPE_TRAP) and not re:GetHandler():IsImmuneToEffect(e)
 end

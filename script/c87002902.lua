@@ -38,10 +38,10 @@ function c87002902.initial_effect(c)
 	c:RegisterEffect(e4)
 end
 function c87002902.immfilter(e,te)
-	return te:IsActiveType(TYPE_SPELL+TYPE_TRAP) and te:GetOwnerPlayer()~=e:GetHandlerPlayer()
+	return e:GetHandlerPlayer()~=te:GetHandlerPlayer() and te:IsActiveType(TYPE_SPELL+TYPE_TRAP)
 end
 function c87002902.tgfilter(e,re,rp)
-	return re:IsActiveType(TYPE_EFFECT) and aux.tgval(e,re,rp)
+	return re:IsActiveType(TYPE_MONSTER)
 end
 function c87002902.remcostfilter(c)
 	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0xe291ca) and c:IsDiscardable()

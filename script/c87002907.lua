@@ -107,15 +107,8 @@ function c87002907.olop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c87002907.descost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():CheckRemoveOverlayCard(tp,1,REASON_COST)
-		and e:GetHandler():GetAttackAnnouncedCount()==0 end
+	if chk==0 then return e:GetHandler():CheckRemoveOverlayCard(tp,1,REASON_COST) end
 	e:GetHandler():RemoveOverlayCard(tp,1,1,REASON_COST)
-	local e1=Effect.CreateEffect(e:GetHandler())
-	e1:SetType(EFFECT_TYPE_SINGLE)
-	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-	e1:SetCode(EFFECT_CANNOT_ATTACK)
-	e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+RESET_END)
-	e:GetHandler():RegisterEffect(e1)
 end
 function c87002907.desfilter(c)
 	return c:IsFacedown() and c:IsDestructable()

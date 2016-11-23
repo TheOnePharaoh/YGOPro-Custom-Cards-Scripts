@@ -20,7 +20,7 @@ function c66652249.initial_effect(c)
 	--attribute
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_FIELD)
-	e3:SetRange(LOCATION_SZONE)
+	e3:SetRange(LOCATION_FZONE)
 	e3:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
 	e3:SetCode(EFFECT_CHANGE_ATTRIBUTE)
 	e3:SetValue(ATTRIBUTE_DARK)

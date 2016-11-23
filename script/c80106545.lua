@@ -28,7 +28,8 @@ function c80106545.initial_effect(c)
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(80106545,0))
 	e4:SetCategory(CATEGORY_NEGATE+CATEGORY_DESTROY)
-	e4:SetType(EFFECT_TYPE_QUICK_O)
+	e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_QUICK_O)
+	e4:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DAMAGE_CAL)
 	e4:SetRange(LOCATION_MZONE)
 	e4:SetCode(EVENT_CHAINING)
 	e4:SetCountLimit(1)
@@ -45,7 +46,6 @@ function c80106545.initial_effect(c)
 	e5:SetCode(EVENT_TO_GRAVE)
 	e5:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
 	e5:SetCondition(c80106545.spcon)
-	e5:SetCost(c80106545.spcost)
 	e5:SetTarget(c80106545.sptg)
 	e5:SetOperation(c80106545.spop)
 	c:RegisterEffect(e5)
@@ -86,9 +86,8 @@ function c80106545.handcon(e)
 	return Duel.IsExistingMatchingCard(c80106545.handfilter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil)
 end
 function c80106545.discon2(e,tp,eg,ep,ev,re,r,rp)
-	return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and rp~=tp
-		and re:IsActiveType(TYPE_TRAP) and re:IsHasType(EFFECT_TYPE_ACTIVATE) and Duel.IsChainNegatable(ev)
-		and Duel.GetTurnPlayer()~=tp
+	return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and ep~=tp
+		and re:IsHasType(EFFECT_TYPE_ACTIVATE) and re:IsActiveType(TYPE_TRAP) and Duel.IsChainNegatable(ev)
 end
 function c80106545.discost2(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.CheckLPCost(tp,1000) end
@@ -109,10 +108,6 @@ function c80106545.disop2(e,tp,eg,ep,ev,re,r,rp)
 end
 function c80106545.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsReason(REASON_EFFECT) and e:GetHandler():IsPreviousLocation(LOCATION_HAND) and not e:GetHandler():IsReason(REASON_RETURN)
-end
-function c80106545.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckLPCost(tp,1000) end
-	Duel.PayLPCost(tp,1000)
 end
 function c80106545.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0

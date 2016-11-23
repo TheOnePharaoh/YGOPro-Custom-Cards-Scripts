@@ -12,7 +12,6 @@ function c80106531.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
 	e2:SetRange(LOCATION_MZONE)
 	e2:SetCode(EFFECT_DESTROY_REPLACE)
-	e2:SetCondition(c80106531.desrepcon)
 	e2:SetTarget(c80106531.desreptg)
 	c:RegisterEffect(e2)
 	--to deck
@@ -28,17 +27,8 @@ function c80106531.initial_effect(c)
 	e3:SetOperation(c80106531.tdop)
 	c:RegisterEffect(e3)
 end
-function c80106531.cfilter(c)
-	return c:IsType(TYPE_MONSTER)
-end
-function c80106531.desrepcon(e)
-	local tp=e:GetHandlerPlayer()
-	return Duel.GetFieldGroupCount(tp,LOCATION_EXTRA,0)==0
-		and not Duel.IsExistingMatchingCard(c80106531.cfilter,tp,LOCATION_GRAVE,0,1,nil)
-		and Duel.IsExistingMatchingCard(c80106531.cfilter,tp,0,LOCATION_GRAVE,1,nil)
-end
 function c80106531.filter(c)
-	return c:IsSetCard(0xca00)
+	return c:IsSetCard(0xca00) and not c:IsCode(80106531)
 end
 function c80106531.desreptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	local c=e:GetHandler()

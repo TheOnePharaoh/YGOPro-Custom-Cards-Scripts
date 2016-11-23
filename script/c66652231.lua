@@ -22,6 +22,13 @@ function c66652231.initial_effect(c)
 	e2:SetTarget(c66652231.negtg)
 	e2:SetOperation(c66652231.negop)
 	c:RegisterEffect(e2)
+	--add setcode
+	local e3=Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_SINGLE)
+	e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
+	e3:SetCode(EFFECT_ADD_SETCODE)
+	e3:SetValue(0x0dac403)
+	c:RegisterEffect(e3)
 end
 function c66652231.filter0(c)
 	return c:IsCanBeFusionMaterial() and not c:IsType(TYPE_FUSION) and c:IsAbleToRemove()

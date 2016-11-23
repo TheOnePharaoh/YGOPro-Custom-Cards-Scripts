@@ -131,12 +131,13 @@ function c20912299.spop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c20912299.dacost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToGraveAsCost() end
-	local tc=e:GetHandler():GetEquipTarget()
-	Duel.SetTargetCard(tc)
 	Duel.SendtoGrave(e:GetHandler(),REASON_COST)
 end
+function c20912299.filfilter(c)
+	return c:IsSetCard(0xd0a2) or c:IsSetCard(0xd0a3)
+end
 function c20912299.daofilter(c)
-	return c:IsSetCard(0xd0a2) or c:IsSetCard(0xd0a3) and c:IsType(TYPE_MONSTER) and not c:IsCode(20912299) and c:IsAbleToHand()
+	return c:IsType(TYPE_MONSTER) and c20912299.filfilter(c) and not c:IsCode(20912299) and c:IsAbleToHand()
 end
 function c20912299.datg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_GRAVE) and c20912299.daofilter(chkc) end

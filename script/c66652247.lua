@@ -26,7 +26,7 @@ function c66652247.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c66652247.spfilter(c)
-	return c:IsCode(66652230) or c:IsCode(66652231) or c:IsCode(66652232) and c:IsType(TYPE_SPELL) and c:IsAbleToRemoveAsCost()
+	return c:IsCode(66652230) or c:IsCode(66652231) or c:IsCode(66652232) or c:IsCode(66652262) and c:IsAbleToRemoveAsCost()
 end
 function c66652247.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c66652247.spfilter,tp,LOCATION_DECK,0,1,nil) end

@@ -39,7 +39,6 @@ function c80106539.initial_effect(c)
 	e4:SetCode(EVENT_TO_GRAVE)
 	e4:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
 	e4:SetCondition(c80106539.spcon)
-	e4:SetCost(c80106539.spcost)
 	e4:SetTarget(c80106539.sptg)
 	e4:SetOperation(c80106539.spop)
 	c:RegisterEffect(e4)
@@ -63,7 +62,7 @@ function c80106539.atkop(e,tp,eg,ep,ev,re,r,rp)
 			local e1=Effect.CreateEffect(e:GetHandler())
 			e1:SetType(EFFECT_TYPE_SINGLE)
 			e1:SetCode(EFFECT_UPDATE_ATTACK)
-			e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+RESET_END)
+			e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
 			e1:SetValue(d*400)
 			sc:RegisterEffect(e1)
 			local e2=e1:Clone()
@@ -87,10 +86,6 @@ function c80106539.atktg2(e,c)
 end
 function c80106539.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsReason(REASON_EFFECT) and e:GetHandler():IsPreviousLocation(LOCATION_HAND) and not e:GetHandler():IsReason(REASON_RETURN)
-end
-function c80106539.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckLPCost(tp,1000) end
-	Duel.PayLPCost(tp,1000)
 end
 function c80106539.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0

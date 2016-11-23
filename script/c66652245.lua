@@ -2,7 +2,6 @@
 function c66652245.initial_effect(c)
 	--fusion material
 	c:EnableReviveLimit()
-	aux.AddFusionProcCodeFun(c,66652246,aux.FilterBoolFunction(Card.IsAttribute,ATTRIBUTE_DARK),1,true,true)
 	--pendulum summon
 	aux.EnablePendulumAttribute(c)
 	--spsummon condition
@@ -10,6 +9,7 @@ function c66652245.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
 	e1:SetCode(EFFECT_SPSUMMON_CONDITION)
+	e1:SetValue(c66652245.splimit)
 	c:RegisterEffect(e1)
 	--special summon rule
 	local e2=Effect.CreateEffect(c)
@@ -55,45 +55,44 @@ function c66652245.initial_effect(c)
 	e6:SetProperty(EFFECT_FLAG_IGNORE_RANGE+EFFECT_FLAG_SET_AVAILABLE)
 	e6:SetTarget(aux.TargetBoolFunction(Card.IsRace,RACE_MACHINE))
 	c:RegisterEffect(e6)
+	--destroy
+	local e7=Effect.CreateEffect(c)
+	e7:SetDescription(aux.Stringid(66652245,2))
+	e7:SetCategory(CATEGORY_DESTROY)
+	e7:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
+	e7:SetCode(EVENT_DAMAGE_STEP_END)
+	e7:SetCondition(c66652245.descon)
+	e7:SetTarget(c66652245.destg)
+	e7:SetOperation(c66652245.desop)
+	c:RegisterEffect(e7)
 end
-function c66652245.spfilter1(c,tp,ft)
-	if c:IsCode(66652246) and c:IsAbleToRemoveAsCost() and c:IsCanBeFusionMaterial(nil,true) and (c:IsControler(tp) or c:IsFaceup()) then
-		if ft>0 or (c:IsControler(tp) and c:IsLocation(LOCATION_MZONE)) then
-			return Duel.IsExistingMatchingCard(c66652245.spfilter2,tp,LOCATION_MZONE,LOCATION_MZONE,1,c,tp)
-		else
-			return Duel.IsExistingMatchingCard(c66652245.spfilter2,tp,LOCATION_MZONE,0,1,c,tp)
-		end
-	else return false end
+function c66652245.splimit(e,se,sp,st)
+	return bit.band(st,SUMMON_TYPE_FUSION)==SUMMON_TYPE_FUSION
 end
-function c66652245.spfilter2(c,tp)
-	return c:IsAttribute(ATTRIBUTE_DARK) and c:IsAbleToRemoveAsCost() and c:IsCanBeFusionMaterial() and (c:IsControler(tp) or c:IsFaceup())
+function c66652245.spfilter1(c,tp)
+	return c:IsFaceup() and c:IsCode(66652246) and Duel.IsExistingMatchingCard(c66652245.spfilter2,tp,LOCATION_MZONE,LOCATION_MZONE,1,c)
+end
+function c66652245.spfilter2(c)
+	return c:IsFaceup() and c:IsAttribute(ATTRIBUTE_DARK)
 end
 function c66652245.sprcon(e,c)
-	if c==nil then return true end
+	if c==nil then return true end 
 	local tp=c:GetControler()
-	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-	return ft>-1 and Duel.IsExistingMatchingCard(c66652245.spfilter1,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,nil,tp,ft)
+	return Duel.GetLocationCount(tp,LOCATION_MZONE)>-2
+		and Duel.IsExistingMatchingCard(c66652245.spfilter1,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil,tp)
 end
 function c66652245.sprop(e,tp,eg,ep,ev,re,r,rp,c)
-	local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
 	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(66652245,0))
-	local g1=Duel.SelectMatchingCard(tp,c66652245.spfilter1,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,1,nil,tp,ft)
-	local tc=g1:GetFirst()
-	local g=Duel.GetMatchingGroup(c66652245.spfilter2,tp,LOCATION_MZONE,LOCATION_MZONE,tc,tp)
-	local g2=nil
+	local g1=Duel.SelectMatchingCard(tp,c66652245.spfilter1,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil,tp)
 	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(66652245,1))
-	if ft>0 or (tc:IsControler(tp) and tc:IsLocation(LOCATION_MZONE)) then
-		g2=g:Select(tp,1,10,nil)
-	else
-		g2=g:FilterSelect(tp,Card.IsControler,1,1,nil,tp)
-		if g:GetCount()>1 and Duel.SelectYesNo(tp,210) then
-			Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(66652245,1))
-			local g3=g:Select(tp,1,9,g2:GetFirst())
-			g2:Merge(g3)
-		end
-	end
+	local g2=Duel.SelectMatchingCard(tp,c66652245.spfilter2,tp,LOCATION_MZONE,LOCATION_MZONE,1,10,g1:GetFirst())
 	g1:Merge(g2)
-	Duel.Remove(g1,POS_FACEUP,REASON_COST)
+	local tc=g1:GetFirst()
+	while tc do
+		if not tc:IsFaceup() then Duel.ConfirmCards(1-tp,tc) end
+		tc=g1:GetNext()
+	end
+	Duel.Release(g1,REASON_COST+REASON_FUSION+REASON_MATERIAL)
 	--atk mod
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_SINGLE)
@@ -176,5 +175,22 @@ function c66652245.penop(e,tp,eg,ep,ev,re,r,rp)
 	if g:GetCount()>0 then 
 	    local tc=g:GetFirst()
 		Duel.MoveToField(tc,tp,tp,LOCATION_SZONE,POS_FACEUP,true)
+	end
+end
+function c66652245.descon(e,tp,eg,ep,ev,re,r,rp)
+	if not e:GetHandler():IsRelateToBattle() then return false end
+	local t=nil
+	if ev==0 then t=Duel.GetAttackTarget()
+	else t=Duel.GetAttacker() end
+	e:SetLabelObject(t)
+	return t and not t:IsRace(RACE_MACHINE) and t:IsRelateToBattle()
+end
+function c66652245.destg(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return true end
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,e:GetLabelObject(),1,0,0)
+end
+function c66652245.desop(e,tp,eg,ep,ev,re,r,rp)
+	if e:GetLabelObject():IsRelateToBattle() then
+		Duel.Destroy(e:GetLabelObject(),REASON_EFFECT)
 	end
 end

@@ -34,7 +34,6 @@ function c80106533.initial_effect(c)
 	e4:SetCode(EVENT_TO_GRAVE)
 	e4:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
 	e4:SetCondition(c80106533.spcon)
-	e4:SetCost(c80106533.spcost)
 	e4:SetTarget(c80106533.sptg)
 	e4:SetOperation(c80106533.spop)
 	c:RegisterEffect(e4)
@@ -77,10 +76,6 @@ function c80106533.atktarget(e,c)
 end
 function c80106533.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsReason(REASON_EFFECT) and e:GetHandler():IsPreviousLocation(LOCATION_HAND) and not e:GetHandler():IsReason(REASON_RETURN)
-end
-function c80106533.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckLPCost(tp,1000) end
-	Duel.PayLPCost(tp,1000)
 end
 function c80106533.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0

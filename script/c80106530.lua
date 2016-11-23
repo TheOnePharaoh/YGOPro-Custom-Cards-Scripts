@@ -83,10 +83,10 @@ function c80106530.spop(e,tp,eg,ep,ev,re,r,rp,c)
 	c:RegisterEffect(e1)
 end
 function c80106530.immfilter(e,te)
-	return te:IsActiveType(TYPE_SPELL+TYPE_TRAP) and te:GetOwnerPlayer()~=e:GetHandlerPlayer()
+	return e:GetHandlerPlayer()~=te:GetHandlerPlayer() and te:IsActiveType(TYPE_SPELL+TYPE_TRAP)
 end
 function c80106530.tgfilter(e,re,rp)
-	return re:IsActiveType(TYPE_EFFECT) and aux.tgval(e,re,rp)
+	return re:IsActiveType(TYPE_MONSTER)
 end
 function c80106530.atcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()

@@ -27,25 +27,16 @@ function c20161995.initial_effect(c)
 	e4:SetTargetRange(LOCATION_MZONE,0)
 	e4:SetTarget(c20161995.pitg)
 	c:RegisterEffect(e4)
-	--shuffle
+	--remove
 	local e5=Effect.CreateEffect(c)
 	e5:SetType(EFFECT_TYPE_FIELD)
 	e5:SetProperty(EFFECT_FLAG_SET_AVAILABLE+EFFECT_FLAG_IGNORE_RANGE)
 	e5:SetCode(EFFECT_TO_GRAVE_REDIRECT)
 	e5:SetRange(LOCATION_MZONE)
-	e5:SetTarget(c20161995.rmtarget)
 	e5:SetTargetRange(0,0xff)
 	e5:SetValue(LOCATION_DECKBOT)
+	e5:SetTarget(c20161995.rmtarget)
 	c:RegisterEffect(e5)
-	--adjust
-	local e6=Effect.CreateEffect(c)
-	e6:SetType(EFFECT_TYPE_FIELD)
-	e6:SetCode(20161995)
-	e6:SetRange(LOCATION_MZONE)
-	e6:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
-	e6:SetTargetRange(0,0xff)
-	e6:SetTarget(c20161995.checktg)
-	c:RegisterEffect(e6)
 end
 function c20161995.cfilter(c)
 	return c:IsAbleToDeckAsCost()
@@ -70,8 +61,5 @@ function c20161995.pitg(e,c)
 	return c:IsSetCard(0xab90) or c:IsSetCard(0xab91) or c:IsSetCard(0xab92)
 end
 function c20161995.rmtarget(e,c)
-	return not c:IsLocation(0x80) and not c:IsType(TYPE_SPELL+TYPE_TRAP)
-end
-function c20161995.checktg(e,c)
-	return not c:IsPublic()
+	return c:GetOwner()~=e:GetHandlerPlayer() and not c:IsType(TYPE_SPELL+TYPE_TRAP)
 end

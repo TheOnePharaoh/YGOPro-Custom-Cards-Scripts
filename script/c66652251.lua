@@ -43,6 +43,28 @@ function c66652251.initial_effect(c)
 	e4:SetTarget(c66652251.thtg)
 	e4:SetOperation(c66652251.thop)
 	c:RegisterEffect(e4)
+	--activate limit
+	local e5=Effect.CreateEffect(c)
+	e5:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
+	e5:SetCode(EVENT_CHAINING)
+	e5:SetRange(LOCATION_MZONE)
+	e5:SetOperation(c66652251.aclimit1)
+	c:RegisterEffect(e5)
+	local e6=Effect.CreateEffect(c)
+	e6:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
+	e6:SetCode(EVENT_CHAIN_NEGATED)
+	e6:SetRange(LOCATION_MZONE)
+	e6:SetOperation(c66652251.aclimit2)
+	c:RegisterEffect(e6)
+	local e7=Effect.CreateEffect(c)
+	e7:SetType(EFFECT_TYPE_FIELD)
+	e7:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+	e7:SetCode(EFFECT_CANNOT_ACTIVATE)
+	e7:SetRange(LOCATION_MZONE)
+	e7:SetTargetRange(0,1)
+	e7:SetCondition(c66652251.econ)
+	e7:SetValue(c66652251.elimit)
+	c:RegisterEffect(e7)
 end
 function c66652251.splimit(e,se,sp,st)
 	return not e:GetHandler():IsLocation(LOCATION_EXTRA) or bit.band(st,SUMMON_TYPE_FUSION)==SUMMON_TYPE_FUSION
@@ -105,4 +127,18 @@ function c66652251.thop(e,tp,eg,ep,ev,re,r,rp)
 			Duel.ConfirmCards(1-tp,sg)
 		end
 	end
+end
+function c66652251.aclimit1(e,tp,eg,ep,ev,re,r,rp)
+	if ep==tp or not re:IsActiveType(TYPE_SPELL+TYPE_TRAP) then return end
+	e:GetHandler():RegisterFlagEffect(66652251+1,RESET_EVENT+0x3ff0000+RESET_PHASE+PHASE_END,0,1)
+end
+function c66652251.aclimit2(e,tp,eg,ep,ev,re,r,rp)
+	if ep==tp or not re:IsHasType(EFFECT_TYPE_ACTIVATE) then return end
+	e:GetHandler():ResetFlagEffect(66652251+1)
+end
+function c66652251.econ(e)
+	return e:GetHandler():GetFlagEffect(66652251+1)~=0
+end
+function c66652251.elimit(e,re,tp)
+	return re:IsActiveType(TYPE_SPELL+TYPE_TRAP) and not re:GetHandler():IsImmuneToEffect(e)
 end

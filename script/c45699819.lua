@@ -28,9 +28,18 @@ end
 function c45699819.filter(c,e,tp)
 	return c:IsCode(57081279) or c:IsCode(57081280) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
+function c45699819.limfil(c)
+	return c:IsFaceup() and c:IsType(TYPE_SYNCHRO) and c:IsSetCard(0x0dac402)
+end
+function c45699819.chlimit(e,ep,tp)
+	return tp==ep
+end
 function c45699819.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND+LOCATION_DECK+LOCATION_GRAVE)
+	if Duel.IsExistingMatchingCard(c45699819.limfil,tp,LOCATION_MZONE,0,1,nil) then
+		Duel.SetChainLimit(c45699819.chlimit)
+	end
 end
 function c45699819.activate(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
