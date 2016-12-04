@@ -44,7 +44,7 @@ function c7830642.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c7830642.sscondition(e,tp,ev,eg,ep,re,r,rp)
-	return Duel.GetTurnPlayer()==tp and Duel.GetCurrentPhase()>=PHASE_BATTLE_START and Duel.GetCurrentPhase()<=PHASE_BATTLE and (e:GetHandler():GetOverlayGroup():IsExists(Card.IsCode,1,nil,16195942) or e:GetHandler():GetOverlayGroup():IsExists(Card.IsCode,1,nil,1621413))
+	return Duel.GetTurnPlayer()==tp and Duel.GetCurrentPhase()>=PHASE_BATTLE_START and Duel.GetCurrentPhase()<=PHASE_BATTLE and e:GetHandler():GetOverlayGroup():IsExists(Card.IsSetCard,1,nil,0x2073)
 end
 function c7830642.ssfilter(c)
 	return c:IsType(TYPE_XYZ) and c:IsAttribute(ATTRIBUTE_DARK)
@@ -65,7 +65,7 @@ end
 function c7830642.negcon(e,tp,eg,ep,ev,re,r,rp,chk)
 	local loc=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_LOCATION)
 	return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and ep~=tp
-		and Duel.IsChainDisablable(ev) and (e:GetHandler():GetOverlayGroup():IsExists(Card.IsCode,1,nil,16195942) or e:GetHandler():GetOverlayGroup():IsExists(Card.IsCode,1,nil,1621413))
+		and Duel.IsChainDisablable(ev) and e:GetHandler():GetOverlayGroup():IsExists(Card.IsSetCard,1,nil,0x2073)
 end
 function c7830642.negcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():CheckRemoveOverlayCard(tp,1,REASON_COST) end
@@ -95,7 +95,7 @@ function c7830642.actlimit(e,re,tp)
 	return not re:GetHandler():IsImmuneToEffect(e)
 end
 function c7830642.atkcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():GetOverlayGroup():IsExists(Card.IsCode,1,nil,16195942) or e:GetHandler():GetOverlayGroup():IsExists(Card.IsCode,1,nil,1621413)
+	return e:GetHandler():GetOverlayGroup():IsExists(Card.IsSetCard,1,nil,0x2073)
 end
 function c7830642.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():CheckRemoveOverlayCard(tp,1,REASON_COST) end
