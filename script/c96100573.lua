@@ -22,7 +22,7 @@ function c96100573.filter(c,e,sp)
 	return c:IsSetCard(0x10f3) and c:IsLevelBelow(4) and c:IsCanBeSpecialSummoned(e,0,sp,false,false)
 end
 function c96100573.ffilter(c)
-	return c:IsCode(24094653) and c:IsAbleToHand()
+	return c:IsSetCard(0x46) and c:IsType(TYPE_SPELL) and c:IsAbleToHand()
 end
 function c96100573.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c96100573.filter,tp,LOCATION_HAND+LOCATION_GRAVE+LOCATION_DECK,0,2,nil,e,tp) end
@@ -50,7 +50,7 @@ function c96100573.operation(e,tp,eg,ep,ev,re,r,rp)
 		tc=g:GetNext()
 		end
 	end
-	 if Duel.IsExistingMatchingCard(c96100573.ffilter,tp,LOCATION_DECK,0,1,nil) and Duel.SelectYesNo(tp,0) then
+	 if Duel.IsExistingMatchingCard(c96100573.ffilter,tp,LOCATION_DECK,0,1,nil) and Duel.SelectYesNo(tp,aux.Stringid(96100573,0)) then
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
 	local f=Duel.SelectMatchingCard(tp,c96100573.ffilter,tp,LOCATION_DECK,0,1,1,nil)
 	if f:GetCount()>0 then
