@@ -22,7 +22,7 @@ function c99980680.condition(e,tp,eg,ep,ev,re,r,rp)
   and Duel.IsExistingMatchingCard(c99980680.confilter,tp,0,LOCATION_MZONE,1,nil)
 end
 function c99980680.atkfilter(c)
-  return c:IsFaceup() and c:IsSetCard(0x9998) and c:IsType(TYPE_XYZ)
+  return c:IsFaceup() and c:IsSetCard(0x998) and c:IsType(TYPE_XYZ)
 end
 function c99980680.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
   if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and c99980680.atkfilter(chkc) end

@@ -1,7 +1,7 @@
 --HN - CFW Magic
 function c99980500.initial_effect(c)
   --Xyz Summon
-  aux.AddXyzProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x9998),4,2)
+  aux.AddXyzProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x998),4,2)
   c:EnableReviveLimit()
   --To Hand
   local e1=Effect.CreateEffect(c)
@@ -25,29 +25,20 @@ function c99980500.initial_effect(c)
   e2:SetTarget(c99980500.destg)
   e2:SetOperation(c99980500.desop)
   c:RegisterEffect(e2)
-  --ATK Up
+  --Summon Success
   local e3=Effect.CreateEffect(c)
-  e3:SetType(EFFECT_TYPE_SINGLE)
-  e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-  e3:SetRange(LOCATION_MZONE)
-  e3:SetCode(EFFECT_UPDATE_ATTACK)
-  e3:SetValue(c99980500.atkval)
+  e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
+  e3:SetCode(EVENT_SPSUMMON_SUCCESS)
+  e3:SetCondition(c99980500.regcon)
+  e3:SetOperation(c99980500.regop)
   c:RegisterEffect(e3)
-  --Lvl 5 Xyz
+  --Material Check
   local e4=Effect.CreateEffect(c)
   e4:SetType(EFFECT_TYPE_SINGLE)
-  e4:SetCode(EFFECT_XYZ_LEVEL)
-  e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-  e4:SetRange(LOCATION_MZONE)
-  e4:SetValue(5)
+  e4:SetCode(EFFECT_MATERIAL_CHECK)
+  e4:SetValue(c99980500.valcheck)
+  e4:SetLabelObject(e3)
   c:RegisterEffect(e4)
-  --HN Xyz
-  local e5=Effect.CreateEffect(c)
-  e5:SetType(EFFECT_TYPE_SINGLE)
-  e5:SetProperty(EFFECT_FLAG_UNCOPYABLE+EFFECT_FLAG_CANNOT_DISABLE)
-  e5:SetCode(EFFECT_CANNOT_BE_XYZ_MATERIAL)
-  e5:SetValue(c99980500.xyzlimit)
-  c:RegisterEffect(e5)
 end
 function c99980500.thcon(e,tp,eg,ep,ev,re,r,rp)
   return e:GetHandler():IsReason(REASON_DESTROY)
@@ -78,7 +69,7 @@ function c99980500.destg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
   if chk==0 then return Duel.IsExistingTarget(Card.IsFaceup,tp,0,LOCATION_MZONE,1,nil) end
   Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
   local g=Duel.SelectTarget(tp,Card.IsFaceup,tp,0,LOCATION_MZONE,1,1,nil)
-  local atk=g:GetFirst():GetTextAttack()
+  local atk=g:GetFirst():GetAttack()/2
   if atk<0 then atk=0 end
   Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
   Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,atk/2)
@@ -86,17 +77,41 @@ end
 function c99980500.desop(e,tp,eg,ep,ev,re,r,rp)
   local tc=Duel.GetFirstTarget()
   if tc:IsRelateToEffect(e) and tc:IsControler(1-tp) then
-  local atk=tc:GetTextAttack()
+  local atk=tc:GetAttack()
   if atk<0 then atk=0 end
   if Duel.Destroy(tc,REASON_EFFECT)~=0 then
   Duel.Damage(1-tp,atk/2,REASON_EFFECT)
   end
   end
 end
-function c99980500.atkval(e,c)
-  return c:GetOverlayGroup():FilterCount(Card.IsCode,nil,99980480)*500
+function c99980500.valcheck(e,c)
+  local g=c:GetMaterial()
+  if g:IsExists(Card.IsCode,1,nil,99980480) then
+  e:GetLabelObject():SetLabel(1)
+  else
+  e:GetLabelObject():SetLabel(0)
+  end
 end
-function c99980500.xyzlimit(e,c)
-  if not c then return false end
-  return not c:IsSetCard(0x9998)
+function c99980500.regcon(e,tp,eg,ep,ev,re,r,rp)
+  return e:GetHandler():IsSummonType(SUMMON_TYPE_XYZ) and e:GetLabel()==1
+end
+function c99980500.regop(e,tp,eg,ep,ev,re,r,rp)
+  local c=e:GetHandler()
+  --ATK
+  local e1=Effect.CreateEffect(c)
+  e1:SetType(EFFECT_TYPE_SINGLE)
+  e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+  e1:SetRange(LOCATION_MZONE)
+  e1:SetCode(EFFECT_UPDATE_ATTACK)
+  e1:SetReset(RESET_EVENT+0x1ff0000)
+  e1:SetValue(c99980500.value)
+  c:RegisterEffect(e1)
+end
+function c99980500.atkfilter(c)
+  return c:IsSetCard(0x998) and c:IsType(TYPE_MONSTER)
+end
+function c99980500.value(e,c)
+  local g=Duel.GetMatchingGroup(c99980500.atkfilter,c:GetControler(),LOCATION_GRAVE,0,nil)
+  local ct=g:GetClassCount(Card.GetCode)
+  return ct*100
 end

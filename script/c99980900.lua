@@ -1,7 +1,7 @@
 --HN - Next White
 function c99980900.initial_effect(c)
   --Xyz summon
-  aux.AddXyzProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x9998),5,2)
+  aux.AddXyzProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x998),5,2)
   c:EnableReviveLimit()
   --Destroy
   local e1=Effect.CreateEffect(c)
@@ -139,7 +139,7 @@ function c99980900.posfilter1(c)
 	return c:IsPosition(POS_FACEUP_ATTACK)
 end
 function c99980900.posfilter2(c)
-  return c:IsFaceup() and c:IsSetCard(0x9998) and c:IsType(TYPE_XYZ)
+  return c:IsFaceup() and c:IsSetCard(0x998) and c:IsType(TYPE_XYZ)
 end
 function c99980900.postg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
   if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(1-tp) and c99980900.posfilter1(chkc) end

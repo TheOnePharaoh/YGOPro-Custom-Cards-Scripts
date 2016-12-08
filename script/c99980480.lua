@@ -19,7 +19,7 @@ function c99980480.initial_effect(c)
   c:RegisterEffect(e2)
 end
 function c99980480.spfilter(c)
-  return c:IsSetCard(0x9998) and c:IsType(TYPE_MONSTER)
+  return c:IsSetCard(0x998) and c:IsType(TYPE_MONSTER)
 end
 function c99980480.spcon(e,c)
   if c==nil then return true end

@@ -70,7 +70,7 @@ function c99980860.accost(e,tp,eg,ep,ev,re,r,rp,chk)
   Duel.Remove(g1,POS_FACEUP,REASON_COST)
 end
 function c99980860.infilter(c)
-  return c:IsFaceup() and c:IsSetCard(0x9998) and c:IsType(TYPE_XYZ)
+  return c:IsFaceup() and c:IsSetCard(0x998) and c:IsType(TYPE_XYZ)
 end
 function c99980860.tgvalue(e,re,rp)
   return rp~=e:GetHandlerPlayer()
@@ -79,7 +79,7 @@ function c99980860.indcon(e,tp,eg,ep,ev,re,r,rp)
   return Duel.IsExistingMatchingCard(c99980860.infilter,tp,LOCATION_MZONE,0,1,nil)
 end
 function c99980860.atktg(e,c)
-  return c:IsFaceup() and c:IsSetCard(0x9998) and c:IsType(TYPE_XYZ)
+  return c:IsFaceup() and c:IsSetCard(0x998) and c:IsType(TYPE_XYZ)
 end
 function c99980860.negcon(e,tp,eg,ep,ev,re,r,rp)
   if ep==tp or not Duel.IsExistingMatchingCard(c99980860.infilter,tp,LOCATION_MZONE,0,1,nil) then return false end
@@ -96,7 +96,7 @@ function c99980860.tdcon(e,tp,eg,ep,ev,re,r,rp)
   return tp==Duel.GetTurnPlayer()
 end
 function c99980860.tdfilter(c)
-  return c:IsSetCard(0x9998) and c:IsType(TYPE_MONSTER) and c:IsAbleToDeck() and not c:IsHasEffect(EFFECT_NECRO_VALLEY)
+  return c:IsSetCard(0x998) and c:IsType(TYPE_MONSTER) and c:IsAbleToDeck() and not c:IsHasEffect(EFFECT_NECRO_VALLEY)
 end
 function c99980860.tdtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
   if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsLocation(tp) and c99980860.tdfilter(chkc,e,tp,lv,true) end

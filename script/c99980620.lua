@@ -12,15 +12,15 @@ function c99980620.initial_effect(c)
   end
 function c99980620.filter1(c,e,tp)
   local rk=c:GetRank()
-  return c:IsFaceup() and c:IsSetCard(0x9998) and c:IsType(TYPE_XYZ) and rk==4
+  return c:IsFaceup() and c:IsSetCard(0x998) and c:IsType(TYPE_XYZ) and rk==4
   and Duel.IsExistingMatchingCard(c99980620.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,c,rk+1)
 end
 function c99980620.filter2(c,e,tp,mc,rk)
-  return c:GetRank()==rk and c:IsSetCard(0x9998) and mc:IsCanBeXyzMaterial(c)
+  return c:GetRank()==rk and c:IsSetCard(0x998) and mc:IsCanBeXyzMaterial(c)
   and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 end
 function c99980620.filter3(c)
-  return c:IsSetCard(0x9998) and c:IsType(TYPE_MONSTER) and not c:IsHasEffect(EFFECT_NECRO_VALLEY)
+  return c:IsSetCard(0x998) and c:IsType(TYPE_MONSTER) and not c:IsHasEffect(EFFECT_NECRO_VALLEY)
 end
 function c99980620.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
   if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_MZONE) and c99980620.filter1(chkc,e,tp) end

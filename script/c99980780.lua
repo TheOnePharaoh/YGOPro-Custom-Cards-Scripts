@@ -1,7 +1,7 @@
 --HN - Next Black
 function c99980780.initial_effect(c)
   --Xyz summon
-  aux.AddXyzProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x9998),5,2)
+  aux.AddXyzProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x998),5,2)
   c:EnableReviveLimit()
   --Damage
   local e1=Effect.CreateEffect(c)
@@ -134,7 +134,7 @@ function c99980780.pdcost(e,tp,eg,ep,ev,re,r,rp,chk)
   e:GetHandler():RemoveOverlayCard(tp,1,1,REASON_COST)
 end
 function c99980780.pdfilter(c)
-  return c:IsFaceup() and c:IsSetCard(0x9998) and c:IsType(TYPE_XYZ)
+  return c:IsFaceup() and c:IsSetCard(0x998) and c:IsType(TYPE_XYZ)
 end
 function c99980780.pdtg(e,tp,eg,ep,ev,re,r,rp,chk)
   if chk==0 then return Duel.IsExistingMatchingCard(c99980780.pdfilter,tp,LOCATION_MZONE,0,1,nil) end
@@ -160,7 +160,7 @@ function c99980780.pdop(e,tp,eg,ep,ev,re,r,rp)
   end
 end
 function c99980780.atkfilter(c)
-  return c:IsFaceup() and c:IsSetCard(0x9998) and c:IsType(TYPE_XYZ)
+  return c:IsFaceup() and c:IsSetCard(0x998) and c:IsType(TYPE_XYZ)
 end
 function c99980780.atktg(e,tp,eg,ep,ev,re,r,rp,chk)
   local t=Duel.GetAttackTarget()

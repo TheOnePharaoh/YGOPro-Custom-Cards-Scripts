@@ -48,7 +48,7 @@ function c99950240.activate(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
 	tc2:RegisterEffect(e1)
 	local e2=e1:Clone()
-	e2:SetCode(EFFECT_UPDATE_DEFENSE)
+	e2:SetCode(EFFECT_UPDATE_DEFENCE)
 	tc2:RegisterEffect(e2)
 	tc2=sg:GetNext()
 	end

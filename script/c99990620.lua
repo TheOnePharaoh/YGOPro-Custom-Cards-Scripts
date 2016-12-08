@@ -6,12 +6,13 @@ function c99990620.initial_effect(c)
   e1:SetType(EFFECT_TYPE_ACTIVATE)
   e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
   e1:SetCode(EVENT_FREE_CHAIN)
+  e1:SetCountLimit(1,99990620+EFFECT_COUNT_CODE_OATH)
   e1:SetTarget(c99990620.target)
   e1:SetOperation(c99990620.operation)
   c:RegisterEffect(e1)
 end
 function c99990620.filter(c)
-  return c:IsSetCard(9999) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
+  return c:IsSetCard(0x999) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
 end
 function c99990620.target(e,tp,eg,ep,ev,re,r,rp,chk)
   if chk==0 then return Duel.IsExistingMatchingCard(c99990620.filter,tp,LOCATION_DECK,0,3,nil) end
@@ -24,9 +25,7 @@ function c99990620.operation(e,tp,eg,ep,ev,re,r,rp)
   local sg=g:Select(tp,3,3,nil)
   Duel.ConfirmCards(1-tp,sg)
   Duel.ShuffleDeck(tp)
-  Duel.Hint(HINT_SELECTMSG,1-tp,HINTMSG_ATOHAND)
   local tg=sg:Select(1-tp,1,1,nil)
-  local tc=tg:GetFirst()
-  Duel.SendtoHand(tc,nil,REASON_EFFECT)
+  Duel.SendtoHand(tg,nil,REASON_EFFECT)
   end
 end

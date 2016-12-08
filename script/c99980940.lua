@@ -11,7 +11,7 @@ function c99980940.initial_effect(c)
   e2:SetRange(LOCATION_SZONE)
   e2:SetCode(EFFECT_EXTRA_SUMMON_COUNT)
   e2:SetTargetRange(LOCATION_HAND+LOCATION_MZONE,0)
-  e2:SetTarget(aux.TargetBoolFunction(Card.IsSetCard,0x9998))
+  e2:SetTarget(aux.TargetBoolFunction(Card.IsSetCard,0x998))
   c:RegisterEffect(e2)
   --Return to Hand
   local e3=Effect.CreateEffect(c)
@@ -25,7 +25,7 @@ function c99980940.initial_effect(c)
   c:RegisterEffect(e3)
 end
 function c99980940.thfilter(c)
-  return c:IsFaceup() and c:IsSetCard(0x9998) and c:IsLevelBelow(4) and c:IsAbleToHand()
+  return c:IsFaceup() and c:IsSetCard(0x998) and c:IsLevelBelow(4) and c:IsAbleToHand()
 end
 function c99980940.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
   if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and c99980940.thfilter(chkc) end

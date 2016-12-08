@@ -11,13 +11,13 @@ function c99980800.initial_effect(c)
   c:RegisterEffect(e1)
 end
 function c99980800.tdfilter1(c)
-  return c:IsFaceup() and c:IsSetCard(0x9998) and c:IsType(TYPE_XYZ)
+  return c:IsFaceup() and c:IsSetCard(0x998) and c:IsType(TYPE_XYZ)
 end
 function c99980800.tdfilter2(c)
-  return c:IsSetCard(0x9998) and c:IsAbleToDeck() and not c:IsHasEffect(EFFECT_NECRO_VALLEY)
+  return c:IsSetCard(0x998) and c:IsAbleToDeck() and not c:IsHasEffect(EFFECT_NECRO_VALLEY)
 end
 function c99980800.recfilter(c)
-  return c:IsFaceup() and c:IsSetCard(0x9998) and c:IsType(TYPE_XYZ) and c:GetAttackedCount()>0
+  return c:IsFaceup() and c:IsSetCard(0x998) and c:IsType(TYPE_XYZ) and c:GetAttackedCount()>0
 end
 function c99980800.target(e,tp,eg,ep,ev,re,r,rp,chk)
   if chk==0 then return Duel.IsPlayerCanDraw(tp,1)

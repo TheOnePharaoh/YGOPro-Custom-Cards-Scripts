@@ -1,7 +1,7 @@
 --HN - Black Sister
 function c99980180.initial_effect(c)
   --Xyz Summon
-  aux.AddXyzProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x9998),4,2)
+  aux.AddXyzProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x998),4,2)
   c:EnableReviveLimit()
   --To Hand
   local e1=Effect.CreateEffect(c)
@@ -58,7 +58,7 @@ function c99980180.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
   e:GetHandler():RemoveOverlayCard(tp,1,1,REASON_COST)
 end
 function c99980180.thfilter2(c)
-  return c:IsSetCard(0x9998) and c:IsLevelBelow(4) and c:IsAbleToHand() and not c:IsHasEffect(EFFECT_NECRO_VALLEY)
+  return c:IsSetCard(0x998) and c:IsLevelBelow(4) and c:IsAbleToHand() and not c:IsHasEffect(EFFECT_NECRO_VALLEY)
 end
 function c99980180.thtg2(e,tp,eg,ep,ev,re,r,rp,chk)
   if chk==0 then return Duel.IsExistingMatchingCard(c99980180.thfilter2,tp,LOCATION_GRAVE,0,1,nil) end

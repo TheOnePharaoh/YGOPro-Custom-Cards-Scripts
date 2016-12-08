@@ -14,7 +14,7 @@ function c99980660.initial_effect(c)
   c:RegisterEffect(e1)
 end
 function c99980660.costfilter(c)
-  return c:IsSetCard(0x9998) and (c:GetLevel()==3  or c:GetLevel()==4)  and c:IsAbleToGraveAsCost()
+  return c:IsSetCard(0x998) and (c:GetLevel()==3  or c:GetLevel()==4)  and c:IsAbleToGraveAsCost()
 end
 function c99980660.cost(e,tp,eg,ep,ev,re,r,rp,chk)
   if chk==0 then return Duel.IsExistingMatchingCard(c99980660.costfilter,tp,LOCATION_DECK,0,1,nil) end
@@ -27,7 +27,7 @@ function c99980660.cost(e,tp,eg,ep,ev,re,r,rp,chk)
   e:SetLabel(ct)
 end
 function c99980660.spfilter(c,e,tp)
-  return c:IsSetCard(0x9998) and c:GetRank()==4 and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+  return c:IsSetCard(0x998) and c:GetRank()==4 and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c99980660.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
   if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0

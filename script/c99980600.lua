@@ -23,11 +23,11 @@ function c99980600.initial_effect(c)
   c:RegisterEffect(e2)
 end
 function c99980600.filter1(c,e,tp)
-  return c:IsFaceup() and c:IsSetCard(0x9998) and (c:GetLevel()==3 or c:GetLevel()==4) 
+  return c:IsFaceup() and c:IsSetCard(0x998) and (c:GetLevel()==3 or c:GetLevel()==4) 
   and Duel.IsExistingMatchingCard(c99980600.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,c)
 end
 function c99980600.filter2(c,e,tp,mc,rk)
-  return c:IsSetCard(0x9998) and c:GetRank()==4 and mc:IsCanBeXyzMaterial(c)
+  return c:IsSetCard(0x998) and c:GetRank()==4 and mc:IsCanBeXyzMaterial(c)
   and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 end
 function c99980600.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)

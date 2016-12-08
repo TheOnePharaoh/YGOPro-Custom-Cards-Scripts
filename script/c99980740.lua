@@ -14,7 +14,7 @@ function c99980740.initial_effect(c)
   c:RegisterEffect(e1)  
 end
 function c99980740.fil(c)
-  return c:IsSetCard(0x9998) and c:GetType()==TYPE_SPELL and c:CheckActivateEffect(true,true,false)~=nil
+  return c:IsSetCard(0x998) and c:GetType()==TYPE_SPELL and c:CheckActivateEffect(true,true,false)~=nil
 end
 function c99980740.cptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
   if chkc then

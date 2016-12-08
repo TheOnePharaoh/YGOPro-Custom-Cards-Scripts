@@ -37,7 +37,7 @@ function c99930120.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
   Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g1,2,0,0)
 end
 function c99930120.xyzfilter(c,mg)
-  return c:IsXyzSummonable(mg,2,2) and c:IsSetCard(0x9993)
+  return c:IsXyzSummonable(mg,2,2) and c:IsSetCard(0x993)
 end
 function c99930120.activate(e,tp,eg,ep,ev,re,r,rp)
   if Duel.IsPlayerAffectedByEffect(tp,59822133) then return end

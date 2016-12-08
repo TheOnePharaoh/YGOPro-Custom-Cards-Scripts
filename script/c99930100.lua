@@ -28,7 +28,7 @@ function c99930100.check(tp)
   for i=0,4 do
   local c=Duel.GetFieldCard(tp,LOCATION_MZONE,i)
   if c and c:IsFaceup() then
-  if c:IsSetCard(0x9993) then ret=true else return false end
+  if c:IsSetCard(0x993) then ret=true else return false end
   end
   end
   return ret
@@ -50,7 +50,7 @@ function c99930100.destg(e,tp,eg,ep,ev,re,r,rp,chk)
   Duel.SetOperationInfo(0,CATEGORY_DESTROY,g1,g1:GetCount(),0,0)
 end
 function c99930100.filter(c)
-  return c:IsFaceup() and c:IsSetCard(0x9993) and c:IsType(TYPE_XYZ)
+  return c:IsFaceup() and c:IsSetCard(0x993) and c:IsType(TYPE_XYZ)
 end
 function c99930100.desop(e,tp,eg,ep,ev,re,r,rp)
   local c=e:GetHandler()

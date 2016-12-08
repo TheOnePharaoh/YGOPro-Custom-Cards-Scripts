@@ -28,13 +28,13 @@ function c99980140.initial_effect(c)
   c:RegisterEffect(e3)
 end
 function c99980140.dmgfilter1(c,tp)
-  return c:IsFaceup() and c:IsSetCard(0x9998) and c:IsControler(tp) and c:GetSummonType()==SUMMON_TYPE_XYZ
+  return c:IsFaceup() and c:IsSetCard(0x998) and c:IsControler(tp) and c:GetSummonType()==SUMMON_TYPE_XYZ
 end
 function c99980140.dmgcon(e,tp,eg,ep,ev,re,r,rp)
   return eg:IsExists(c99980140.dmgfilter1,1,nil,tp)
 end
 function c99980140.dmgfilter2(c)
-  return c:IsFaceup() and c:IsSetCard(0x9998) and c:IsType(TYPE_XYZ)
+  return c:IsFaceup() and c:IsSetCard(0x998) and c:IsType(TYPE_XYZ)
 end
 function c99980140.dmgtg(e,tp,eg,ep,ev,re,r,rp,chk)
   if chk==0 then return Duel.IsExistingMatchingCard(c99980140.dmgfilter2,tp,LOCATION_MZONE,0,1,nil) end
@@ -54,7 +54,7 @@ function c99980140.thcon(e,tp,eg,ep,ev,re,r,rp)
   return e:GetHandler():IsReason(REASON_DESTROY)
 end
 function c99980140.thfilter(c)
-  return c:IsSetCard(0x9998) and c:IsLevelBelow(4) and c:IsAbleToHand()
+  return c:IsSetCard(0x998) and c:IsLevelBelow(4) and c:IsAbleToHand()
 end
 function c99980140.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
   if chk==0 then return Duel.IsExistingMatchingCard(c99980140.thfilter,tp,LOCATION_DECK,0,1,nil) end

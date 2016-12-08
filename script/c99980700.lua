@@ -32,7 +32,7 @@ function c99980700.dmgcon(e,tp,eg,ep,ev,re,r,rp)
   local dmg=0
   local tc=eg:GetFirst()
   while tc do
-  if tc:IsSetCard(0x9998) and tc:IsPreviousPosition(POS_FACEUP) and tc:IsPreviousLocation(LOCATION_MZONE) then
+  if tc:IsSetCard(0x998) and tc:IsPreviousPosition(POS_FACEUP) and tc:IsPreviousLocation(LOCATION_MZONE) then
   local tdmg=tc:GetAttack()/2
   dmg=dmg+tdmg
   end
@@ -53,7 +53,7 @@ function c99980700.dmgop(e,tp,eg,ep,ev,re,r,rp)
   Duel.RDComplete()
 end 
 function c99980700.drfilter(c)
-  return c:IsFaceup() and c:IsSetCard(0x9998) and c:IsType(TYPE_MONSTER)
+  return c:IsFaceup() and c:IsSetCard(0x998) and c:IsType(TYPE_MONSTER)
 end
 function c99980700.drcon(e,tp,eg,ep,ev,re,r,rp)
   return Duel.IsExistingMatchingCard(c99980700.drfilter,tp,LOCATION_MZONE,0,1,nil)
@@ -68,7 +68,7 @@ function c99980700.drop(e,tp,eg,ep,ev,re,r,rp)
   Duel.Draw(tp,1,REASON_EFFECT)
   if tc then
   Duel.ConfirmCards(1-tp,tc)
-  if tc:IsSetCard(0x9998) and tc:IsType(TYPE_MONSTER) then
+  if tc:IsSetCard(0x998) and tc:IsType(TYPE_MONSTER) then
   local e1=Effect.CreateEffect(e:GetHandler())
   e1:SetDescription(aux.Stringid(99980700,1))
   e1:SetType(EFFECT_TYPE_FIELD)
@@ -78,7 +78,7 @@ function c99980700.drop(e,tp,eg,ep,ev,re,r,rp)
   e1:SetCondition(c99980700.spcon)
   e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
   tc:RegisterEffect(e1)
-  elseif tc:IsSetCard(0x9998) and tc:GetType()==TYPE_SPELL+TYPE_CONTINUOUS then
+  elseif tc:IsSetCard(0x998) and tc:GetType()==TYPE_SPELL+TYPE_CONTINUOUS then
   if Duel.SendtoDeck(tc,nil,2,REASON_EFFECT)~=0 then
   Duel.Damage(tp,300,REASON_EFFECT)
   end

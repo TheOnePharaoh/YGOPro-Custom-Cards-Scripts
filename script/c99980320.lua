@@ -1,7 +1,7 @@
 --HN - Green Heart
 function c99980320.initial_effect(c)
   --Xyz Summon
-  aux.AddXyzProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x9998),4,2)
+  aux.AddXyzProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x998),4,2)
   c:EnableReviveLimit()
   --To Hand
   local e1=Effect.CreateEffect(c)
@@ -118,5 +118,5 @@ function c99980320.atkval(e,c)
 end
 function c99980320.xyzlimit(e,c)
   if not c then return false end
-  return not c:IsSetCard(0x9998)
+  return not c:IsSetCard(0x998)
 end

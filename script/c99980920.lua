@@ -1,7 +1,7 @@
 --HN - Next Green
 function c99980920.initial_effect(c)
   --Xyz summon
-  aux.AddXyzProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x9998),5,2)
+  aux.AddXyzProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x998),5,2)
   c:EnableReviveLimit()
   --Nill
   local e1=Effect.CreateEffect(c)
@@ -128,7 +128,7 @@ function c99980920.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
   e:GetHandler():RemoveOverlayCard(tp,1,1,REASON_COST)
 end
 function c99980920.atkfilter(c)
-  return c:IsFaceup() and c:IsSetCard(0x9998) and c:IsType(TYPE_XYZ)
+  return c:IsFaceup() and c:IsSetCard(0x998) and c:IsType(TYPE_XYZ)
 end
 function c99980920.atktg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
   if chk==0 then return e:GetHandler():GetEffectCount(EFFECT_EXTRA_ATTACK)==0 

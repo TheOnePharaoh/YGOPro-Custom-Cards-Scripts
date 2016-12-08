@@ -11,7 +11,7 @@ function c99980560.initial_effect(c)
   c:RegisterEffect(e1)
 end
 function c99980560.filter(c)
-  return c:IsFaceup() and c:IsSetCard(0x9998) and c:IsType(TYPE_MONSTER)
+  return c:IsFaceup() and c:IsSetCard(0x998) and c:IsType(TYPE_MONSTER)
 end
 function c99980560.target(e,tp,eg,ep,ev,re,r,rp,chk)
   local ct=Duel.GetMatchingGroupCount(c99980560.filter,tp,LOCATION_MZONE,0,nil)

@@ -22,7 +22,7 @@ function c99980760.initial_effect(c)
   c:RegisterEffect(e2)
 end
 function c99980760.detfilter(c)
-  return c:IsFaceup() and c:IsSetCard(0x9998) and c:IsType(TYPE_XYZ) and c:GetOverlayCount()>0
+  return c:IsFaceup() and c:IsSetCard(0x998) and c:IsType(TYPE_XYZ) and c:GetOverlayCount()>0
 end
 function c99980760.dettg(e,tp,eg,ep,ev,re,r,rp,chk)
   if chk==0 then return Duel.IsExistingMatchingCard(c99980760.detfilter,tp,LOCATION_MZONE,0,1,nil) end

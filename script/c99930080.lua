@@ -11,7 +11,7 @@ function c99930080.initial_effect(c)
   c:RegisterEffect(e1)
 end
 function c99930080.rkfilter(c)
-  return c:IsFaceup() and c:IsSetCard(0x9993) and c:IsType(TYPE_XYZ)
+  return c:IsFaceup() and c:IsSetCard(0x993) and c:IsType(TYPE_XYZ)
 end
 function c99930080.atkfilter(c)
   return c:IsRace(RACE_WARRIOR) and not c:IsHasEffect(EFFECT_NECRO_VALLEY)

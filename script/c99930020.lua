@@ -22,17 +22,17 @@ function c99930020.initial_effect(c)
   --ATK Up
   local e3=Effect.CreateEffect(c)
   e3:SetCategory(CATEGORY_ATKCHANGE)
-  e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
+  e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
   e3:SetCode(EVENT_ATTACK_ANNOUNCE)
   e3:SetOperation(c99930020.atkop)
   c:RegisterEffect(e3)
   --Attach Monster
   local e4=Effect.CreateEffect(c)
-  e4:SetCode(EVENT_BATTLE_DESTROYING)
   e4:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
-  e4:SetCondition(c99930020.attcon)
-  e4:SetTarget(c99930020.atttg)
-  e4:SetOperation(c99930020.attop)
+  e4:SetCode(EVENT_BATTLE_DESTROYING)
+  e4:SetCondition(c99930020.attachcon)
+  e4:SetTarget(c99930020.attachtg)
+  e4:SetOperation(c99930020.attachop)
   c:RegisterEffect(e4)
   --Disable Special Spsummon
   local e5=Effect.CreateEffect(c)
@@ -140,25 +140,23 @@ function c99930020.atkop(e,tp,eg,ep,ev,re,r,rp)
   e1:SetValue(c:GetRank()*100)
   c:RegisterEffect(e1)
 end
-function c99930020.attcon(e,tp,eg,ep,ev,re,r,rp)
+function c99930020.attachcon(e,tp,eg,ep,ev,re,r,rp)
   local c=e:GetHandler()
-  local bc=c:GetBattleTarget()
-  return c:IsRelateToBattle() and bc:IsType(TYPE_MONSTER) and not  bc:IsType(TYPE_TOKEN)
+  local tc=c:GetBattleTarget()
+  if not c:IsRelateToBattle() or c:IsFacedown() then return false end
+  e:SetLabelObject(tc)
+  return tc:IsType(TYPE_MONSTER) and tc:IsReason(REASON_BATTLE) and not  tc:IsType(TYPE_TOKEN)
 end
-function c99930020.atttg(e,tp,eg,ep,ev,re,r,rp,chk)
-  local bc=e:GetHandler():GetBattleTarget()
+function c99930020.attachtg(e,tp,eg,ep,ev,re,r,rp,chk)
   if chk==0 then return true end
-  Duel.SetTargetCard(bc)
+  local tc=e:GetLabelObject()
+  Duel.SetTargetCard(tc)
 end
-function c99930020.attop(e,tp,eg,ep,ev,re,r,rp)
-  local c=e:GetHandler() 
+function c99930020.attachop(e,tp,eg,ep,ev,re,r,rp)
+  local c=e:GetHandler()
   local tc=Duel.GetFirstTarget()
-  if c:IsRelateToEffect(e) and c:IsFaceup() and not tc:IsImmuneToEffect(e) then
-  local og=tc:GetOverlayGroup()
-  if og:GetCount()>0 then
-  Duel.SendtoGrave(og,REASON_RULE)
-  end
-  Duel.Overlay(c,Group.FromCards(tc))
+  if c:IsRelateToEffect(e) and c:IsFaceup() and tc:IsRelateToEffect(e) then
+  Duel.Overlay(c,tc)
   end
 end
 function c99930020.dsscon(e,tp,eg,ep,ev,re,r,rp)

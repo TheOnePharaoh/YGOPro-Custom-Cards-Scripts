@@ -1,120 +1,107 @@
 --SAO - Leafa - ALO
 function c99990220.initial_effect(c)
   --Synchro summon
-  aux.AddSynchroProcedure2(c,nil,aux.NonTuner(Card.IsSetCard,9999))
+  aux.AddSynchroProcedure2(c,nil,aux.NonTuner(Card.IsSetCard,0x999))
   c:EnableReviveLimit()
+  --LP Gain
   local e1=Effect.CreateEffect(c)
-  e1:SetDescription(aux.Stringid(99990220,0))
   e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
-  e1:SetType(EFFECT_TYPE_IGNITION)
-  e1:SetRange(LOCATION_GRAVE)
-  e1:SetCountLimit(1,99990220)
-  e1:SetCondition(c99990220.condition)
-  e1:SetTarget(c99990220.target)
-  e1:SetOperation(c99990220.operation)
+  e1:SetProperty(EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DAMAGE_STEP)
+  e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
+  e1:SetCode(EVENT_SPSUMMON_SUCCESS)
+  e1:SetCondition(c99990220.reccon)
+  e1:SetTarget(c99990220.rectg)
+  e1:SetOperation(c99990220.recop)
   c:RegisterEffect(e1)
-  --Recover
+  --Special Summon
   local e2=Effect.CreateEffect(c)
-  e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
-  e2:SetCode(EVENT_PHASE+PHASE_END)
-  e2:SetRange(LOCATION_MZONE)
-  e2:SetCountLimit(1)
-  e2:SetCondition(c99990220.reccon)
-  e2:SetTarget(c99990220.rectg)
-  e2:SetOperation(c99990220.recop)
+  e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
+  e2:SetType(EFFECT_TYPE_QUICK_O)
+  e2:SetCode(EVENT_FREE_CHAIN)
+  e2:SetProperty(EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DAMAGE_STEP)
+  e2:SetRange(LOCATION_GRAVE)
+  e2:SetHintTiming(TIMING_DAMAGE_STEP)
+  e2:SetCountLimit(1,99990220)
+  e2:SetCondition(c99990220.spcon)
+  e2:SetTarget(c99990220.sptg)
+  e2:SetOperation(c99990220.spop)
   c:RegisterEffect(e2)
-  --ATK/DEF
+  --ATK/DEF Gain
   local e3=Effect.CreateEffect(c)
-  e3:SetCategory(CATEGORY_ATKCHANGE)
+  e3:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_DEFCHANGE)
   e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
-  e3:SetCode(EVENT_BATTLE_DESTROYED)
+  e3:SetCode(EVENT_BATTLED)
+  e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
   e3:SetRange(LOCATION_MZONE)
   e3:SetCondition(c99990220.atkcon)
   e3:SetOperation(c99990220.atkop)
   c:RegisterEffect(e3)
-    local e4=Effect.CreateEffect(c)
-  e4:SetCategory(CATEGORY_ATKCHANGE)
-  e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
-  e4:SetCode(EVENT_BATTLE_DESTROYED)
-  e4:SetRange(LOCATION_MZONE)
-  e4:SetCondition(c99990220.atkcon2)
-  e4:SetOperation(c99990220.atkop)
-  c:RegisterEffect(e4)
-  local e5=Effect.CreateEffect(c)
-  e5:SetCategory(CATEGORY_ATKCHANGE)
-  e5:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
-  e5:SetCode(EVENT_BATTLE_DESTROYED)
-  e5:SetRange(LOCATION_MZONE)
-  e5:SetCondition(c99990220.atkcon3)
-  e5:SetOperation(c99990220.atkop)
-  c:RegisterEffect(e5)
 end
-function c99990220.filter1(c)
-  return c:IsFaceup() and c:IsType(TYPE_MONSTER) and c:IsSetCard(9999)
+function c99990220.reccon(e,tp,eg,ep,ev,re,r,rp)
+  return bit.band(e:GetHandler():GetSummonType(),SUMMON_TYPE_SYNCHRO)==SUMMON_TYPE_SYNCHRO
 end
-function c99990220.filter2(c)
-  return c:IsFaceup() and not c:IsSetCard(9999)
+function c99990220.recfilter(c)
+  return c:IsSetCard(0x999) and c:IsType(TYPE_MONSTER)
 end
-function c99990220.condition(e,tp,eg,ep,ev,re,r,rp)
-  return (Duel.GetMatchingGroupCount(c99990220.filter1,tp,LOCATION_MZONE,0,nil)==1 and Duel.GetMatchingGroupCount(c99990220.filter2,tp,LOCATION_MZONE,0,nil)>0 ) or 
-   (Duel.GetMatchingGroupCount(c99990220.filter1,tp,LOCATION_MZONE,0,nil)==1 and Duel.GetMatchingGroupCount(c99990220.filter2,tp,LOCATION_MZONE,0,nil)==0 )
+function c99990220.rectg(e,tp,eg,ep,ev,re,r,rp,chk)
+  local ct=Duel.GetMatchingGroupCount(c99990220.recfilter,tp,LOCATION_GRAVE,0,nil)	
+  if chk==0 then return ct > 0 end
+  Duel.SetTargetPlayer(tp)
+  Duel.SetOperationInfo(0,CATEGORY_RECOVER,nil,0,tp,ct*300)
 end
-function c99990220.target(e,tp,eg,ep,ev,re,r,rp,chk)
+function c99990220.recop(e,tp,eg,ep,ev,re,r,rp)
+  local p=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER)
+  local ct=Duel.GetMatchingGroupCount(c99990220.recfilter,p,LOCATION_GRAVE,0,nil)
+  if ct>0 then
+  Duel.Recover(p,ct*300,REASON_EFFECT)
+  end
+end
+function c99990220.spfilter(c)
+  return c:IsFaceup() and c:IsType(TYPE_MONSTER) and c:IsSetCard(0x999)
+end
+function c99990220.spcon(e,tp,eg,ep,ev,re,r,rp)
+  return not Duel.IsExistingMatchingCard(c99990220.spfilter,tp,LOCATION_MZONE,0,1,nil)
+end
+function c99990220.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
   if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
   and e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,false,false) end
   Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,e:GetHandler(),1,0,0)
 end
-function c99990220.operation(e,tp,eg,ep,ev,re,r,rp)
-  if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
-  if not Duel.GetMatchingGroupCount(c99990220.filter1,tp,LOCATION_MZONE,0,nil)==1  then return end
+function c99990220.thfilter(c)
+  return c:IsSetCard(0x999) and c:IsType(TYPE_MONSTER) and not c:IsHasEffect(EFFECT_NECRO_VALLEY)
+end
+function c99990220.spop(e,tp,eg,ep,ev,re,r,rp)
+  if Duel.IsExistingMatchingCard(c99990220.spfilter,tp,LOCATION_MZONE,0,1,nil) then return end
   local c=e:GetHandler()
-  if c:IsRelateToEffect(e) then
-  Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)
+  if c:IsRelateToEffect(e) and Duel.SpecialSummon(c,0,tp,tp,false,false,POS_FACEUP)>0 and Duel.SelectYesNo(tp,aux.Stringid(99990220,1)) 
+  and Duel.IsExistingTarget(c99990220.thfilter,tp,LOCATION_GRAVE,0,1,nil) then 
+  Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
+  local g=Duel.SelectMatchingCard(tp,c99990220.thfilter,tp,LOCATION_GRAVE,0,1,1,nil)
+  if g:GetCount()>0 then
+  Duel.SendtoHand(g,nil,REASON_EFFECT)
+  Duel.ConfirmCards(1-tp,g)
+  end
   end
 end
-function c99990220.filter3(c)
-  return c:IsFaceup() and c:IsType(TYPE_MONSTER) and c:IsSetCard(9999) 
-end
-function c99990220.reccon(e,tp,eg,ep,ev,re,r,rp)
-  return tp==Duel.GetTurnPlayer()
-end
-function c99990220.rectg(e,tp,eg,ep,ev,re,r,rp,chk)
-  if chk==0 then return Duel.IsExistingMatchingCard(c99990220.filter3,tp,LOCATION_MZONE,0,1,nil) end
-  local sg=Duel.GetMatchingGroup(c99990220.filter3,tp,LOCATION_MZONE,0,nil)
-  local val=sg:GetCount()*300
-  Duel.SetTargetPlayer(tp)
-  Duel.SetTargetParam(val)
-  Duel.SetOperationInfo(0,CATEGORY_RECOVER,nil,0,tp,val)
-end
-function c99990220.recop(e,tp,eg,ep,ev,re,r,rp)
-  local p=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER)
-  local sg=Duel.GetMatchingGroup(c99990220.filter3,tp,LOCATION_MZONE,0,nil)
-  local val=sg:GetCount()*300
-  Duel.Recover(p,val,REASON_EFFECT)
-end
 function c99990220.atkcon(e,tp,eg,ep,ev,re,r,rp)
-  local tc=eg:GetFirst()
-  local bc=tc:GetBattleTarget()
-  return tc:IsReason(REASON_BATTLE) and bc:IsRelateToBattle() and bc:IsControler(tp) and bc:IsSetCard(9999)
-end
-function c99990220.atkcon2(e,tp,eg,ep,ev,re,r,rp)
-  local tc=eg:GetFirst()
-  local bc=tc:GetBattleTarget()
-  if tc==nil then return false
-  elseif tc:IsType(TYPE_MONSTER) and bc:IsControler(tp) and bc:IsSetCard(9999) and tc:IsReason(REASON_BATTLE) and bc:IsReason(REASON_BATTLE) then return true end
-end
-function c99990220.atkcon3(e,tp,eg,ep,ev,re,r,rp)
-  local tc=eg:GetFirst()
-  local bc=tc:GetBattleTarget()
-  if tc==nil then return false
-  elseif bc:IsType(TYPE_MONSTER) and tc:IsControler(tp) and tc:IsSetCard(9999) and bc:IsReason(REASON_BATTLE) and tc:IsReason(REASON_BATTLE) then return true end
+  local a=Duel.GetAttacker()
+  local d=Duel.GetAttackTarget()
+  if not d then return false end
+  if d:IsControler(tp) then a,d=d,a end
+  if d:IsType(TYPE_XYZ) then
+  e:SetLabel(d:GetRank()) 
+  else
+  e:SetLabel(d:GetLevel())
+  end
+  return a:IsControler(tp) and a:IsSetCard(0x999) and not a:IsStatus(STATUS_BATTLE_DESTROYED) and d:IsStatus(STATUS_BATTLE_DESTROYED)
 end
 function c99990220.atkop(e,tp,eg,ep,ev,re,r,rp)
-    local c=e:GetHandler()
+  local c=e:GetHandler()
+  if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
   local e1=Effect.CreateEffect(c)
   e1:SetType(EFFECT_TYPE_SINGLE)
   e1:SetCode(EFFECT_UPDATE_ATTACK)
-  e1:SetValue(200)
+  e1:SetValue(e:GetLabel()*100)
   e1:SetReset(RESET_EVENT+0x1ff0000)
   c:RegisterEffect(e1)
   local e2=e1:Clone()

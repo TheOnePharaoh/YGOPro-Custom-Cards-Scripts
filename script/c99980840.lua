@@ -1,7 +1,7 @@
 --HN - Oramge Heart
 function c99980840.initial_effect(c)
   --Xyz Summon
-  aux.AddXyzProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x9998),4,2)
+  aux.AddXyzProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x998),4,2)
   c:EnableReviveLimit()
   --To Hand
   local e1=Effect.CreateEffect(c)
@@ -72,11 +72,11 @@ function c99980840.matcost(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c99980840.matfilter1(c,e,tp)
   local rk=c:GetRank()
-  return c:IsFaceup() and c:IsSetCard(0x9998) and c:IsType(TYPE_XYZ)
+  return c:IsFaceup() and c:IsSetCard(0x998) and c:IsType(TYPE_XYZ)
   and Duel.IsExistingMatchingCard(c99980840.matfilter2,tp,LOCATION_EXTRA+LOCATION_GRAVE,0,1,nil,rk-1,e,tp)
 end
 function c99980840.matfilter2(c,rk,e,tp)
-  return c:IsSetCard(0x9998) and (c:GetRank()==rk or c:GetLevel()==rk)
+  return c:IsSetCard(0x998) and (c:GetRank()==rk or c:GetLevel()==rk)
 end
 function c99980840.mattg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
   if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and c99980840.matfilter1(chkc) end
@@ -101,5 +101,5 @@ function c99980840.atkval(e,c)
 end
 function c99980840.xyzlimit(e,c)
   if not c then return false end
-  return not c:IsSetCard(0x9998)
+  return not c:IsSetCard(0x998)
 end

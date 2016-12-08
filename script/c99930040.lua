@@ -22,17 +22,17 @@ function c99930040.initial_effect(c)
   --ATK Up
   local e3=Effect.CreateEffect(c)
   e3:SetCategory(CATEGORY_ATKCHANGE)
-  e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_CONTINUOUS)
+  e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
   e3:SetCode(EVENT_ATTACK_ANNOUNCE)
   e3:SetOperation(c99930040.atkop)
   c:RegisterEffect(e3)
   --Attach Monster
   local e4=Effect.CreateEffect(c)
-  e4:SetCode(EVENT_BATTLE_DESTROYING)
   e4:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
-  e4:SetCondition(c99930040.attcon)
-  e4:SetTarget(c99930040.atttg)
-  e4:SetOperation(c99930040.attop)
+  e4:SetCode(EVENT_BATTLE_DESTROYING)
+  e4:SetCondition(c99930040.attachcon)
+  e4:SetTarget(c99930040.attachtg)
+  e4:SetOperation(c99930040.attachop)
   c:RegisterEffect(e4)
   --Destroy Replace
   local e5=Effect.CreateEffect(c)
@@ -137,30 +137,28 @@ function c99930040.atkop(e,tp,eg,ep,ev,re,r,rp)
   e1:SetValue(c:GetRank()*100)
   c:RegisterEffect(e1)
 end
-function c99930040.attcon(e,tp,eg,ep,ev,re,r,rp)
+function c99930040.attachcon(e,tp,eg,ep,ev,re,r,rp)
   local c=e:GetHandler()
-  local bc=c:GetBattleTarget()
-  return c:IsRelateToBattle() and bc:IsType(TYPE_MONSTER) and not  bc:IsType(TYPE_TOKEN)
+  local tc=c:GetBattleTarget()
+  if not c:IsRelateToBattle() or c:IsFacedown() then return false end
+  e:SetLabelObject(tc)
+  return tc:IsType(TYPE_MONSTER) and tc:IsReason(REASON_BATTLE) and not  tc:IsType(TYPE_TOKEN)
 end
-function c99930040.atttg(e,tp,eg,ep,ev,re,r,rp,chk)
-  local bc=e:GetHandler():GetBattleTarget()
+function c99930040.attachtg(e,tp,eg,ep,ev,re,r,rp,chk)
   if chk==0 then return true end
-  Duel.SetTargetCard(bc)
+  local tc=e:GetLabelObject()
+  Duel.SetTargetCard(tc)
 end
-function c99930040.attop(e,tp,eg,ep,ev,re,r,rp)
-  local c=e:GetHandler() 
+function c99930040.attachop(e,tp,eg,ep,ev,re,r,rp)
+  local c=e:GetHandler()
   local tc=Duel.GetFirstTarget()
-  if c:IsRelateToEffect(e) and c:IsFaceup() and not tc:IsImmuneToEffect(e) then
-  local og=tc:GetOverlayGroup()
-  if og:GetCount()>0 then
-  Duel.SendtoGrave(og,REASON_RULE)
-  end
-  Duel.Overlay(c,Group.FromCards(tc))
+  if c:IsRelateToEffect(e) and c:IsFaceup() and tc:IsRelateToEffect(e) then
+  Duel.Overlay(c,tc)
   end
 end
 function c99930040.repfilter1(c,tp)
   return c:IsFaceup() and c:IsControler(tp) and c:IsLocation(LOCATION_MZONE) 
-  and c:IsSetCard(0x9993) and c:IsType(TYPE_XYZ) and c:IsReason(REASON_EFFECT+REASON_BATTLE)
+  and c:IsSetCard(0x993) and c:IsType(TYPE_XYZ) and c:IsReason(REASON_EFFECT+REASON_BATTLE)
 end
 function c99930040.reptg(e,tp,eg,ep,ev,re,r,rp,chk)
   if chk==0 then return eg:IsExists(c99930040.repfilter1,1,nil,tp) end
@@ -173,7 +171,7 @@ function c99930040.repval(e,c)
   return c99930040.repfilter1(c,e:GetHandlerPlayer())
 end
 function c99930040.repfilter2(c)
-  return c:IsFaceup() and c:IsSetCard(0x9993) and c:IsType(TYPE_XYZ)
+  return c:IsFaceup() and c:IsSetCard(0x993) and c:IsType(TYPE_XYZ)
 end
 function c99930040.repop(e,tp,eg,ep,ev,re,r,rp)
   if Duel.IsExistingMatchingCard(c99930040.repfilter2,tp,LOCATION_MZONE,0,1,nil)  then

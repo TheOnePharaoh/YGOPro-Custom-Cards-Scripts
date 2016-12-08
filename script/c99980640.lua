@@ -1,7 +1,7 @@
 --HN - Next Purple
 function c99980640.initial_effect(c)
   --Xyz summon
-  aux.AddXyzProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x9998),5,2)
+  aux.AddXyzProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x998),5,2)
   c:EnableReviveLimit()
   --ATK Up
   local e1=Effect.CreateEffect(c)
@@ -133,7 +133,7 @@ function c99980640.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
   e:GetHandler():RemoveOverlayCard(tp,1,1,REASON_COST)
 end
 function c99980640.atkfilter(c)
-  return c:IsFaceup() and c:IsSetCard(0x9998) and c:IsType(TYPE_XYZ)
+  return c:IsFaceup() and c:IsSetCard(0x998) and c:IsType(TYPE_XYZ)
 end
 function c99980640.atktg(e,tp,eg,ep,ev,re,r,rp,chk)
   if chk==0 then return Duel.IsExistingMatchingCard(c99980640.atkfilter,tp,LOCATION_MZONE,0,1,nil) end

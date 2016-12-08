@@ -10,10 +10,10 @@ function c99980720.initial_effect(c)
   c:RegisterEffect(e1)
 end
 function c99980720.matfilter1(c)
-  return c:IsFaceup() and c:IsSetCard(0x9998) and c:IsType(TYPE_XYZ) and c:GetRank()==4
+  return c:IsFaceup() and c:IsSetCard(0x998) and c:IsType(TYPE_XYZ) and c:GetRank()==4
 end
 function c99980720.matfilter2(c)
-  return (c:IsLocation(LOCATION_HAND) or c:IsFaceup()) and c:IsSetCard(0x9998) and (c:GetLevel()==3 or c:GetLevel()==4) 
+  return (c:IsLocation(LOCATION_HAND) or c:IsFaceup()) and c:IsSetCard(0x998) and (c:GetLevel()==3 or c:GetLevel()==4) 
 end
 function c99980720.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
   if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and c99980720.matfilter1(chkc) end

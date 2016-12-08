@@ -1,114 +1,103 @@
---SAO - Asuna ALO old
+--SAO - Asuna ALO B.
 function c99990120.initial_effect(c)
   --Synchro summon
-  aux.AddSynchroProcedure2(c,nil,aux.NonTuner(Card.IsSetCard,9999))
+  aux.AddSynchroProcedure2(c,nil,aux.NonTuner(Card.IsSetCard,0x999))
   c:EnableReviveLimit()
+  --Draw
   local e1=Effect.CreateEffect(c)
-  e1:SetType(EFFECT_TYPE_QUICK_O)
-  e1:SetCategory(CATEGORY_ATKCHANGE)
-  e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
-  e1:SetHintTiming(TIMING_BATTLE_PHASE)
-  e1:SetCode(EVENT_FREE_CHAIN)
-  e1:SetRange(LOCATION_MZONE) 
-  e1:SetCountLimit(1)
-  e1:SetCondition(c99990120.acon)
-  e1:SetTarget(c99990120.atktg)
-  e1:SetOperation(c99990120.aop)
+  e1:SetCategory(CATEGORY_DRAW)
+  e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+  e1:SetCode(EVENT_SPSUMMON_SUCCESS)
+  e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+  e1:SetCondition(c99990120.drcon)
+  e1:SetTarget(c99990120.drtg)
+  e1:SetOperation(c99990120.drop)
   c:RegisterEffect(e1)
-  --Cannot attack
+  --ATK Up
   local e2=Effect.CreateEffect(c)
-  e2:SetType(EFFECT_TYPE_SINGLE)
-  e2:SetCode(EFFECT_CANNOT_ATTACK)
+  e2:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_DEFCHANGE)
+  e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
+  e2:SetCode(EVENT_PRE_DAMAGE_CALCULATE)
+  e2:SetRange(LOCATION_MZONE)
+  e2:SetCondition(c99990120.atkcon1)
+  e2:SetOperation(c99990120.atkop1)
   c:RegisterEffect(e2)
-  --Cannot be destroyed by battle
-  local e3=Effect.CreateEffect(c)
-  e3:SetType(EFFECT_TYPE_SINGLE)
-  e3:SetCode(EFFECT_INDESTRUCTABLE_BATTLE)
-  e3:SetValue(1)
-  c:RegisterEffect(e3)
   --ATK/DEF
-  local e4=Effect.CreateEffect(c)
-  e4:SetCategory(CATEGORY_ATKCHANGE)
-  e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
-  e4:SetCode(EVENT_BATTLE_DESTROYED)
-  e4:SetRange(LOCATION_MZONE)
-  e4:SetCondition(c99990120.atkcon)
-  e4:SetOperation(c99990120.atkop)
-  c:RegisterEffect(e4)
-  local e5=Effect.CreateEffect(c)
-  e5:SetCategory(CATEGORY_ATKCHANGE)
-  e5:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
-  e5:SetCode(EVENT_BATTLE_DESTROYED)
-  e5:SetRange(LOCATION_MZONE)
-  e5:SetCondition(c99990120.atkcon2)
-  e5:SetOperation(c99990120.atkop)
-  c:RegisterEffect(e5)
-  local e6=Effect.CreateEffect(c)
-  e6:SetCategory(CATEGORY_ATKCHANGE)
-  e6:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
-  e6:SetCode(EVENT_BATTLE_DESTROYED)
-  e6:SetRange(LOCATION_MZONE)
-  e6:SetCondition(c99990120.atkcon3)
-  e6:SetOperation(c99990120.atkop)
-  c:RegisterEffect(e6)
+  local e3=Effect.CreateEffect(c)
+  e3:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_DEFCHANGE)
+  e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
+  e3:SetCode(EVENT_BATTLED)
+  e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+  e3:SetRange(LOCATION_MZONE)
+  e3:SetCondition(c99990120.atkcon2)
+  e3:SetOperation(c99990120.atkop2)
+  c:RegisterEffect(e3)
 end
-function c99990120.acon(e,tp,eg,ep,ev,re,r,rp)
-  local a=Duel.GetAttacker()
-  local d=Duel.GetAttackTarget()
-  return (Duel.GetCurrentPhase()>=PHASE_BATTLE_START and Duel.GetCurrentPhase()<=PHASE_BATTLE)
-  and ((a and a:IsControler(tp) and a:IsFaceup() and a:IsSetCard(9999))
-  or (d and d:IsControler(tp) and d:IsFaceup() and d:IsSetCard(9999)))
+function c99990120.drcon(e,tp,eg,ep,ev,re,r,rp)
+  return bit.band(e:GetHandler():GetSummonType(),SUMMON_TYPE_SYNCHRO)==SUMMON_TYPE_SYNCHRO
 end
-function c99990120.filter(c)
-  return c:IsFaceup() and c:IsType(TYPE_MONSTER) and c:IsSetCard(9999)
+function c99990120.drfilter(c)
+  return c:IsFaceup() and c:IsSetCard(0x999)
 end
-function c99990120.atktg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-  if chkc then return false end
-  local a=Duel.GetAttacker()
-  local d=Duel.GetAttackTarget()
-  if chk==0 then
-  if a:IsControler(tp) then return a:IsCanBeEffectTarget(e)
-  else return d:IsCanBeEffectTarget(e) end
-  end
-  if a:IsControler(tp) then return Duel.SetTargetCard(a)
-  else return Duel.SetTargetCard(d) end
+function c99990120.drtg(e,tp,eg,ep,ev,re,r,rp,chk)
+  local c=e:GetHandler()
+  local ct=Duel.GetMatchingGroupCount(c99990120.drfilter,tp,LOCATION_MZONE,0,c)
+  if chk==0 then return Duel.IsPlayerCanDraw(tp,ct) and ct>0 end
+  Duel.SetTargetPlayer(tp)
+  Duel.SetTargetParam(ct)
+  Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,ct)
 end
-function c99990120.aop(e,tp,eg,ep,ev,re,r,rp)
-  local c=e:GetHandler()  
-  local tc=Duel.GetFirstTarget()
-  if tc:IsRelateToEffect(e) and tc:IsFaceup() then
-  local atk=Duel.GetMatchingGroupCount(c99990120.filter,c:GetControler(),LOCATION_MZONE+LOCATION_GRAVE,0,nil)*100
+function c99990120.drop(e,tp,eg,ep,ev,re,r,rp)
+  local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
+  Duel.Draw(p,d,REASON_EFFECT)
+end
+function c99990120.atkfilter(c)
+  return c:IsSetCard(0x999) and c:IsType(TYPE_MONSTER)
+end
+function c99990120.atkcon1(e,tp,eg,ep,ev,re,r,rp)
+  local tc=Duel.GetAttacker()
+  local bc=Duel.GetAttackTarget()
+  if not bc then return false end
+  if bc:IsControler(1-tp) then bc=tc end
+  e:SetLabelObject(bc)
+  local ct=Duel.GetMatchingGroupCount(c99990120.atkfilter,tp,LOCATION_GRAVE,0,nil)
+  return bc:IsFaceup() and bc:IsSetCard(0x999) and ct>0
+end
+function c99990120.atkop1(e,tp,eg,ep,ev,re,r,rp)
+  if not e:GetHandler():IsRelateToEffect(e) then return end
+  local tc=e:GetLabelObject()
+  local ct=Duel.GetMatchingGroupCount(c99990120.atkfilter,tp,LOCATION_GRAVE,0,nil)
+  if tc:IsRelateToBattle() and tc:IsFaceup() and tc:IsControler(tp) then
   local e1=Effect.CreateEffect(e:GetHandler())
   e1:SetType(EFFECT_TYPE_SINGLE)
   e1:SetCode(EFFECT_UPDATE_ATTACK)
-  e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
-  e1:SetValue(atk)
+  e1:SetValue(ct*200)
+  e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_DAMAGE_CAL)
   tc:RegisterEffect(e1)
+  local e2=e1:Clone()
+  e2:SetCode(EFFECT_UPDATE_DEFENSE)
+  tc:RegisterEffect(e2)
   end
 end
-function c99990120.atkcon(e,tp,eg,ep,ev,re,r,rp)
-  local tc=eg:GetFirst()
-  local bc=tc:GetBattleTarget()
-  return tc:IsReason(REASON_BATTLE) and bc:IsRelateToBattle() and bc:IsControler(tp) and bc:IsSetCard(9999)
-end
 function c99990120.atkcon2(e,tp,eg,ep,ev,re,r,rp)
-  local tc=eg:GetFirst()
-  local bc=tc:GetBattleTarget()
-  if tc==nil then return false
-  elseif tc:IsType(TYPE_MONSTER) and bc:IsControler(tp) and bc:IsSetCard(9999) and tc:IsReason(REASON_BATTLE) and bc:IsReason(REASON_BATTLE) then return true end
+  local a=Duel.GetAttacker()
+  local d=Duel.GetAttackTarget()
+  if not d then return false end
+  if d:IsControler(tp) then a,d=d,a end
+  if d:IsType(TYPE_XYZ) then
+  e:SetLabel(d:GetRank()) 
+  else
+  e:SetLabel(d:GetLevel())
+  end
+  return a:IsControler(tp) and a:IsSetCard(0x999) and not a:IsStatus(STATUS_BATTLE_DESTROYED) and d:IsStatus(STATUS_BATTLE_DESTROYED)
 end
-function c99990120.atkcon3(e,tp,eg,ep,ev,re,r,rp)
-  local tc=eg:GetFirst()
-  local bc=tc:GetBattleTarget()
-  if tc==nil then return false
-  elseif bc:IsType(TYPE_MONSTER) and tc:IsControler(tp) and tc:IsSetCard(9999) and bc:IsReason(REASON_BATTLE) and tc:IsReason(REASON_BATTLE) then return true end
-end
-function c99990120.atkop(e,tp,eg,ep,ev,re,r,rp)
+function c99990120.atkop2(e,tp,eg,ep,ev,re,r,rp)
   local c=e:GetHandler()
+  if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
   local e1=Effect.CreateEffect(c)
   e1:SetType(EFFECT_TYPE_SINGLE)
   e1:SetCode(EFFECT_UPDATE_ATTACK)
-  e1:SetValue(200)
+  e1:SetValue(e:GetLabel()*100)
   e1:SetReset(RESET_EVENT+0x1ff0000)
   c:RegisterEffect(e1)
   local e2=e1:Clone()
