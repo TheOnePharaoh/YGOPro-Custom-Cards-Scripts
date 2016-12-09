@@ -98,7 +98,7 @@ function c70649937.immfilter(e,te)
 	return te:IsActiveType(TYPE_SPELL+TYPE_TRAP) and te:GetOwnerPlayer()~=e:GetHandlerPlayer()
 end
 function c70649937.tgfilter(e,re,rp)
-	return re:IsActiveType(TYPE_EFFECT) and aux.tgval(e,re,rp)
+	return re:IsActiveType(TYPE_EFFECT) and aux.tgoval(e,re,rp)
 end
 function c70649937.sumcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsPreviousPosition(POS_FACEUP) and e:GetHandler():IsPreviousLocation(LOCATION_ONFIELD)
