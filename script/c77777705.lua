@@ -1,6 +1,6 @@
 --Seafarer Undead King Black Bart
 function c77777705.initial_effect(c)
-	aux.AddSynchroProcedure(c,nil,aux.NonTuner(Card.IsSetCard,0x999),1)
+	aux.AddSynchroProcedure(c,nil,aux.NonTuner(Card.IsSetCard,0x669),1)
 	c:EnableReviveLimit()
 	--set
 	local e1=Effect.CreateEffect(c)

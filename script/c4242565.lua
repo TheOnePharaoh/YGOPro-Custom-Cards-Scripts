@@ -31,6 +31,7 @@ function c4242565.initial_effect(c)
 	--Tribute
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(4242565,3))
+	e4:SetCountLimit(1,42425651)
 	e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e4:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e4:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
@@ -42,6 +43,7 @@ function c4242565.initial_effect(c)
 	--sp summon 
 	local e6=Effect.CreateEffect(c)
 	e6:SetDescription(aux.Stringid(4242565,5))
+	e6:SetCountLimit(1,42425651)
 	e6:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e6:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e6:SetCode(EVENT_DESTROYED)
@@ -53,7 +55,7 @@ end
 
 --atk boost code
 function c4242565.efilter(e,c)
- return c:IsSetCard(0x666)
+ return c:IsSetCard(0x698)
 end
 
 --Effect 1 (Search) Code
@@ -80,7 +82,7 @@ end
 
 --Effect 3 (Special Summon) Code
 function c4242565.filter2(c,e,tp)
-	return c:IsType(TYPE_MONSTER) and c:IsLevelBelow(5) and not c:IsLevelBelow(4) and (c:IsSetCard(0x666)
+	return c:IsType(TYPE_MONSTER) and c:IsLevelBelow(5) and not c:IsLevelBelow(4) and (c:IsSetCard(0x698)
 		and c:IsCanBeSpecialSummoned(e,0,tp,false,false))
 end
 function c4242565.descost2(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -105,7 +107,7 @@ function c4242565.condition3(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsLocation(LOCATION_GRAVE+LOCATION_EXTRA) and e:GetHandler():IsReason(REASON_BATTLE+REASON_EFFECT)
 end
 function c4242565.dfilter(c,e,tp)
-	return c:IsType(TYPE_MONSTER) and c:IsLevelBelow(3) and not c:IsLevelBelow(2) and (c:IsSetCard(0x666)
+	return c:IsType(TYPE_MONSTER) and c:IsLevelBelow(3) and not c:IsLevelBelow(2) and (c:IsSetCard(0x698)
 		and c:IsCanBeSpecialSummoned(e,0,tp,false,false))
 end
 function c4242565.target3(e,tp,eg,ep,ev,re,r,rp,chk)

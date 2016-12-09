@@ -24,7 +24,7 @@ function c66666697.initial_effect(c)
 end
 
 function c66666697.filter(c)
-	return c:IsSetCard(0x999) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
+	return c:IsSetCard(0x669) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
 end
 function c66666697.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c66666697.filter,tp,LOCATION_DECK,0,1,nil) end

@@ -1,6 +1,6 @@
 --Seafarer Undead Gunslinger Cecile
 function c77777704.initial_effect(c)
-	aux.AddSynchroProcedure(c,nil,aux.NonTuner(Card.IsSetCard,0x999),1)
+	aux.AddSynchroProcedure(c,nil,aux.NonTuner(Card.IsSetCard,0x669),1)
 	c:EnableReviveLimit()
 	--spell/trap to hand
 	local e1=Effect.CreateEffect(c)
@@ -32,7 +32,7 @@ function c77777704.con(e,tp,eg,ep,ev,re,r,rp)
 end
 
 function c77777704.thfilter(c)
-	return c:IsType(TYPE_SPELL+TYPE_TRAP)and c:IsSetCard(0x999) and c:IsAbleToHand()
+	return c:IsType(TYPE_SPELL+TYPE_TRAP)and c:IsSetCard(0x669) and c:IsAbleToHand()
 end
 function c77777704.thtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c77777704.thfilter(chkc) end

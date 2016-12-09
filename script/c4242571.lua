@@ -29,7 +29,7 @@ function c4242571.initial_effect(c)
 	e3:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_FIELD)
 	e3:SetCode(EFFECT_DESTROY_REPLACE)
 	e3:SetRange(LOCATION_PZONE)
-	e3:SetCountLimit(1)
+	e3:SetCountLimit(1,4242571)
 	e3:SetTarget(c4242571.destg3)
 	e3:SetValue(c4242571.desval3)
 	c:RegisterEffect(e3)	
@@ -80,7 +80,7 @@ end
 
 --Effect 3 (Destroy Replace) Code
 function c4242571.filter3(c,tp)
-	return c:IsFaceup() and c:IsControler(tp) and c:IsLocation(LOCATION_ONFIELD) and c:IsSetCard(0x666)
+	return c:IsFaceup() and c:IsControler(tp) and c:IsLocation(LOCATION_ONFIELD) and c:IsSetCard(0x698)
 		and (c:IsReason(REASON_EFFECT) and c:GetReasonPlayer()~=tp)
 end
 function c4242571.destg3(e,tp,eg,ep,ev,re,r,rp,chk)

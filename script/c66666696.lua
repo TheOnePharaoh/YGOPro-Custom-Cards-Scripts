@@ -1,7 +1,7 @@
 --Seafarer Undead Unagi
 function c66666696.initial_effect(c)
 	--synchro summon
-	aux.AddSynchroProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x999),aux.NonTuner(nil),1)
+	aux.AddSynchroProcedure(c,aux.FilterBoolFunction(Card.IsSetCard,0x669),aux.NonTuner(nil),1)
 	c:EnableReviveLimit()
 	--set
 	local e2=Effect.CreateEffect(c)

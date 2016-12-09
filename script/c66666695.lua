@@ -1,7 +1,7 @@
 --Seafarer Undead Captain Blackbeard
 function c66666695.initial_effect(c)
 	--synchro summon
-	aux.AddSynchroProcedure(c,nil,aux.NonTuner(Card.IsSetCard,0x999),1)
+	aux.AddSynchroProcedure(c,nil,aux.NonTuner(Card.IsSetCard,0x669),1)
 	c:EnableReviveLimit()
 	--negate
 	local e1=Effect.CreateEffect(c)

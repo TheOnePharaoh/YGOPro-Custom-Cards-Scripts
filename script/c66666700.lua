@@ -13,7 +13,7 @@ function c66666700.initial_effect(c)
 end
 
 function c66666700.filter(c)
-	return c:IsSetCard(0x999) and c:IsLocation(LOCATION_GRAVE) and c:IsAbleToDeck()
+	return c:IsSetCard(0x669) and c:IsLocation(LOCATION_GRAVE) and c:IsAbleToDeck()
 		and c:IsType(TYPE_MONSTER) and not c:IsHasEffect(EFFECT_NECRO_VALLEY)
 end
 function c66666700.target(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -42,5 +42,5 @@ function c66666700.activate(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c66666700.filter2(c)
-	return c:IsSetCard(0x999) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
+	return c:IsSetCard(0x669) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
 end

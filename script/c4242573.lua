@@ -23,12 +23,12 @@ end
 
 --Can't Target scales code
 function c4242573.tgtg(e,c)
-	return (c:IsSetCard(0x666))
+	return (c:IsSetCard(0x698))
 		and (c:GetSequence()==6 or c:GetSequence()==7)
 end
 --Activation code
 function c4242573.thfilter(c)
-	return c:IsSetCard(0x666) and c:IsLevelBelow(4) and c:IsAbleToHand()
+	return c:IsSetCard(0x698) and c:IsLevelBelow(4) and c:IsAbleToHand()
 end
 
 function c4242573.activate(e,tp,eg,ep,ev,re,r,rp)

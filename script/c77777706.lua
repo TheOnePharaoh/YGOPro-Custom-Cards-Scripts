@@ -29,7 +29,7 @@ function c77777706.spcon(e,tp,eg,ep,ev,re,r,rp)
 		and e:GetHandler():IsPreviousPosition(POS_FACEDOWN)
 end
 function c77777706.filter(c,e,tp)
-	return c:IsSetCard(0x999) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsSetCard(0x669) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c77777706.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>=0

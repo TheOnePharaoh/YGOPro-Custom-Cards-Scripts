@@ -1,6 +1,6 @@
 --Night Guardian's Sword
 function c4242575.initial_effect(c)
-c:EnableCounterPermit(0x666)
+c:EnableCounterPermit(0x698)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetDescription(aux.Stringid(4242564,0))
@@ -39,7 +39,7 @@ c:EnableCounterPermit(0x666)
 	e5:SetCode(EFFECT_UPDATE_ATTACK)
 	e5:SetRange(LOCATION_SZONE)
 	e5:SetTargetRange(LOCATION_MZONE,LOCATION_MZONE)
-	e5:SetTarget(aux.TargetBoolFunction(Card.IsSetCard,0x666))
+	e5:SetTarget(aux.TargetBoolFunction(Card.IsSetCard,0x698))
 	e5:SetValue(c4242575.atkval)
 	c:RegisterEffect(e5)
 	--Destroy replace
@@ -54,7 +54,7 @@ c:EnableCounterPermit(0x666)
 end
 --Activation code
 function c4242575.thfilter(c)
-	return c:IsSetCard(0x666) and c:IsLevelBelow(13) and c:IsAbleToHand()
+	return c:IsSetCard(0x698) and c:IsLevelBelow(13) and c:IsAbleToHand()
 end
 function c4242575.activate(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
@@ -67,26 +67,26 @@ function c4242575.activate(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c4242575.atkval(e,c)
-	return e:GetHandler():GetCounter(0x666)*50
+	return e:GetHandler():GetCounter(0x698)*50
 end
 function c4242575.acop(e,tp,eg,ep,ev,re,r,rp)
-	if re:IsActiveType(TYPE_SPELL) and re:GetType(EFFECT_TYPE_ACTIVATE) and re:GetHandler():IsSetCard(0x666) and e:GetHandler():GetFlagEffect(1)>0 then
-		e:GetHandler():AddCounter(0x666,1)
+	if re:IsActiveType(TYPE_SPELL) and re:GetType(EFFECT_TYPE_ACTIVATE) and re:GetHandler():IsSetCard(0x698) and e:GetHandler():GetFlagEffect(1)>0 then
+		e:GetHandler():AddCounter(0x698,1)
 	end
 end
 function c4242575.ctfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0x666) or c:IsSetCard(0x666) and IsType(TYPE_SPELL)
+	return c:IsFaceup() and c:IsSetCard(0x698) or c:IsSetCard(0x698) and IsType(TYPE_SPELL)
 end
 function c4242575.ctop(e,tp,eg,ep,ev,re,r,rp)
 	if eg:IsExists(c4242575.ctfilter,1,nil) then
-		e:GetHandler():AddCounter(0x666,1)
+		e:GetHandler():AddCounter(0x698,1)
 	end
 end
 function c4242575.desreptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return not e:GetHandler():IsReason(REASON_RULE)
-		and e:GetHandler():GetCounter(0x666)>=2 end
+		and e:GetHandler():GetCounter(0x698)>=2 end
 	return true
 end
 function c4242575.desrepop(e,tp,eg,ep,ev,re,r,rp)
-	e:GetHandler():RemoveCounter(ep,0x666,2,REASON_EFFECT)
+	e:GetHandler():RemoveCounter(ep,0x698,2,REASON_EFFECT)
 end

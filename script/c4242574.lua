@@ -27,7 +27,7 @@ aux.EnablePendulumAttribute(c,true)
 	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
 	c:RegisterEffect(e3)
 	
-	--shuffle one 0x666 into the deck, select one spell or trap and send it back to the owner's deck
+	--shuffle one 0x698 into the deck, select one spell or trap and send it back to the owner's deck
 	--return a card to deck
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(4242574,3))
@@ -85,19 +85,16 @@ end
 
 --Effect 4 anti back row
 function c4242574.filter2(c)
-	return c:IsFaceup() and c:IsType(TYPE_PENDULUM) and c:IsAbleToDeck() and c:IsSetCard(0x666) 
+	return c:IsFaceup() and c:IsType(TYPE_PENDULUM) and c:IsAbleToDeck() and c:IsSetCard(0x698) 
 end
 function c4242574.cost4(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c4242574.filter2,tp,LOCATION_EXTRA,0,1,nil) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-	local g=Duel.SelectTarget(tp,c4242574.filter2,tp,LOCATION_EXTRA,0,1,1,nil)
-	 local c=g:GetFirst()
-	if g and c:IsRelateToEffect(e) then
-	Duel.SendtoDeck(g,nil,POS_FACEDOWN,REASON_EFFECT+REASON_COST)
-	end
+    if chk==0 then return Duel.IsExistingMatchingCard(c4242574.filter2,tp,LOCATION_EXTRA,0,1,nil) end
+    Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
+    local g=Duel.SelectMatchingCard(tp,c4242574.filter2,tp,LOCATION_EXTRA,0,1,1,nil)
+    Duel.SendtoDeck(g,nil,2,REASON_COST)
 end
 function c4242574.filter3(c)
-	return c:IsType(TYPE_SPELL+TYPE_TRAP) or c:IsType(TYPE_PENDULUM)
+	return c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsAbleToDeck()
 end
 function c4242574.target4(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsOnField() and c4242574.filter3(chkc) and chkc~=e:GetHandler() end
@@ -110,5 +107,6 @@ function c4242574.operation4(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsRelateToEffect(e) then
 		Duel.SendtoDeck(tc,nil,2,REASON_EFFECT)
+		
 	end
 end

@@ -16,7 +16,7 @@ function c66666699.condition(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsExistingMatchingCard(c66666699.cfilter,tp,LOCATION_MZONE,0,2,e:GetHandler())
 end
 function c66666699.cfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0x999)
+	return c:IsFaceup() and c:IsSetCard(0x669)
 end
 
 function c66666699.filter(c,e)

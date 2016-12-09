@@ -1,7 +1,7 @@
 --Seafarer Undead Brawler McCallister
 function c66666694.initial_effect(c)
 	--synchro summon
-	aux.AddSynchroProcedure(c,nil,aux.NonTuner(Card.IsSetCard,0x999),1)
+	aux.AddSynchroProcedure(c,nil,aux.NonTuner(Card.IsSetCard,0x669),1)
 	c:EnableReviveLimit()
 	--Set Card
 	local e2=Effect.CreateEffect(c)
@@ -60,7 +60,7 @@ function c66666694.operation(e,tp,eg,ep,ev,re,r,rp)
 end
 
 function c66666694.spfilter(c,e,tp)
-	return c:IsSetCard(0x999) and not c:IsCode(66666694) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsSetCard(0x669) and not c:IsCode(66666694) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c66666694.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c66666694.spfilter(chkc,e,tp) end

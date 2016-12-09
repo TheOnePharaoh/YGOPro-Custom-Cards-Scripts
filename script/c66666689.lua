@@ -28,7 +28,7 @@ function c66666689.cost(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 end
 
 function c66666689.spfilter(c,e,tp)
-	return c:IsSetCard(0x999) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
+	return c:IsSetCard(0x669) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c66666689.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c66666689.spfilter(chkc,e,tp) end

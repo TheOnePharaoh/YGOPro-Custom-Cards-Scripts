@@ -1,11 +1,10 @@
---MoonBurst placeholder
+--MoonBurst of XIII
 function c4242577.initial_effect(c)
 --pendulum summon
 	aux.EnablePendulumAttribute(c,false)
 	--fusion material
 	c:EnableReviveLimit()
-	aux.AddFusionProcFun2(c,c4242577.ffilter,aux.FilterBoolFunction(Card.IsRace,RACE_WINDBEAST),false)
-
+	aux.AddFusionProcFunRep(c,aux.FilterBoolFunction(Card.IsFusionSetCard,0x698),3,true)
 	--special summon rule
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
@@ -17,7 +16,7 @@ function c4242577.initial_effect(c)
 	c:RegisterEffect(e1)
 		--atkup
 	local e1=Effect.CreateEffect(c)
-	e1:SetDescription(aux.Stringid(82482194,0))
+	e1:SetDescription(aux.Stringid(4242577,0))
 	e1:SetCategory(CATEGORY_ATKCHANGE)
 	e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
 	e1:SetCode(EVENT_BATTLE_DESTROYED)
@@ -28,29 +27,23 @@ function c4242577.initial_effect(c)
 
 end
 c4242577.pendulum_level=6
-function c4242577.ffilter(c)
-	return c:IsRace(RACE_WINDBEAST) and c:IsAttribute(ATTRIBUTE_WIND)
-end
-
-function c4242577.spfilter1(c,tp,fc)
-	return c:IsRace(RACE_WINDBEAST) and c:IsAttribute(ATTRIBUTE_WIND) and c:IsCanBeFusionMaterial(fc)
-		and Duel.CheckReleaseGroup(tp,c4242577.spfilter2,1,c,fc)
-end
-function c4242577.spfilter2(c,fc)
-	return c:IsRace(RACE_WINDBEAST) and c:IsCanBeFusionMaterial(fc)
+function c4242577.spfilter(c)
+	return c:IsFusionSetCard(0x698) and c:IsCanBeFusionMaterial() and c:IsAbleToDeckOrExtraAsCost()
 end
 function c4242577.spcon(e,c)
-    if c==nil then return true end
-    local tp=c:GetControler()
-    return Duel.GetLocationCount(tp,LOCATION_MZONE)>-2
-        and Duel.CheckReleaseGroup(tp,c4242577.spfilter1,1,nil,tp,c) and c:IsFacedown()  --this
+	if c==nil then return true end
+	local tp=c:GetControler()
+	return Duel.GetLocationCount(tp,LOCATION_MZONE)>-3
+		and Duel.IsExistingMatchingCard(c4242577.spfilter,tp,LOCATION_MZONE,0,3,nil)
 end
 function c4242577.spop(e,tp,eg,ep,ev,re,r,rp,c)
-	local g1=Duel.SelectReleaseGroup(tp,c4242577.spfilter1,1,1,nil,tp,c)
-	local g2=Duel.SelectReleaseGroup(tp,c4242577.spfilter2,2,2,g1:GetFirst(),c)
-	g1:Merge(g2)
-	c:SetMaterial(g1)
-	Duel.Release(g1,REASON_COST+REASON_FUSION+REASON_MATERIAL)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
+	local g=Duel.SelectMatchingCard(tp,c4242577.spfilter,tp,LOCATION_MZONE,0,3,3,nil)
+	local cg=g:Filter(Card.IsFacedown,nil)
+	if cg:GetCount()>0 then
+		Duel.ConfirmCards(1-tp,cg)
+	end
+	Duel.Release(g,nil,2,REASON_COST)
 end
 
 function c4242577.filter(c,rc)

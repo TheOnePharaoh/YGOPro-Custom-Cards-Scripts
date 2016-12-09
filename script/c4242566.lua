@@ -40,20 +40,21 @@ local e2=Effect.CreateEffect(c)
 	e4:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e4:SetCode(EVENT_FREE_CHAIN)
 	e4:SetRange(LOCATION_PZONE)
-	e4:SetCountLimit(1,4242566)
+	e4:SetCountLimit(1,42425661)
 	e4:SetCost(c4242566.cost4)
 	e4:SetTarget(c4242566.target4)
 	e4:SetOperation(c4242566.operation4)
 	c:RegisterEffect(e4)
 end
 function c4242566.filter4(c)
-	return c:IsFaceup() and c:IsSetCard(0x666) and not c:IsCode(4242566)
+	return c:IsFaceup() and c:IsSetCard(0x698) and not c:IsCode(4242566)
 end
 function c4242566.cost4(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c4242566.filter4,tp,LOCATION_ONFIELD,0,1,nil) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
-	local g=Duel.SelectMatchingCard(tp,c4242566.filter4,tp,LOCATION_ONFIELD,0,1,1,nil)
-	Duel.SendtoGrave(g,REASON_COST)
+	if chk==0 then return Duel.IsExistingTarget(c4242566.filter4,tp,LOCATION_ONFIELD,0,1,nil) end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
+	local g=Duel.SelectTarget(tp,c4242566.filter4,tp,LOCATION_ONFIELD,0,1,1,nil)
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,g,1,0,0)
+	Duel.Destroy(g,REASON_EFFECT)
 end
 function c4242566.target4(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsPlayerCanDraw(tp,2) end
@@ -108,5 +109,5 @@ function c4242566.desop1(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 --Pierce
 function c4242566.target(e,c)
-	return c:IsSetCard(0x666) 
+	return c:IsSetCard(0x698) 
 end
