@@ -11,7 +11,7 @@ function c70649928.initial_effect(c)
 	e1:SetCode(EVENT_SPSUMMON_SUCCESS)
 	e1:SetCondition(c70649928.spcon)
 	e1:SetTarget(c70649928.sptg)
-	e1:SetOperation(c70649910.spop)
+	e1:SetOperation(c70649928.spop)
 	c:RegisterEffect(e1)
 	--destroy & recover
 	local e2=Effect.CreateEffect(c)
