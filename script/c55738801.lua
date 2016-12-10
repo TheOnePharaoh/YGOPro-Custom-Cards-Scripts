@@ -135,10 +135,10 @@ function c55738801.antarget(e,c)
 	return c~=e:GetHandler()
 end
 function c55738801.atkfilter(c)
-	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x23) and c:GetCode()~=55738801
+	return c:IsFaceup() and c:IsType(TYPE_SPELL+TYPE_TRAP)
 end
 function c55738801.atkup(e,c)
-	return Duel.GetMatchingGroupCount(c55738801.atkfilter,c:GetControler(),LOCATION_HAND,0,nil)*500
+	return Duel.GetMatchingGroupCount(c55738801.atkfilter,c:GetControler(),LOCATION_ONFIELD,LOCATION_ONFIELD,nil)*500
 end
 function c55738801.negcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()

@@ -56,30 +56,23 @@ function c544454458.initial_effect(c)
 	e8:SetTargetRange(LOCATION_MZONE,0)
 	e8:SetTarget(c544454458.antarget)
 	c:RegisterEffect(e8)
-	--spson
+	--atkup
 	local e9=Effect.CreateEffect(c)
 	e9:SetType(EFFECT_TYPE_SINGLE)
-	e9:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
-	e9:SetCode(EFFECT_SPSUMMON_CONDITION)
-	e9:SetValue(aux.FALSE)
+	e9:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e9:SetRange(LOCATION_MZONE)
+	e9:SetCode(EFFECT_UPDATE_ATTACK)
+	e9:SetValue(c544454458.atkup)
 	c:RegisterEffect(e9)
-	--atkup
-	local e10=Effect.CreateEffect(c)
-	e10:SetType(EFFECT_TYPE_SINGLE)
-	e10:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-	e10:SetRange(LOCATION_MZONE)
-	e10:SetCode(EFFECT_UPDATE_ATTACK)
-	e10:SetValue(c544454458.atkup)
-	c:RegisterEffect(e10)
 	--copy
-	local e11=Effect.CreateEffect(c)
-	e11:SetDescription(aux.Stringid(39512984,0))
-	e11:SetType(EFFECT_TYPE_IGNITION)
-	e11:SetCountLimit(1)
-	e11:SetRange(LOCATION_MZONE)
-	e11:SetCost(c544454458.copycost)
-	e11:SetOperation(c544454458.copyop)
-	c:RegisterEffect(e11)
+	local e10=Effect.CreateEffect(c)
+	e10:SetDescription(aux.Stringid(544454458,0))
+	e10:SetType(EFFECT_TYPE_IGNITION)
+	e10:SetCountLimit(1)
+	e10:SetRange(LOCATION_MZONE)
+	e10:SetCost(c544454458.copycost)
+	e10:SetOperation(c544454458.copyop)
+	c:RegisterEffect(e10)
 end
 function c544454458.sumlimit(e,c)
 	return c:IsSetCard(0x23)
@@ -114,30 +107,33 @@ end
 function c544454458.antarget(e,c)
 	return c~=e:GetHandler()
 end
+function c544454458.atkfilter(c)
+	return c:IsSetCard(0x23) and c:IsType(TYPE_MONSTER)
+end
 function c544454458.atkup(e,c)
-	return Duel.GetMatchingGroupCount(Card.IsSetCard,c:GetControler(),LOCATION_GRAVE,LOCATION_GRAVE,nil,0x23)*100
+	return Duel.GetMatchingGroupCount(c544454458.atkfilter,c:GetControler(),LOCATION_GRAVE,0,nil)*100
 end
 function c544454458.copyfilter(c)
-	return c:IsSetCard(0x23) and c:IsType(TYPE_MONSTER) and c:IsAbleToRemoveAsCost()
+	return c:IsSetCard(0x23) and c:IsType(TYPE_MONSTER) and not c:IsCode(544454458) and c:IsAbleToRemoveAsCost()
 end
 function c544454458.copycost(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then return Duel.IsExistingMatchingCard(c544454458.copyfilter,tp,LOCATION_GRAVE,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 	local g=Duel.SelectMatchingCard(tp,c544454458.copyfilter,tp,LOCATION_GRAVE,0,1,1,nil)
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
-	e:SetLabelObject(g:GetFirst())
+	e:SetLabel(g:GetFirst():GetOriginalCode())
 end
 function c544454458.copyop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	local tc=e:GetLabelObject()
+	local code=e:GetLabel()
 	if c:IsRelateToEffect(e) and c:IsFaceup() then
-		local e1=Effect.CreateEffect(e:GetHandler())
+		local e1=Effect.CreateEffect(c)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-		e1:SetCode(EFFECT_UPDATE_ATTACK)
 		e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
-		e1:SetValue(tc:GetAttack())
+		e1:SetCode(EFFECT_CHANGE_CODE)
+		e1:SetValue(code)
 		c:RegisterEffect(e1)
-		c:CopyEffect(tc:GetOriginalCode(), RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END, 1)
+		c:CopyEffect(code, RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END, 1)
 	end
 end

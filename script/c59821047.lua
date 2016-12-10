@@ -26,8 +26,8 @@ end
 function c59821047.condition(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetCurrentPhase()==PHASE_MAIN1
 end
-function c59821047.copyfilter(c,e,tp,eg,ep,ev,re,r,rp)
-	return c:GetType()==TYPE_SPELL and c:IsCode(59821016) or c:IsCode(59821018) or c:IsCode(59821020) or c:IsCode(59821032) or c:IsCode(59821033) or c:IsCode(59821034) or c:IsCode(59821054) and not c:IsCode(59821047) and c:CheckActivateEffect(true,true,false)~=nil
+function c59821047.copyfilter(c)
+	return c:IsType(TYPE_SPELL) and c:IsSetCard(0xa1a2) and not c:IsCode(59821047) and c:CheckActivateEffect(true,true,false)~=nil
 end
 function c59821047.target1(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then

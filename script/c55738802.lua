@@ -36,10 +36,10 @@ function c55738802.descon(e)
 	return not Duel.IsEnvironment(27564031)
 end
 function c55738802.atkfilter(c)
-	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x23)
+	return c:IsFaceup() and c:IsType(TYPE_SPELL+TYPE_TRAP)
 end
 function c55738802.atkup(e,c)
-	return Duel.GetMatchingGroupCount(c55738802.atkfilter,c:GetControler(),LOCATION_HAND,0,nil)*100
+	return Duel.GetMatchingGroupCount(c55738802.atkfilter,c:GetControler(),LOCATION_ONFIELD,LOCATION_ONFIELD,nil)*300
 end
 function c55738802.descon(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp

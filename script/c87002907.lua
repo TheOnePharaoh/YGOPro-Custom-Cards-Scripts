@@ -90,11 +90,14 @@ function c87002907.olcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.CheckLPCost(tp,2000) end
 	Duel.PayLPCost(tp,2000)
 end
+function c87002907.olfilter(c)
+	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0xe291ca)
+end
 function c87002907.oltg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and chkc:IsType(TYPE_MONSTER) and chkc:IsSetCard(0xe291ca) end
-	if chk==0 then return Duel.IsExistingTarget(Card.IsSetCard,tp,LOCATION_GRAVE,0,2,nil,0xe291ca) end
+	if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) end
+	if chk==0 then return Duel.IsExistingTarget(c87002907.olfilter,tp,LOCATION_GRAVE,0,2,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
-	local g=Duel.SelectTarget(tp,Card.IsSetCard,tp,LOCATION_GRAVE,0,2,2,nil,0xe291ca)
+	local g=Duel.SelectTarget(tp,c87002907.olfilter,tp,LOCATION_GRAVE,0,2,2,nil)
 	Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,g,2,0,0)
 end
 function c87002907.olop(e,tp,eg,ep,ev,re,r,rp)

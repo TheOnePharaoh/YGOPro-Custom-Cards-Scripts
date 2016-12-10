@@ -93,7 +93,7 @@ function c80106555.drcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.Remove(e:GetHandler(),POS_FACEUP,REASON_COST)
 end
 function c80106555.tdfilter(c)
-	return c:IsSetCard(0xca00) and c:IsAbleToDeck()
+	return c:IsSetCard(0xca00) and not c:IsCode(80106555) and c:IsAbleToDeck()
 end
 function c80106555.tdtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_REMOVED) and chkc:IsControler(tp) and c63274863.tdfilter(chkc) end
