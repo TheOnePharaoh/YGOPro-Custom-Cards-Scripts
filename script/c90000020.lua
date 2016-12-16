@@ -20,7 +20,7 @@ function c90000020.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c90000020.filter(c)
-	return c:IsSetCard(0x3) and c:IsType(TYPE_FUSION) and c:IsLevelBelow(7) and c:IsAbleToRemove()
+	return c:IsType(TYPE_FUSION) and c:IsLevelBelow(6) and c:IsAbleToRemove()
 end
 function c90000020.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c90000020.filter,tp,LOCATION_EXTRA,0,1,nil) end
