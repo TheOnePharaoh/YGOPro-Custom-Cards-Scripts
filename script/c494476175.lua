@@ -7,7 +7,6 @@ function c494476175.initial_effect(c)
 	e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
 	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CANNOT_DISABLE)
 	e1:SetTargetRange(1,0)
-	e1:SetCondition(aux.nfbdncon)
 	e1:SetTarget(c494476175.splimit)
 	c:RegisterEffect(e1)
 	--Increase

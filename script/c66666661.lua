@@ -21,7 +21,6 @@ function c66666661.initial_effect(c)
 	e3:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
 	e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CANNOT_DISABLE)
 	e3:SetTargetRange(1,0)
-	e3:SetCondition(aux.nfbdncon)
 	e3:SetTarget(c66666661.splimit)
 	c:RegisterEffect(e3)
 	--tuner

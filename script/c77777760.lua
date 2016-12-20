@@ -49,7 +49,6 @@ function c77777760.initial_effect(c)
 	e6:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
 	e6:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e6:SetTargetRange(1,0)
-	e6:SetCondition(aux.nfbdncon)
 	e6:SetTarget(c77777760.splimit)
 	c:RegisterEffect(e6)	
 end

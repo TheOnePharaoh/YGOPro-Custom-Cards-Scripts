@@ -23,7 +23,6 @@ function c11255.initial_effect(c)
 	e2:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
 	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CANNOT_DISABLE)
 	e2:SetTargetRange(1,0)
-	e2:SetCondition(aux.nfbdncon)
 	e2:SetTarget(c11255.splimit)
 	c:RegisterEffect(e2)
 	--Activate

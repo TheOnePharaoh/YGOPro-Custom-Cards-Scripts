@@ -18,7 +18,6 @@ function c77777762.initial_effect(c)
 	e3:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
 	e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e3:SetTargetRange(1,0)
-	e3:SetCondition(aux.nfbdncon)
 	e3:SetTarget(c77777762.splimit)
 	c:RegisterEffect(e3)
 	--atk down

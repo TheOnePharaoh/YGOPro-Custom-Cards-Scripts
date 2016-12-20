@@ -9,7 +9,6 @@ function c77777764.initial_effect(c)
 	e2:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
 	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e2:SetTargetRange(1,0)
-	e2:SetCondition(aux.nfbdncon)
 	e2:SetTarget(c77777764.splimit)
 	c:RegisterEffect(e2)
 	--tohand

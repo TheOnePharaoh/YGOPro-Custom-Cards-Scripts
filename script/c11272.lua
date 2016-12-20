@@ -11,7 +11,6 @@ function c11272.initial_effect(c)
 	e1:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
 	e1:SetProperty(EFFECT_FLAG_PLAYER_TARGET+EFFECT_FLAG_CANNOT_DISABLE)
 	e1:SetTargetRange(1,0)
-	e1:SetCondition(aux.nfbdncon)
 	e1:SetTarget(c11272.splimit)
 	c:RegisterEffect(e1)
 	--search

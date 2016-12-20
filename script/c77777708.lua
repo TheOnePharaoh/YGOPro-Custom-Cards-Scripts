@@ -60,7 +60,6 @@ end
 function c77777708.sccon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()==tp
 end
-
 function c77777708.scop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
@@ -76,9 +75,6 @@ function c77777708.scop(e,tp,eg,ep,ev,re,r,rp)
 	e2:SetValue(scl)
 	c:RegisterEffect(e2)
 end
-
-
-
 function c77777708.cfilter(c)
 	return c:IsFaceup() and c:IsSetCard(0x407) and c:IsDestructable() 
 	and  (c:GetSequence()==6 or c:GetSequence()==7)

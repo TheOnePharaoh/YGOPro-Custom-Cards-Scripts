@@ -34,7 +34,6 @@ function c494476170.initial_effect(c)
 	e3:SetOperation(c494476170.disop)
 	c:RegisterEffect(e3)
 end
-c494476170.xyz_number=92
 function c494476170.reccon(e,tp,eg,ep,ev,re,r,rp)
 	return ep~=tp and eg:GetFirst():IsControler(tp)
 end
