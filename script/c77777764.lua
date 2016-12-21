@@ -46,7 +46,7 @@ end
 
 function c77777764.spcon2(e,c)
 	if c==nil then return true end
-	return Duel.GetLocationCount(c:GetControler(),LOCATION_MZONE)>0 and Duel.GetFieldCard(c:GetControler(),LOCATION_SZONE,6):IsSetCard(0x3e7) and Duel.GetFieldCard(c:GetControler(),LOCATION_SZONE,7):IsSetCard(0x3e7)
+	return Duel.GetLocationCount(c:GetControler(),LOCATION_MZONE)>0 and  Duel.GetFieldCard(tp,LOCATION_SZONE,6) and Duel.GetFieldCard(tp,LOCATION_SZONE,7) and Duel.GetFieldCard(tp,LOCATION_SZONE,6):IsSetCard(0x3e7) and Duel.GetFieldCard(tp,LOCATION_SZONE,7):IsSetCard(0x3e7)
 end
 function c77777764.splimit(e,c,tp,sumtp,sumpos)
 	return not c:IsRace(RACE_FIEND) and bit.band(sumtp,SUMMON_TYPE_PENDULUM)==SUMMON_TYPE_PENDULUM
