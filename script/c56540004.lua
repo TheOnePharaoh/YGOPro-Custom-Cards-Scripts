@@ -1,0 +1,47 @@
+--Loli Aimi
+function c56540004.initial_effect(c)
+
+   aux.AddSynchroProcedure(c,nil,aux.NonTuner(nil),2)
+	c:EnableReviveLimit()
+	--spsummon condition
+	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_SINGLE)
+	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
+	e1:SetCode(EFFECT_SPSUMMON_CONDITION)
+	c:RegisterEffect(e1)
+ --activate limit
+ --  local e6=Effect.CreateEffect(c)
+--   e6:SetType(EFFECT_TYPE_FIELD)
+ --  e6:SetCode(EFFECT_CANNOT_ACTIVATE)
+ --  e6:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+ --  e6:SetRange(LOCATION_ONFIELD)
+--   e6:SetTargetRange(0,1)
+ --  e6:SetValue(c56540004.aclimit)
+ --  c:RegisterEffect(e6)
+ local e7=Effect.CreateEffect(c)
+   e7:SetType(EFFECT_TYPE_FIELD)
+   e7:SetCode(EFFECT_CANNOT_ACTIVATE)
+   e7:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+   e7:SetRange(LOCATION_ONFIELD)
+   e7:SetTargetRange(0,1)
+   e7:SetValue(c56540004.aclimit2)
+   c:RegisterEffect(e7)
+ local e4=Effect.CreateEffect(c)
+	e4:SetType(EFFECT_TYPE_SINGLE)
+	e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e4:SetRange(LOCATION_MZONE)
+	e4:SetCode(EFFECT_IMMUNE_EFFECT)
+	e4:SetValue(c56540004.efilter)
+	c:RegisterEffect(e4)
+end
+function c56540004.efilter(e,te)
+	return te:GetOwnerPlayer()~=e:GetHandlerPlayer()
+end
+--function c56540004.aclimit(e,re,tp)
+  --  return re:GetHandler():IsOnField()
+-- and not re:GetHandler():IsImmuneToEffect(e)
+--end
+function c56540004.aclimit2(e,re,tp)
+	return re:GetHandler():IsLocation(LOCATION_HAND)
+-- and not re:GetHandler():IsImmuneToEffect(e)
+end

@@ -1,0 +1,45 @@
+--Loli hot candy
+function c56540016.initial_effect(c)
+	--Activate
+	local e1=Effect.CreateEffect(c)
+	e1:SetCategory(CATEGORY_NEGATE)
+	e1:SetType(EFFECT_TYPE_ACTIVATE)
+	e1:SetCode(EVENT_FREE_CHAIN)
+	e1:SetOperation(c56540016.activate)
+	c:RegisterEffect(e1)
+end
+function c56540016.activate(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	local a=Duel.GetAttacker()
+	local d=Duel.GetAttackTarget()
+	local e1=Effect.CreateEffect(c)
+	e1:SetType(EFFECT_TYPE_FIELD)
+	e1:SetCode(EFFECT_DISABLE)
+	e1:SetTargetRange(0,LOCATION_ONFIELD)
+	e1:SetTarget(c56540016.distg)
+	e1:SetReset(RESET_PHASE+PHASE_END)
+	Duel.RegisterEffect(e1,tp)
+	local e2=Effect.CreateEffect(c)
+	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+	e2:SetCode(EVENT_CHAIN_SOLVING)
+	e2:SetRange(0,LOCATION_MZONE)
+	e2:SetOperation(c56540016.disop)
+	e2:SetReset(RESET_PHASE+PHASE_END)
+	Duel.RegisterEffect(e2,tp)
+	local e3=Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_FIELD)
+	e3:SetCode(EFFECT_DISABLE_TRAPMONSTER)
+	e3:SetRange(LOCATION_MZONE)
+	e3:SetTargetRange(0,LOCATION_MZONE)
+	e3:SetReset(RESET_PHASE+PHASE_END)
+	Duel.RegisterEffect(e3,tp)
+end
+function c56540016.distg(e,c)
+	return c~=e:GetHandler()
+end
+function c56540016.disop(e,tp,eg,ep,ev,re,r,rp)
+	local loc=Duel.GetChainInfo(ev,CHAININFO_TRIGGERING_LOCATION)
+	if ep~=tp and bit.band(loc,LOCATION_ONFIELD)~=0 then
+		Duel.NegateEffect(ev)
+	end
+end
