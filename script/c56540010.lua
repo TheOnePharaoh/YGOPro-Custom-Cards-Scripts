@@ -25,7 +25,7 @@ function c56540010.initial_effect(c)
 end
 function c56540010.atkcon(e,tp,eg,ep,ev,re,r,rp)
 	local phase=Duel.GetCurrentPhase()
-	return phase==PHASE_BATTLE or (phase==PHASE_DAMAGE and not Duel.IsDamageCalculated())
+	return phase>=PHASE_BATTLE_START and phase<=PHASE_BATTLE or (phase==PHASE_DAMAGE and not Duel.IsDamageCalculated())
 end
 function c56540010.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToGraveAsCost() end
