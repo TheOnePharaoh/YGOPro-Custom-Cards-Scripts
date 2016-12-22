@@ -21,6 +21,6 @@ function c56540007.activate(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0
 		or not Duel.IsPlayerCanSpecialSummonMonster(tp,56540007,0,0x21,800,3200,8,RACE_FIEND,ATTRIBUTE_DARK) then return end
 	c:AddTrapMonsterAttribute(TYPE_EFFECT,ATTRIBUTE_DARK,RACE_FIEND,8,800,3200)
-	Duel.SpecialSummon(c,0,tp,tp,true,false,POS_FACEUP_DEFENCE)
+	Duel.SpecialSummon(c,0,tp,tp,true,false,POS_FACEUP_DEFENSE)
 	c:TrapMonsterBlock()
 end

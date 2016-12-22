@@ -12,7 +12,7 @@ function c56540048.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c56540048.eqcon(e,tp,eg,ep,ev,re,r,rp)
-	return Duel.GetAttackTarget()==e:GetHandler() and e:GetHandler():GetBattlePosition()==POS_FACEDOWN_DEFENCE
+	return Duel.GetAttackTarget()==e:GetHandler() and e:GetHandler():GetBattlePosition()==POS_FACEDOWN_DEFENSE
 end
 function c56540048.filter(c)
 	return c:IsFaceup() and c:IsControlerCanBeChanged()
