@@ -29,7 +29,7 @@ end
 function c56540023.activate(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	local lc=e:GetLabelObject()
-	if not lc:IsRelateToEffect(e) then return end
+	if not lc or not lc:IsRelateToEffect(e) then return end
 	local lv=lc:GetLevel()
 	local hg=Duel.GetFieldGroup(tp,LOCATION_HAND,0):Filter(Card.IsLevelAbove,nil,1)
 	local tc=hg:GetFirst()
@@ -45,6 +45,7 @@ function c56540023.activate(e,tp,eg,ep,ev,re,r,rp)
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 	e2:SetCode(EVENT_TO_HAND)
+	e2:SetLabel(lv)
 	e2:SetReset(RESET_PHASE+PHASE_END)
 	e2:SetOperation(c56540023.hlvop)
 	Duel.RegisterEffect(e2,tp)
@@ -54,9 +55,7 @@ function c56540023.hlvfilter(c,tp)
 end
 function c56540023.hlvop(e,tp,eg,ep,ev,re,r,rp)
 	local hg=eg:Filter(c56540023.hlvfilter,nil,tp)
-	local lc=e:GetLabelObject()
-	if not lc:IsRelateToEffect(e) then return end
-	local lv=lc:GetLevel()
+	local lv=e:GetLabel()
 	local tc=hg:GetFirst()
 	while tc do
 		local e1=Effect.CreateEffect(e:GetHandler())
