@@ -70,8 +70,9 @@ function c90127556.initial_effect(c)
 	c:RegisterEffect(e7)
 end
 c90127556.xyz_number=78
+c90127556.rum_limit_code=90127555
 function c90127556.splimit(e,se,sp,st)
-	return se:GetHandler():IsSetCard(0x95)
+	return se:GetHandler():IsSetCard(0x95) and se:GetHandler():IsType(TYPE_SPELL)
 end
 function c90127556.damcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()==tp

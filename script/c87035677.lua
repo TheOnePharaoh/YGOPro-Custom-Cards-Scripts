@@ -27,7 +27,8 @@ function c87035677.filter1(c,e,tp)
 	return c:IsFaceup() and c:IsSetCard(0x0dac404) and c:IsType(TYPE_XYZ)
 		and Duel.IsExistingMatchingCard(c87035677.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,c:GetRank()+1,c.xyz_number)
 end
-function c87035677.filter2(c,e,tp,rank)
+function c87035677.filter2(c,e,tp,mc,rank)
+	if c.rum_limit_code and not mc:IsCode(c.rum_limit_code) then return false end
 	return c:GetRank()==rank and c:IsSetCard(0x0dac404) and c:IsType(TYPE_XYZ)
 			and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 end

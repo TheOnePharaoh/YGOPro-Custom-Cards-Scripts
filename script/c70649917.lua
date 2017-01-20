@@ -1,6 +1,6 @@
 --Channeling
 function c70649917.initial_effect(c)
-	c:SetCounterLimit(0x105,9)
+	c:SetCounterLimit(0x1105,9)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -74,10 +74,10 @@ function c70649917.tokcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c70649917.tokfilter,1,nil,tp)
 end
 function c70649917.tokop(e,tp,eg,ep,ev,re,r,rp)
-	e:GetHandler():AddCounter(0x105,1)
+	e:GetHandler():AddCounter(0x1105,1)
 end
 function c70649917.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():GetCounter(0x105)>=9
+	return e:GetHandler():GetCounter(0x1105)>=9
 end
 function c70649917.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToGraveAsCost() end
@@ -101,5 +101,5 @@ function c70649917.spop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c70649917.atkval(e,c)
-	return e:GetHandler():GetCounter(0x105)*100
+	return e:GetHandler():GetCounter(0x1105)*100
 end

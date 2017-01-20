@@ -22,7 +22,7 @@ function c125002.filter1(c,e,tp)
 	return c:IsFaceup() and c:IsType(TYPE_XYZ) and Duel.IsExistingMatchingCard(c125002.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,c,rk,c:GetRace(),c:GetCode())
 end
 function c125002.filter2(c,e,tp,mc,rk,rc,code)
-	if c:GetOriginalCode()==6165656 and code~=48995978 then return false end
+	if c.rum_limit_code and code~=c.rum_limit_code then return false end
 	return c:GetRank()>rk and mc:IsCanBeXyzMaterial(c) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 end
 function c125002.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)

@@ -24,15 +24,15 @@ function c77628927.initial_effect(c)
 end
 function c77628927.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and 
-		Duel.IsPlayerCanSpecialSummonMonster(tp,77628927,0,0x11,1900,0,4,RACE_ZOMBIE,ATTRIBUTE_DARK) end
+		Duel.IsPlayerCanSpecialSummonMonster(tp,77628927,0,0xba003,1900,0,4,RACE_ZOMBIE,ATTRIBUTE_DARK) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,e:GetHandler(),1,0,0)
 end
 function c77628927.activate(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
 	if not c:IsRelateToEffect(e) then return end
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0
-		or not Duel.IsPlayerCanSpecialSummonMonster(tp,77628927,0,0x11,1900,0,4,RACE_ZOMBIE,ATTRIBUTE_DARK) then return end
-	c:AddMonsterAttribute(TYPE_EFFECT+TYPE_TUNER,ATTRIBUTE_DARK,RACE_ZOMBIE,4,1900,0)
+		or not Duel.IsPlayerCanSpecialSummonMonster(tp,77628927,0,0xba003,1900,0,4,RACE_ZOMBIE,ATTRIBUTE_DARK) then return end
+	c:AddMonsterAttribute(TYPE_TUNER+TYPE_EFFECT+TYPE_TRAP)
 	Duel.SpecialSummonStep(c,0,tp,tp,true,false,POS_FACEUP)
 	c:AddMonsterAttributeComplete()
 	Duel.SpecialSummonComplete()

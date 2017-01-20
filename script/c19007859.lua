@@ -29,7 +29,7 @@ function c19007859.xyzfilter(c)
 		and bit.band(c:GetSummonType(),SUMMON_TYPE_SPECIAL)==SUMMON_TYPE_SPECIAL
 end
 function c19007859.filter2(c,e,tp,mc,rk,rc,code)
-	if c:IsCode(6165656) and code~=48995978 then return false end
+	if c.rum_limit_code and code~=c.rum_limit_code then return false end
 	return c:GetRank()==rk and c:IsRace(rc) and (c:IsSetCard(0x1048) or c:IsSetCard(0x1073)) and mc:IsCanBeXyzMaterial(c,true)
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 end

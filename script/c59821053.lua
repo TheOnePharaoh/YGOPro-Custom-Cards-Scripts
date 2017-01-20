@@ -91,7 +91,7 @@ function c59821053.immfilter(e,te)
 	return te:IsActiveType(TYPE_SPELL) and te:GetOwnerPlayer()~=e:GetHandlerPlayer()
 end
 function c59821053.atkval(e,c)
-	return Duel.GetFieldGroupCount(c:GetControler(),0,LOCATION_ONFIELD)*200
+	return Duel.GetFieldGroupCount(c:GetControler(),0,LOCATION_ONFIELD)*100
 end
 function c59821053.descon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():GetSummonType()==SUMMON_TYPE_SYNCHRO

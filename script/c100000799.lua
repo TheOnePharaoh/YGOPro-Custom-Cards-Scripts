@@ -1,5 +1,6 @@
  --Created and coded by Rising Phoenix
 function c100000799.initial_effect(c)
+aux.AddEquipProcedure(c,0,c100000799.filtere)
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -9,24 +10,9 @@ function c100000799.initial_effect(c)
 	e1:SetTarget(c100000799.target)
 	e1:SetOperation(c100000799.activate)
 	c:RegisterEffect(e1)
-		local e2=Effect.CreateEffect(c)
-	e2:SetCategory(CATEGORY_EQUIP)
-	e2:SetType(EFFECT_TYPE_ACTIVATE)
-	e2:SetCode(EVENT_FREE_CHAIN)
-	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e2:SetTarget(c100000799.targete)
-	e2:SetOperation(c100000799.operatione)
-	c:RegisterEffect(e2)
-		--Equip limit
-	local e3=Effect.CreateEffect(c)
-	e3:SetType(EFFECT_TYPE_SINGLE)
-	e3:SetCode(EFFECT_EQUIP_LIMIT)
-	e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-	e3:SetValue(c100000799.eqlimit)
-	c:RegisterEffect(e3)
 		local e6=Effect.CreateEffect(c)
 	e6:SetCategory(CATEGORY_REMOVE)
-	e6:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e6:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
 	e6:SetCode(EVENT_TO_GRAVE)
 	e6:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
 	e6:SetCondition(c100000799.thcon)
@@ -63,24 +49,8 @@ function c100000799.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Group.FromCards(c,c:GetEquipTarget())
 	Duel.SendtoGrave(g,REASON_COST)
 end
-function c100000799.eqlimit(e,c)
-	return c:IsCode(100000797)
-end
 function c100000799.filtere(c)
 	return c:IsFaceup() and c:IsCode(100000797)
-end
-function c100000799.targete(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and c100000799.filtere(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(c100000799.filtere,tp,LOCATION_MZONE,0,1,nil) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
-	Duel.SelectTarget(tp,c100000799.filtere,tp,LOCATION_MZONE,0,1,1,nil)
-	Duel.SetOperationInfo(0,CATEGORY_EQUIP,e:GetHandler(),1,0,0)
-end
-function c100000799.operatione(e,tp,eg,ep,ev,re,r,rp)
-	local tc=Duel.GetFirstTarget()
-	if e:GetHandler():IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsFaceup() then
-		Duel.Equip(tp,e:GetHandler(),tc)
-	end
 end
 function c100000799.filter(c,e,tp)
 	return  c:IsCode(100000798) and c:IsCanBeSpecialSummoned(e,0,tp,true,false) 

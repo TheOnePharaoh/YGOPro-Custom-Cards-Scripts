@@ -98,14 +98,14 @@ function c22769912.rmcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	local g=Duel.SelectMatchingCard(tp,c22769912.costfilter,tp,LOCATION_DECK,0,1,1,nil)
 	Duel.SendtoGrave(g,REASON_COST)
 end
-function c22769912.tgfilter(c)
+function c22769912.remfilter(c)
 	return c:IsAbleToRemove()
 end
 function c22769912.rmtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and c22769912.tgfilter(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(c22769912.tgfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil) end
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and c22769912.remfilter(chkc) end
+	if chk==0 then return Duel.IsExistingTarget(c22769912.remfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
-	local g=Duel.SelectTarget(tp,c22769912.tgfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil)
+	local g=Duel.SelectTarget(tp,c22769912.remfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,1,0,0)
 end
 function c22769912.rmop(e,tp,eg,ep,ev,re,r,rp)

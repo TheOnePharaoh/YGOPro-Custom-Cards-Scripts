@@ -7,7 +7,6 @@ function c59821062.initial_effect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetCountLimit(1,59821062+EFFECT_COUNT_CODE_OATH)
-	e1:SetTarget(c59821062.target)
 	e1:SetOperation(c59821062.activate)
 	c:RegisterEffect(e1)
 	--
@@ -61,20 +60,17 @@ function c59821062.valcheck(e,c)
 		c:RegisterFlagEffect(59821062,RESET_EVENT+0x4fe0000+RESET_PHASE+PHASE_END,0,1)
 	end
 end
-function c59821062.filter(c)
-	return c:IsCode(59821038) or c:IsCode(59821054) and c:IsAbleToHand()
-end
-function c59821062.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c59821062.filter,tp,LOCATION_DECK,0,1,nil) end
-	Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
+function c59821062.thfilter(c)
+	return c:IsType(TYPE_QUICKPLAY) and c:IsSetCard(0xa1a2) and c:IsAbleToHand()
 end
 function c59821062.activate(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-	local g=Duel.SelectMatchingCard(tp,c59821062.filter,tp,LOCATION_DECK,0,1,1,nil)
-	if g:GetCount()>0 then
-		Duel.SendtoHand(g,nil,REASON_EFFECT)
-		Duel.ConfirmCards(1-tp,g)
+	local g=Duel.GetMatchingGroup(c59821062.thfilter,tp,LOCATION_DECK,0,nil)
+	if g:GetCount()>0 and Duel.SelectYesNo(tp,aux.Stringid(59821062,4)) then
+		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
+		local sg=g:Select(tp,1,1,nil)
+		Duel.SendtoHand(sg,nil,REASON_EFFECT)
+		Duel.ConfirmCards(1-tp,sg)
 	end
 end
 function c59821062.effcon(e,tp,eg,ep,ev,re,r,rp)

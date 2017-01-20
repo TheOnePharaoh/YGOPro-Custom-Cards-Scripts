@@ -17,6 +17,7 @@ function c77777791.filter1(c,e,tp)
 		and Duel.IsExistingMatchingCard(c77777791.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,c,rk+2)
 end
 function c77777791.filter2(c,e,tp,mc,rk)
+	if c.rum_limit_code and not mc:IsCode(c.rum_limit_code) then return false end
 	return c:GetRank()==rk and c:IsSetCard(0x3e7) and mc:IsCanBeXyzMaterial(c)
 		and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 end

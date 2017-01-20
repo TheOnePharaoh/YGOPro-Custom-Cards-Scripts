@@ -13,7 +13,7 @@ function c22769925.initial_effect(c)
 	--special summon
 	local e2=Effect.CreateEffect(c)
 	e2:SetCategory(CATEGORY_SPECIAL_SUMMON)
-	e2:SetDescription(aux.Stringid(22769925,1))
+	e2:SetDescription(aux.Stringid(22769925,0))
 	e2:SetType(EFFECT_TYPE_IGNITION)
 	e2:SetRange(LOCATION_GRAVE)
 	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)

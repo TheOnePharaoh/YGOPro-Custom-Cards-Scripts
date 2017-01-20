@@ -63,7 +63,7 @@ function c59821052.initial_effect(c)
 	e9:SetCode(EVENT_FREE_CHAIN)
 	e9:SetRange(LOCATION_MZONE)
 	e9:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e9:SetHintTiming(TIMING_DAMAGE_STEP)
+	e9:SetHintTiming(TIMING_BATTLE_START+TIMING_BATTLE_END,TIMING_BATTLE_START+TIMING_BATTLE_END)
 	e9:SetCountLimit(1)
 	e9:SetCondition(c59821052.discon)
 	e9:SetCost(c59821052.discost)
@@ -138,15 +138,14 @@ function c59821052.penop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c59821052.atkval(e,c)
-	return Duel.GetFieldGroupCount(c:GetControler(),0,LOCATION_ONFIELD)*200
+	return Duel.GetFieldGroupCount(c:GetControler(),0,LOCATION_ONFIELD)*100
 end
 function c59821052.discon(e,tp,eg,ep,ev,re,r,rp)
-	local ph=Duel.GetCurrentPhase()
-	return (ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE) or (ph==PHASE_DAMAGE and not Duel.IsDamageCalculated())
+	return (Duel.GetCurrentPhase()>=PHASE_BATTLE_START and Duel.GetCurrentPhase()<=PHASE_BATTLE)
 end
 function c59821052.discost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckLPCost(tp,800) end
-	Duel.PayLPCost(tp,800)
+	if chk==0 then return Duel.CheckLPCost(tp,1000) end
+	Duel.PayLPCost(tp,1000)
 end
 function c59821052.disablefilter(c)
 	return c:IsFaceup() and c:GetAttack()>0
