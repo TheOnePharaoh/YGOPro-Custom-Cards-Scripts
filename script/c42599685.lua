@@ -32,7 +32,7 @@ function c42599685.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SendtoGrave(g,REASON_COST)
 end
 function c42599685.thfilter(c)
-	return c:IsSetCard(0xfc10) and not c:IsCode(42599685) and c:IsAbleToHand()
+	return (c:IsSetCard(0xfc10) or c:IsCode(42599677)) and not c:IsCode(42599685) and c:IsAbleToHand()
 end
 function c42599685.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c42599685.thfilter,tp,LOCATION_DECK,0,1,nil) end

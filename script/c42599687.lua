@@ -58,7 +58,7 @@ function c42599687.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	end
 end
 function c42599687.cfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0xfc10)
+	return c:IsFaceup() and (c:IsSetCard(0xfc10) or c:IsCode(42599677))
 end
 function c42599687.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsExistingMatchingCard(c42599687.cfilter,tp,LOCATION_MZONE,0,1,nil)

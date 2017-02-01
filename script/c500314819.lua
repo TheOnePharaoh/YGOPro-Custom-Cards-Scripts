@@ -1,7 +1,7 @@
 --Neo Paintress Goghi
 function c500314819.initial_effect(c)
 	c:EnableReviveLimit()
-	c:EnableCounterPermit(0x88)
+	c:EnableCounterPermit(0x1088)
 		--atk
 	local e99=Effect.CreateEffect(c)
 	e99:SetDescription(aux.Stringid(500314819,1))
@@ -83,11 +83,11 @@ function c500314819.costfilter(c)
 	return c:IsAbleToRemoveAsCost() and c:IsType(TYPE_NORMAL) or (c:IsType(TYPE_NORMAL+TYPE_PENDULUM) and c:IsFaceup())
 end
 function c500314819.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():IsCanRemoveCounter(tp,0x88,3,REASON_COST) and Duel.IsExistingMatchingCard(c500314819.costfilter,tp,LOCATION_HAND+LOCATION_EXTRA,0,1,nil) end
+	if chk==0 then return e:GetHandler():IsCanRemoveCounter(tp,0x1088,3,REASON_COST) and Duel.IsExistingMatchingCard(c500314819.costfilter,tp,LOCATION_HAND+LOCATION_EXTRA,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 	local g=Duel.SelectMatchingCard(tp,c500314819.costfilter,tp,LOCATION_HAND+LOCATION_EXTRA,0,1,1,nil)
 	Duel.Remove(g,POS_FACEUP,REASON_COST)
-	e:GetHandler():RemoveCounter(tp,0x88,3,REASON_COST)
+	e:GetHandler():RemoveCounter(tp,0x1088,3,REASON_COST)
 end
 function c500314819.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and c500314819.filter(chkc) end

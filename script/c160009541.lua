@@ -1,7 +1,6 @@
 --Carole, Queen of Fiber Vine #2 
 function c160009541.initial_effect(c)
 	c:EnableReviveLimit()
-	c:EnableCounterPermit(0x88)
 	--local e1=Effect.CreateEffect(c)
 	--e1:SetType(EFFECT_TYPE_SINGLE)
 	--e1:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
@@ -105,8 +104,8 @@ function c160009541.discon(e,tp,eg,ep,ev,re,r,rp)
 		and Duel.IsChainNegatable(ev)
 end
 function c160009541.discost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():IsCanRemoveCounter(tp,0x88,4,REASON_COST) end
-	e:GetHandler():RemoveCounter(tp,0x88,4,REASON_COST)
+	if chk==0 then return e:GetHandler():IsCanRemoveCounter(tp,0x1088,4,REASON_COST) end
+	e:GetHandler():RemoveCounter(tp,0x1088,4,REASON_COST)
 end
 function c160009541.distg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
@@ -123,7 +122,7 @@ function c160009541.disop(e,tp,eg,ep,ev,re,r,rp)
 end
 function c160009541.checkop(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
-	if c:GetCounter(0x88)>0 then
+	if c:GetCounter(0x1088)>0 then
 		c:RegisterFlagEffect(160009541,RESET_EVENT+0x17a0000,0,0)
 	end
 end

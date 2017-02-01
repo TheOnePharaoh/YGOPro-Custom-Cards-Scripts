@@ -11,7 +11,7 @@ function c42599688.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c42599688.filter1(c)
-	return c:IsFaceup() and c:IsSetCard(0xfc10)
+	return c:IsFaceup() and (c:IsSetCard(0xfc10) or c:IsCode(42599677))
 end
 function c42599688.filter2(c)
 	return c:IsFaceup() and not c:IsAttribute(ATTRIBUTE_FIRE)

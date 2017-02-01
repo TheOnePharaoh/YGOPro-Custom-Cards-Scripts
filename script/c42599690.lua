@@ -69,7 +69,7 @@ function c42599690.thcon(e,tp,eg,ep,ev,re,r,rp)
 		and Duel.IsExistingMatchingCard(c42599690.confilter,tp,LOCATION_MZONE,0,1,nil)
 end
 function c42599690.thfilter(c)
-	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0xfc10) and c:IsAbleToHand()
+	return c:IsType(TYPE_MONSTER) and (c:IsSetCard(0xfc10) or c:IsCode(42599677)) and c:IsAbleToHand()
 end
 function c42599690.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c42599690.thfilter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,nil) end

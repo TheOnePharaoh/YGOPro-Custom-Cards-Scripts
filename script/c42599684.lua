@@ -50,7 +50,7 @@ function c42599684.damval(e,re,dam,r,rp,rc)
 	else return dam end
 end
 function c42599684.filter(c)
-	return c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsSetCard(0xfc10) and not c:IsCode(42599684) and c:IsAbleToHand()
+	return c:IsType(TYPE_SPELL+TYPE_TRAP) and (c:IsSetCard(0xfc10) or c:IsCode(42599677)) and not c:IsCode(42599684) and c:IsAbleToHand()
 end
 function c42599684.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c42599684.filter,tp,LOCATION_DECK,0,1,nil) end
