@@ -120,12 +120,12 @@ function c59821112.activate2(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c59821112.synfilter1(c,e,tp)
-	return c:IsFaceup() and c:IsCode(59821051) and c:IsType(TYPE_TUNER) and c:IsAttribute(ATTRIBUTE_WIND)
+	return c:IsFaceup() and c:IsSetCard(0xa1a2) and c:IsType(TYPE_TUNER) and c:IsAttribute(ATTRIBUTE_WIND)
 		and Duel.IsExistingTarget(c59821112.synfilter2,tp,LOCATION_REMOVED,0,1,nil,e,tp,c:GetLevel())
 end
 function c59821112.synfilter2(c,e,tp,lv)
 	local clv=c:GetLevel()
-	return clv>0 and c:IsFaceup() and c:IsSetCard(0xa1a2) and c:IsType(TYPE_MONSTER) and not c:IsAttribute(ATTRIBUTE_WIND)
+	return clv>0 and c:IsFaceup() and c:IsSetCard(0xa1a2) and not c:IsType(TYPE_TUNER)
 		and Duel.IsExistingMatchingCard(c59821112.synfilter3,tp,LOCATION_EXTRA,0,1,nil,e,tp,lv+clv)
 end
 function c59821112.synfilter3(c,e,tp,lv)

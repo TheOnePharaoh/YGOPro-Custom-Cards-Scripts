@@ -2,7 +2,7 @@
 function c77628920.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_FUSION_SUMMON)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetCountLimit(1,77628920+EFFECT_COUNT_CODE_OATH)
@@ -11,10 +11,10 @@ function c77628920.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c77628920.filter0(c)
-	return c:IsCanBeFusionMaterial() and c:IsAbleToGrave()
+	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and c:IsAbleToGrave()
 end
 function c77628920.filter1(c,e)
-	return c:IsCanBeFusionMaterial() and c:IsAbleToGrave() and not c:IsImmuneToEffect(e)
+	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and c:IsAbleToGrave() and not c:IsImmuneToEffect(e)
 end
 function c77628920.filter2(c,e,tp,m,f,chkf)
 	return c:IsType(TYPE_FUSION) and c:IsSetCard(0xba003) and (not f or f(c))

@@ -1,6 +1,6 @@
 --Return to the Darkness
 function c66652248.initial_effect(c)
-	c:SetCounterLimit(0x104,5)
+	c:SetCounterLimit(0x1111,5)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_TODECK)
@@ -61,18 +61,18 @@ function c66652248.ctcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c66652248.ctfilter,1,nil)
 end
 function c66652248.ctop(e,tp,eg,ep,ev,re,r,rp)
-	e:GetHandler():AddCounter(0x104,1)
+	e:GetHandler():AddCounter(0x1111,1)
 end
 function c66652248.atkval(e,c)
-	return e:GetHandler():GetCounter(0x104)*100
+	return e:GetHandler():GetCounter(0x1111)*100
 end
 function c66652248.damcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToGraveAsCost() end
-	e:SetLabel(e:GetHandler():GetCounter(0x104))
+	e:SetLabel(e:GetHandler():GetCounter(0x1111))
 	Duel.SendtoGrave(e:GetHandler(),REASON_COST)
 end
 function c66652248.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():GetCounter(0x104)>0 end
+	if chk==0 then return e:GetHandler():GetCounter(0x1111)>0 end
 	Duel.SetTargetPlayer(1-tp)
 	Duel.SetTargetParam(e:GetLabel()*500)
 	Duel.SetOperationInfo(0,CATEGORY_DAMAGE,nil,0,1-tp,e:GetLabel()*500)

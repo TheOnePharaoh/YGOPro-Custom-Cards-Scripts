@@ -103,19 +103,19 @@ function c59821080.operation(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c59821080.attackup(e,c)
-	return c:GetCounter(0x107)*300
+	return c:GetCounter(0x1114)*300
 end
 function c59821080.ctcon1(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():GetSummonType()==SUMMON_TYPE_PENDULUM
 end
 function c59821080.cttg1(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	Duel.SetOperationInfo(0,CATEGORY_COUNTER,nil,1,0,0x107)
+	Duel.SetOperationInfo(0,CATEGORY_COUNTER,nil,1,0,0x1114)
 end
 function c59821080.ctop1(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
 	if e:GetHandler():IsRelateToEffect(e) then
-		e:GetHandler():AddCounter(0x107,1)
+		e:GetHandler():AddCounter(0x1114,1)
 	end
 end
 function c59821080.cttg2(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
@@ -123,12 +123,12 @@ function c59821080.cttg2(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then return Duel.IsExistingTarget(Card.IsFaceup,tp,0,LOCATION_MZONE,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
 	local g=Duel.SelectTarget(tp,Card.IsFaceup,tp,0,LOCATION_MZONE,1,1,nil)
-	Duel.SetOperationInfo(0,CATEGORY_COUNTER,g,1,0x107,1)
+	Duel.SetOperationInfo(0,CATEGORY_COUNTER,g,1,0x1114,1)
 end
 function c59821080.ctop2(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
 	local tc=Duel.GetFirstTarget()
 	if tc:IsFaceup() and tc:IsRelateToEffect(e) then
-		tc:AddCounter(0x107,1)
+		tc:AddCounter(0x1114,1)
 	end
 end

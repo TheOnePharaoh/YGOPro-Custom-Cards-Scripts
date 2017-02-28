@@ -9,7 +9,6 @@ function c44559838.initial_effect(c)
 	e1:SetRange(LOCATION_HAND+LOCATION_GRAVE)
 	e1:SetCountLimit(1,44559838)
 	e1:SetCondition(c44559838.spcon)
-	e1:SetCost(c44559838.spcost)
 	e1:SetTarget(c44559838.sptg)
 	e1:SetOperation(c44559838.spop)
 	c:RegisterEffect(e1)
@@ -31,10 +30,6 @@ function c44559838.confilter(c)
 end
 function c44559838.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsExistingMatchingCard(c44559838.confilter,tp,LOCATION_ONFIELD,0,1,nil)
-end
-function c44559838.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckLPCost(tp,1500) end
-	Duel.PayLPCost(tp,1500)
 end
 function c44559838.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0

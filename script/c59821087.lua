@@ -98,8 +98,8 @@ function c59821087.adval(e,tp,eg,ep,ev,re,r,rp)
 	local a=Duel.GetAttacker()
 	local d=Duel.GetAttackTarget()
 	if not d then return end
-	if a:GetCounter(0x107)>0 and d:IsSetCard(0xa1a2) then c59821087.addown(a,e) end
-	if d:GetCounter(0x107)>0 and a:IsSetCard(0xa1a2) then c59821087.addown(d,e) end
+	if a:GetCounter(0x1114)>0 and d:IsSetCard(0xa1a2) then c59821087.addown(a,e) end
+	if d:GetCounter(0x1114)>0 and a:IsSetCard(0xa1a2) then c59821087.addown(d,e) end
 end
 function c59821087.addown(c,e)
 	local e1=Effect.CreateEffect(e:GetHandler())
@@ -107,7 +107,7 @@ function c59821087.addown(c,e)
 	e1:SetCode(EFFECT_UPDATE_ATTACK)
 	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
 	e1:SetReset(RESET_PHASE+RESET_DAMAGE_CAL)
-	e1:SetValue(c:GetCounter(0x107)*-400)
+	e1:SetValue(c:GetCounter(0x1114)*-400)
 	c:RegisterEffect(e1)
 	local e2=e1:Clone()
 	e2:SetCode(EFFECT_UPDATE_DEFENSE)

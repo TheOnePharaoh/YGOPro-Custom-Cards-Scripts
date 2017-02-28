@@ -64,14 +64,14 @@ end
 function c78219330.spcon(e,c)
 	if c==nil then return true end
 	return Duel.GetLocationCount(c:GetControler(),LOCATION_MZONE)>0
-		and Duel.IsCanRemoveCounter(c:GetControler(),1,1,0x1108,3,REASON_COST)
+		and Duel.IsCanRemoveCounter(c:GetControler(),1,1,0x1115,3,REASON_COST)
 end
 function c78219330.spop(e,tp,eg,ep,ev,re,r,rp,c)
-	Duel.RemoveCounter(tp,1,1,0x1108,3,REASON_COST)
+	Duel.RemoveCounter(tp,1,1,0x1115,3,REASON_COST)
 end
 function c78219330.descost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1108,2,REASON_COST) end
-	Duel.RemoveCounter(tp,1,1,0x1108,2,REASON_COST)
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1115,2,REASON_COST) end
+	Duel.RemoveCounter(tp,1,1,0x1115,2,REASON_COST)
 end
 function c78219330.desfilter(c)
 	return c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsDestructable()
@@ -94,8 +94,8 @@ function c78219330.negcon(e,tp,eg,ep,ev,re,r,rp)
 	return not re:GetHandler():IsCode(78219330) and Duel.IsChainNegatable(ev)
 end
 function c78219330.negcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1108,3,REASON_COST) end
-	Duel.RemoveCounter(tp,1,1,0x1108,3,REASON_COST)
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1115,3,REASON_COST) end
+	Duel.RemoveCounter(tp,1,1,0x1115,3,REASON_COST)
 end
 function c78219330.negtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end

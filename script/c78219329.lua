@@ -13,8 +13,8 @@ function c78219329.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c78219329.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1108,2,REASON_COST) end
-	Duel.RemoveCounter(tp,1,1,0x1108,2,REASON_COST)
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1115,2,REASON_COST) end
+	Duel.RemoveCounter(tp,1,1,0x1115,2,REASON_COST)
 end
 function c78219329.filter1(c)
 	return c:IsFaceup() and c:GetLevel()>0 and not c:IsType(TYPE_XYZ) and c:IsDestructable()
@@ -39,7 +39,7 @@ function c78219329.operation1(e,tp,eg,ep,ev,re,r,rp)
 		if g:GetCount()==0 then return end
 		for i=1,lv do
 			local sg=g:Select(tp,1,1,nil)
-			sg:GetFirst():AddCounter(0x1108,1)
+			sg:GetFirst():AddCounter(0x1115,1)
 			local e1=Effect.CreateEffect(e:GetHandler())
 			e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
 			e1:SetCode(EVENT_SUMMON_SUCCESS)
@@ -58,14 +58,14 @@ function c78219329.operation1(e,tp,eg,ep,ev,re,r,rp)
 end
 function c78219329.ctop1(e,tp,eg,ep,ev,re,r,rp)
 	if ep==tp then
-		eg:GetFirst():AddCounter(0x1108,1)
+		eg:GetFirst():AddCounter(0x1115,1)
 	end
 end
 function c78219329.ctop2(e,tp,eg,ep,ev,re,r,rp)
 	local tc=eg:GetFirst()
 	while tc do
 		if tc:IsFaceup() and tc:GetSummonPlayer()==tp then
-			tc:AddCounter(0x1108,1)
+			tc:AddCounter(0x1115,1)
 		end
 		tc=eg:GetNext()
 	end

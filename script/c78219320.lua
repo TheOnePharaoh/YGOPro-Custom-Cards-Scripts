@@ -30,8 +30,8 @@ function c78219320.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c78219320.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1108,2,REASON_COST) end
-	Duel.RemoveCounter(tp,1,1,0x1108,2,REASON_COST)
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1115,2,REASON_COST) end
+	Duel.RemoveCounter(tp,1,1,0x1115,2,REASON_COST)
 end
 function c78219320.filter1(c,e,tp)
 	local rk=c:GetRank()

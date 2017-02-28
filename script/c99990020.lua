@@ -16,12 +16,11 @@ function c99990020.initial_effect(c)
   e2:SetTarget(c99990020.thtg)
   e2:SetOperation(c99990020.thop)
   c:RegisterEffect(e2)
-  --ATK/DEF Gain
+  --ATK/DEF
   local e3=Effect.CreateEffect(c)
   e3:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_DEFCHANGE)
   e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
-  e3:SetCode(EVENT_BATTLED)
-  e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+  e3:SetCode(EVENT_BATTLE_DESTROYED)
   e3:SetRange(LOCATION_MZONE)
   e3:SetCondition(c99990020.atkcon)
   e3:SetOperation(c99990020.atkop)
@@ -47,16 +46,14 @@ function c99990020.thop(e,tp,eg,ep,ev,re,r,rp,chk)
   end
 end
 function c99990020.atkcon(e,tp,eg,ep,ev,re,r,rp)
-  local a=Duel.GetAttacker()
-  local d=Duel.GetAttackTarget()
-  if not d then return false end
-  if d:IsControler(tp) then a,d=d,a end
-  if d:IsType(TYPE_XYZ) then
-  e:SetLabel(d:GetRank()) 
+  local des=eg:GetFirst()
+  local rc=des:GetReasonCard()
+  if des:IsType(TYPE_XYZ) then
+  e:SetLabel(des:GetRank()) 
   else
-  e:SetLabel(d:GetLevel())
+  e:SetLabel(des:GetLevel())
   end
-  return a:IsControler(tp) and a:IsSetCard(0x999) and not a:IsStatus(STATUS_BATTLE_DESTROYED) and d:IsStatus(STATUS_BATTLE_DESTROYED)
+  return rc and rc:IsSetCard(0x999) and rc:IsControler(tp) and rc:IsRelateToBattle() and des:IsReason(REASON_BATTLE) 
 end
 function c99990020.atkop(e,tp,eg,ep,ev,re,r,rp)
   local c=e:GetHandler()

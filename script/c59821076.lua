@@ -1,6 +1,6 @@
 --The Idol Master of Fantasy and Calamity Lord Phantasmia
 function c59821076.initial_effect(c)
-	c:SetCounterLimit(0x107,5)
+	c:SetCounterLimit(0x1114,5)
 	c:EnableReviveLimit()
 	--special summon
 	local e1=Effect.CreateEffect(c)
@@ -135,18 +135,18 @@ function c59821076.tokcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c59821076.tokfilter,1,nil,tp)
 end
 function c59821076.tokop(e,tp,eg,ep,ev,re,r,rp)
-	e:GetHandler():AddCounter(0x107,1)
+	e:GetHandler():AddCounter(0x1114,1)
 end
 function c59821076.atkval(e,c)
-	return e:GetHandler():GetCounter(0x107)*200
+	return e:GetHandler():GetCounter(0x1114)*200
 end
 function c59821076.desreptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return not e:GetHandler():IsReason(REASON_RULE)
-		and e:GetHandler():GetCounter(0x107)>0 end
+		and e:GetHandler():GetCounter(0x1114)>0 end
 	return Duel.SelectYesNo(tp,aux.Stringid(59821076,2))
 end
 function c59821076.desrepop(e,tp,eg,ep,ev,re,r,rp)
-	e:GetHandler():RemoveCounter(ep,0x107,2,REASON_EFFECT)
+	e:GetHandler():RemoveCounter(ep,0x1114,2,REASON_EFFECT)
 end
 function c59821076.damcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()

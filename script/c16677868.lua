@@ -1,6 +1,6 @@
 --IROHA - Song of Curoiusity
 function c16677868.initial_effect(c)
-	c:EnableCounterPermit(0x104)
+	c:EnableCounterPermit(0x1111)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -23,7 +23,7 @@ function c16677868.initial_effect(c)
 	e4:SetType(EFFECT_TYPE_IGNITION)
 	e4:SetRange(LOCATION_SZONE)
 	e4:SetCountLimit(1,16677868)
-	e4:SetCost(c16677868.cost2)
+	e4:SetCost(c16677868.cost1)
 	e4:SetTarget(c16677868.tg2)
 	e4:SetOperation(c16677868.op2)
 	c:RegisterEffect(e4)
@@ -35,7 +35,7 @@ function c16677868.initial_effect(c)
 	e5:SetType(EFFECT_TYPE_IGNITION)
 	e5:SetRange(LOCATION_SZONE)
 	e5:SetCountLimit(1,16677868)
-	e5:SetCost(c16677868.cost3)
+	e5:SetCost(c16677868.cost2)
 	e5:SetTarget(c16677868.tg3)
 	e5:SetOperation(c16677868.op3)
 	c:RegisterEffect(e5)
@@ -45,13 +45,13 @@ function c16677868.ctfilter(c)
 end
 function c16677868.ctop(e,tp,eg,ep,ev,re,r,rp)
 	if eg:IsExists(c16677868.ctfilter,1,nil) then
-		e:GetHandler():AddCounter(0x104,1)
+		e:GetHandler():AddCounter(0x1111,1)
 	end
 end
-function c16677868.cost2(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,0,0x104,4,REASON_COST) end
+function c16677868.cost1(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return e:GetHandler():IsCanRemoveCounter(tp,0x1111,4,REASON_COST) end
 	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
-	Duel.RemoveCounter(tp,1,0,0x104,4,REASON_COST)
+	e:GetHandler():RemoveCounter(tp,0x1111,4,REASON_COST)
 end
 function c16677868.filter2(c)
 	return c:IsSetCard(0x0dac405) and c:IsType(TYPE_TUNER) and c:IsAbleToHand() and not c:IsHasEffect(EFFECT_NECRO_VALLEY)
@@ -69,10 +69,10 @@ function c16677868.op2(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ConfirmCards(1-tp,g)
 	end
 end
-function c16677868.cost3(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,0,0x104,6,REASON_COST) end
+function c16677868.cost2(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return e:GetHandler():IsCanRemoveCounter(tp,0x1111,6,REASON_COST) end
 	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
-	Duel.RemoveCounter(tp,1,0,0x104,6,REASON_COST)
+	e:GetHandler():RemoveCounter(tp,0x1111,6,REASON_COST)
 end
 function c16677868.filter3(c,e,tp)
 	return c:IsType(TYPE_TUNER) and c:IsSetCard(0x0dac405) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)

@@ -1,4 +1,4 @@
---Death Knight Black Art
+--Night Apparation, Shade of the Black Art
 function c77628940.initial_effect(c)
 	--cannot special summon
 	local e1=Effect.CreateEffect(c)
@@ -24,10 +24,10 @@ function c77628940.initial_effect(c)
 	e3:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
 	e3:SetValue(c77628940.synlimit)
 	c:RegisterEffect(e3)
-	--destroy
+	--fusion summon
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(77628940,0))
-	e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e4:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_FUSION_SUMMON)
 	e4:SetType(EFFECT_TYPE_IGNITION)
 	e4:SetRange(LOCATION_GRAVE)
 	e4:SetCountLimit(1,77628940)
@@ -81,7 +81,7 @@ function c77628940.fscost(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.Remove(e:GetHandler(),POS_FACEUP,REASON_COST)
 end
 function c77628940.filter1(c,e)
-	return c:IsFaceup() and c:IsCanBeFusionMaterial() and not c:IsImmuneToEffect(e)
+	return c:IsFaceup() and c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and not c:IsImmuneToEffect(e)
 end
 function c77628940.filter2(c,e,tp,m,f,chkf)
 	return c:IsType(TYPE_FUSION) and c:IsSetCard(0xba003) and (not f or f(c))
@@ -90,7 +90,7 @@ end
 function c77628940.fstg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local chkf=Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and PLAYER_NONE or tp
-		local mg1=Duel.GetMatchingGroup(Card.IsCanBeFusionMaterial,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
+		local mg1=Duel.GetMatchingGroup(c77628940.filter1,tp,LOCATION_MZONE,LOCATION_MZONE,nil)
 		local res=Duel.IsExistingMatchingCard(c77628940.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg1,nil,chkf)
 		if not res then
 			local ce=Duel.GetChainMaterial(tp)

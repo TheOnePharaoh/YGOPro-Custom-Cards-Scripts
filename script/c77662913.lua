@@ -18,13 +18,21 @@ function c77662913.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
 	e2:SetValue(c77662913.synlimit)
 	c:RegisterEffect(e2)
-	--nontuner
+	--synthetic tuner
 	local e3=Effect.CreateEffect(c)
 	e3:SetType(EFFECT_TYPE_SINGLE)
 	e3:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-	e3:SetRange(LOCATION_MZONE)
-	e3:SetCode(EFFECT_NONTUNER)
+	e3:SetCode(EFFECT_ADD_TYPE)
+	e3:SetRange(LOCATION_HAND+LOCATION_MZONE+LOCATION_GRAVE)
+	e3:SetValue(TYPE_NORMAL)
 	c:RegisterEffect(e3)
+	--add setcode
+	local e4=Effect.CreateEffect(c)
+	e4:SetType(EFFECT_TYPE_SINGLE)
+	e4:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
+	e4:SetCode(EFFECT_ADD_SETCODE)
+	e4:SetValue(0xd71)
+	c:RegisterEffect(e4)
 end
 function c77662913.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.CheckLPCost(tp,1000) end

@@ -39,7 +39,7 @@ function c99980040.ctfilter(c,tp)
   return c:IsFaceup() and c:IsSetCard(0x998) and c:IsControler(tp) and c:GetSummonType()==SUMMON_TYPE_XYZ
 end
 function c99980040.ctcon(e,tp,eg,ep,ev,re,r,rp)
-  return eg:IsExists(c99980040.ctfilter,1,nil,tp)
+  return eg:IsExists(c99980040.ctfilter,1,nil,tp) and rp==tp
 end
 function c99980040.ctop(e,tp,eg,ep,ev,re,r,rp)
   return e:GetHandler():AddCounter(0x9998,1)

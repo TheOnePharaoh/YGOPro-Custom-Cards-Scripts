@@ -2,7 +2,6 @@
 function c22769935.initial_effect(c)
 	--Activate(summon)
 	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_DISABLE_SUMMON+CATEGORY_DESTROY)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_SUMMON)
 	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -18,7 +17,6 @@ function c22769935.initial_effect(c)
 	c:RegisterEffect(e3)
 	--Activate(effect)
 	local e4=Effect.CreateEffect(c)
-	e4:SetCategory(CATEGORY_NEGATE+CATEGORY_DESTROY)
 	e4:SetType(EFFECT_TYPE_ACTIVATE)
 	e4:SetCode(EVENT_CHAINING)
 	e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -28,7 +26,6 @@ function c22769935.initial_effect(c)
 	c:RegisterEffect(e4)
 	--Activate(attack)
 	local e5=Effect.CreateEffect(c)
-	e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e5:SetType(EFFECT_TYPE_ACTIVATE)
 	e5:SetCode(EVENT_ATTACK_ANNOUNCE)
 	e5:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -39,7 +36,6 @@ function c22769935.initial_effect(c)
 	--Activate(spsummon)
 	local e6=Effect.CreateEffect(c)
 	e6:SetType(EFFECT_TYPE_ACTIVATE)
-	e6:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e6:SetCode(EVENT_BATTLE_DESTROYED)
 	e6:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e6:SetCondition(c22769935.condition4)
@@ -69,7 +65,7 @@ function c22769935.condition1(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetCurrentChain()==0
 end
 function c22769935.condition2(e,tp,eg,ep,ev,re,r,rp)
-	return re:IsHasType(EFFECT_TYPE_ACTIVATE) and Duel.IsChainNegatable(ev)
+	return not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED) and Duel.IsChainNegatable(ev)
 end
 function c22769935.condition3(e,tp,eg,ep,ev,re,r,rp)
 	return tp~=Duel.GetTurnPlayer()
@@ -78,13 +74,13 @@ function c22769935.condition4(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c22769935.cfilter,1,nil,tp)
 end
 function c22769935.copyfilter(c)
-	return c:IsType(TYPE_COUNTER) and not c:IsCode(22769935) and c:CheckActivateEffect(true,true,false)~=nil
+	return c:IsType(TYPE_COUNTER) and not c:IsCode(56981417) and c:CheckActivateEffect(true,true,false)~=nil
 end
 function c22769935.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then
 		local te=e:GetLabelObject()
 		local tg=te:GetTarget()
-		return tg and tg(te,tp,eg,ep,ev,re,r,rp,0,chkc)
+		return tg and tg(e,tp,eg,ep,ev,re,r,rp,0,chkc)
 	end
 	if chk==0 then return Duel.IsExistingTarget(c22769935.copyfilter,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,nil) end
 	e:SetProperty(EFFECT_FLAG_CARD_TARGET)
@@ -92,31 +88,26 @@ function c22769935.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
 	local g=Duel.SelectTarget(tp,c22769935.copyfilter,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,1,nil)
 	local te=g:GetFirst():CheckActivateEffect(true,true,false)
-	e:SetLabelObject(te)
 	Duel.ClearTargetCard()
-	g:GetFirst():CreateEffectRelation(e)
-	local tg=te:GetTarget()
 	e:SetCategory(te:GetCategory())
 	e:SetProperty(te:GetProperty())
-	if tg then tg(te,tp,eg,ep,ev,re,r,rp,1) end
-	local cg=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
-	local tc=cg:GetFirst()
-	while tc do
-		tc:CreateEffectRelation(te)
-		tc=cg:GetNext()
-	end
+	e:SetLabel(te:GetLabel())
+	e:SetLabelObject(te:GetLabelObject())
+	local tg=te:GetTarget()
+	if tg then tg(e,tp,eg,ep,ev,re,r,rp,1) end
+	te:SetLabel(e:GetLabel())
+	te:SetLabelObject(e:GetLabelObject())
+	e:SetLabelObject(te)
 end
 function c22769935.activate(e,tp,eg,ep,ev,re,r,rp)
 	local te=e:GetLabelObject()
 	if te:GetHandler():IsRelateToEffect(e) then
+		e:SetLabel(te:GetLabel())
+		e:SetLabelObject(te:GetLabelObject())
 		local op=te:GetOperation()
-		if op then op(te,tp,eg,ep,ev,re,r,rp) end
-		local cg=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
-		local tc=cg:GetFirst()
-		while tc do
-			tc:ReleaseEffectRelation(te)
-			tc=cg:GetNext()
-		end
+		if op then op(e,tp,eg,ep,ev,re,r,rp) end
+		te:SetLabel(e:GetLabel())
+		te:SetLabelObject(e:GetLabelObject())
 	end
 end
 function c22769935.descost(e,tp,eg,ep,ev,re,r,rp,chk)

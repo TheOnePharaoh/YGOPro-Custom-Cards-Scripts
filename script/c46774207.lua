@@ -1,6 +1,6 @@
 --Hirari - Song of Fluttering Pain
 function c46774207.initial_effect(c)
-	c:SetCounterLimit(0x104,5)
+	c:SetCounterLimit(0x1111,5)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -55,14 +55,14 @@ function c46774207.ctcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c46774207.ctfilter,1,nil)
 end
 function c46774207.ctop(e,tp,eg,ep,ev,re,r,rp)
-	e:GetHandler():AddCounter(0x104,1)
+	e:GetHandler():AddCounter(0x1111,1)
 end
 function c46774207.poscon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()~=tp and Duel.GetCurrentPhase()>=PHASE_BATTLE_START and Duel.GetCurrentPhase()<=PHASE_BATTLE
 end
 function c46774207.poscost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,2,0,0x104,2,REASON_COST) end
-	Duel.RemoveCounter(tp,2,0,0x104,2,REASON_COST)
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,2,0,0x1111,2,REASON_COST) end
+	Duel.RemoveCounter(tp,2,0,0x1111,2,REASON_COST)
 end
 function c46774207.posfilter(c,e,tp)
 	return c:IsFaceup() and c:IsSetCard(0x0dac402) and c:IsType(TYPE_SYNCHRO) and c:IsPosition(POS_FACEUP_ATTACK)

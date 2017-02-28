@@ -84,8 +84,8 @@ function c78219332.pencon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetFieldCard(tp,LOCATION_SZONE,13-seq)==nil 
 end
 function c78219332.pencost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1108,2,REASON_COST) end
-	Duel.RemoveCounter(tp,1,1,0x1108,2,REASON_COST)
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1115,2,REASON_COST) end
+	Duel.RemoveCounter(tp,1,1,0x1115,2,REASON_COST)
 end
 function c78219332.pentg(e,tp,eg,ep,ev,re,r,rp,chk)
     if chk==0 then return Duel.IsExistingMatchingCard(c78219332.penfilter4,tp,LOCATION_EXTRA,0,1,nil) end

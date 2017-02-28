@@ -103,7 +103,7 @@ function c44559832.winop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetOperation(c44559832.checkop)
 	e1:SetCountLimit(1)
 	Duel.RegisterEffect(e1,tp)
-	c:RegisterFlagEffect(1082946,RESET_PHASE+PHASE_END,0,12)
+	c:RegisterFlagEffect(1082946,RESET_PHASE+PHASE_END,0,7)
 	c44559832[c]=e1
 end
 function c44559832.checkop(e,tp,eg,ep,ev,re,r,rp)
@@ -111,7 +111,7 @@ function c44559832.checkop(e,tp,eg,ep,ev,re,r,rp)
 	local ct=c:GetTurnCounter()
 	ct=ct+1
 	c:SetTurnCounter(ct)
-	if ct==12 then
+	if ct==7 then
 		Duel.Win(tp,0x58)
 		c:ResetFlagEffect(1082946)
 	end

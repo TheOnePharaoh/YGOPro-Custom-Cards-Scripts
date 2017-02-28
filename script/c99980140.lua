@@ -31,7 +31,7 @@ function c99980140.dmgfilter1(c,tp)
   return c:IsFaceup() and c:IsSetCard(0x998) and c:IsControler(tp) and c:GetSummonType()==SUMMON_TYPE_XYZ
 end
 function c99980140.dmgcon(e,tp,eg,ep,ev,re,r,rp)
-  return eg:IsExists(c99980140.dmgfilter1,1,nil,tp)
+  return eg:IsExists(c99980140.dmgfilter1,1,nil,tp) and rp==tp
 end
 function c99980140.dmgfilter2(c)
   return c:IsFaceup() and c:IsSetCard(0x998) and c:IsType(TYPE_XYZ)

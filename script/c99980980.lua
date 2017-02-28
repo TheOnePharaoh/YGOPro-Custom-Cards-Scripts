@@ -73,7 +73,7 @@ function c99980980.damfilter1(c,tp)
   return c:IsFaceup() and c:IsControler(tp) and c:IsSetCard(0x998) 
 end
 function c99980980.damcon(e,tp,eg,ep,ev,re,r,rp)
-  return eg:IsExists(c99980980.damfilter1,1,nil,tp)
+  return eg:IsExists(c99980980.damfilter1,1,nil,tp) and rp==tp
 end
 function c99980980.damtg(e,tp,eg,ep,ev,re,r,rp,chk)
   if chk==0 then return true end

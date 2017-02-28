@@ -41,7 +41,7 @@ function c68186168.filter2(c,e,tp,lv)
 		and Duel.IsExistingMatchingCard(c68186168.spfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp,lv+clv)
 end
 function c68186168.spfilter(c,e,tp,lv)
-	return c:IsSetCard(0x0dac402) and c:IsType(TYPE_SYNCHRO) and c:GetLevel()==lv and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_SYNCHRO,tp,false,false)
+	return c:IsSetCard(0x0dac402) and c:IsType(TYPE_SYNCHRO) and c:GetLevel()==lv and not c:IsSetCard(0xd72) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_SYNCHRO,tp,false,false)
 end
 function c68186168.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return false end

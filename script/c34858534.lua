@@ -84,7 +84,7 @@ function c34858534.target(e,tp,eg,ep,ev,re,r,rp,chk)
 end
 function c34858534.operation(e,tp,eg,ep,ev,re,r,rp)
 	if e:GetHandler():IsRelateToEffect(e) then
-		Duel.SpecialSummon(e:GetHandler(),1,tp,tp,false,false,POS_FACEUP_DEFENCE)
+		Duel.SpecialSummon(e:GetHandler(),1,tp,tp,false,false,POS_FACEUP_DEFENSE)
 	end
 end
 function c34858534.spcon(e,tp,eg,ep,ev,re,r,rp)

@@ -1,6 +1,6 @@
 --SAO - Asuna SAO
 function c99990021.initial_effect(c)
-   --Piercing
+  --Piercing
   local e1=Effect.CreateEffect(c)
   e1:SetType(EFFECT_TYPE_SINGLE)
   e1:SetCode(EFFECT_PIERCE)
@@ -11,35 +11,20 @@ function c99990021.initial_effect(c)
   e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
   e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
   e2:SetCode(EVENT_BATTLE_DESTROYING)
+  e2:SetCountLimit(1,99990021)
   e2:SetCondition(c99990021.thcon)
   e2:SetTarget(c99990021.thtg)
   e2:SetOperation(c99990021.thop)
   c:RegisterEffect(e2)
   --ATK/DEF
   local e3=Effect.CreateEffect(c)
-  e3:SetCategory(CATEGORY_ATKCHANGE)
+  e3:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_DEFCHANGE)
   e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
   e3:SetCode(EVENT_BATTLE_DESTROYED)
   e3:SetRange(LOCATION_MZONE)
   e3:SetCondition(c99990021.atkcon)
   e3:SetOperation(c99990021.atkop)
   c:RegisterEffect(e3)
-  local e4=Effect.CreateEffect(c)
-  e4:SetCategory(CATEGORY_ATKCHANGE)
-  e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
-  e4:SetCode(EVENT_BATTLE_DESTROYED)
-  e4:SetRange(LOCATION_MZONE)
-  e4:SetCondition(c99990021.atkcon2)
-  e4:SetOperation(c99990021.atkop)
-  c:RegisterEffect(e4)
-  local e5=Effect.CreateEffect(c)
-  e5:SetCategory(CATEGORY_ATKCHANGE)
-  e5:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
-  e5:SetCode(EVENT_BATTLE_DESTROYED)
-  e5:SetRange(LOCATION_MZONE)
-  e5:SetCondition(c99990021.atkcon3)
-  e5:SetOperation(c99990021.atkop)
-  c:RegisterEffect(e5)
 end
 function c99990021.thcon(e,tp,eg,ep,ev,re,r,rp)
   local c=e:GetHandler()
@@ -61,28 +46,22 @@ function c99990021.thop(e,tp,eg,ep,ev,re,r,rp,chk)
   end
 end
 function c99990021.atkcon(e,tp,eg,ep,ev,re,r,rp)
-  local tc=eg:GetFirst()
-  local bc=tc:GetBattleTarget()
-  return tc:IsReason(REASON_BATTLE) and bc:IsRelateToBattle() and bc:IsControler(tp) and bc:IsSetCard(9999)
-end
-function c99990021.atkcon2(e,tp,eg,ep,ev,re,r,rp)
-  local tc=eg:GetFirst()
-  local bc=tc:GetBattleTarget()
-  if tc==nil then return false
-  elseif tc:IsType(TYPE_MONSTER) and bc:IsControler(tp) and bc:IsSetCard(9999) and tc:IsReason(REASON_BATTLE) and bc:IsReason(REASON_BATTLE) then return true end
-end
-function c99990021.atkcon3(e,tp,eg,ep,ev,re,r,rp)
-  local tc=eg:GetFirst()
-  local bc=tc:GetBattleTarget()
-  if tc==nil then return false
-  elseif bc:IsType(TYPE_MONSTER) and tc:IsControler(tp) and tc:IsSetCard(9999) and bc:IsReason(REASON_BATTLE) and tc:IsReason(REASON_BATTLE) then return true end
+  local des=eg:GetFirst()
+  local rc=des:GetReasonCard()
+  if des:IsType(TYPE_XYZ) then
+  e:SetLabel(des:GetRank()) 
+  else
+  e:SetLabel(des:GetLevel())
+  end
+  return rc and rc:IsSetCard(0x999) and rc:IsControler(tp) and rc:IsRelateToBattle() and des:IsReason(REASON_BATTLE) 
 end
 function c99990021.atkop(e,tp,eg,ep,ev,re,r,rp)
   local c=e:GetHandler()
+  if c:IsFacedown() or not c:IsRelateToEffect(e) then return end
   local e1=Effect.CreateEffect(c)
   e1:SetType(EFFECT_TYPE_SINGLE)
   e1:SetCode(EFFECT_UPDATE_ATTACK)
-  e1:SetValue(100)
+  e1:SetValue(e:GetLabel()*100)
   e1:SetReset(RESET_EVENT+0x1ff0000)
   c:RegisterEffect(e1)
   local e2=e1:Clone()

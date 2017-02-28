@@ -17,8 +17,8 @@ function c78219321.condition(e,tp,eg,ep,ev,re,r,rp,chk)
 	return Duel.GetFieldGroupCount(tp,LOCATION_MZONE,0)==0 and Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)>1
 end
 function c78219321.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1108,2,REASON_COST) end
-	Duel.RemoveCounter(tp,1,1,0x1108,2,REASON_COST)
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1115,2,REASON_COST) end
+	Duel.RemoveCounter(tp,1,1,0x1115,2,REASON_COST)
 end
 function c78219321.spfilter1(c,e,tp)
 	return c:IsSetCard(0x7ad30) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)

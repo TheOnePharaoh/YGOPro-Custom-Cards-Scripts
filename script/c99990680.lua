@@ -15,7 +15,7 @@ function c99990680.filter1(c)
   return (c:IsLocation(LOCATION_HAND) or c:IsFaceup()) and c:IsSetCard(0x999) and c:IsType(TYPE_MONSTER) and c:IsAbleToGraveAsCost()
 end
 function c99990680.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-  if chk==0 then return Duel.IsExistingMatchingCard(c99990680.filter1,tp,LOCATION_MZONE+LOCATION_HAND,0,1,nil)  end
+  if chk==0 then return Duel.IsExistingMatchingCard(c99990680.filter1,tp,LOCATION_MZONE+LOCATION_HAND,0,1,nil) end
   Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TOGRAVE)
   local g=Duel.SelectMatchingCard(tp,c99990680.filter1,tp,LOCATION_MZONE+LOCATION_HAND,0,1,1,nil)
   e:SetLabel(g:GetFirst():GetAttack())
@@ -25,24 +25,18 @@ function c99990680.filter2(c)
   return c:IsFaceup() and c:IsSetCard(0x999) and c:IsType(TYPE_MONSTER)
 end
 function c99990680.target(e,tp,eg,ep,ev,re,r,rp,chk)
-  if chk==0 then return (Duel.IsExistingMatchingCard(c99990680.filter1,tp,LOCATION_MZONE,0,2,nil) 
-  and not Duel.IsExistingMatchingCard(c99990680.filter1,tp,LOCATION_HAND,0,1,nil)) 
-  or (Duel.IsExistingMatchingCard(c99990680.filter1,tp,LOCATION_MZONE,0,1,nil) 
-  and Duel.IsExistingMatchingCard(c99990680.filter1,tp,LOCATION_HAND,0,1,nil)) or Duel.IsPlayerCanDraw(tp,2) end
+  if chk==0 then return Duel.IsExistingMatchingCard(c99990680.filter1,tp,LOCATION_MZONE,0,1,nil) 
+  or Duel.IsPlayerCanDraw(tp,2) end
 end    
 function c99990680.operation(e,tp,eg,ep,ev,re,r,rp)
   Duel.HintSelection(Group.FromCards(c))
   local select=0
   Duel.Hint(HINT_SELECTMSG,tp,0)
-  if (Duel.IsExistingMatchingCard(c99990680.filter1,tp,LOCATION_MZONE,0,2,nil) 
-  and not Duel.IsExistingMatchingCard(c99990680.filter1,tp,LOCATION_HAND,0,1,nil)) 
-  or (Duel.IsExistingMatchingCard(c99990680.filter1,tp,LOCATION_MZONE,0,1,nil) 
-  and Duel.IsExistingMatchingCard(c99990680.filter1,tp,LOCATION_HAND,0,1,nil)) and Duel.IsPlayerCanDraw(tp,2) then
+  if Duel.IsExistingMatchingCard(c99990680.filter1,tp,LOCATION_MZONE,0,1,nil) 
+  and Duel.IsPlayerCanDraw(tp,2) then
   select=Duel.SelectOption(tp,aux.Stringid(99990680,0),aux.Stringid(99990680,1))
-  elseif (Duel.IsExistingMatchingCard(c99990680.filter1,tp,LOCATION_MZONE,0,2,nil) 
-  and not Duel.IsExistingMatchingCard(c99990680.filter1,tp,LOCATION_HAND,0,1,nil)) 
-  or (Duel.IsExistingMatchingCard(c99990680.filter1,tp,LOCATION_MZONE,0,1,nil) 
-  and Duel.IsExistingMatchingCard(c99990680.filter1,tp,LOCATION_HAND,0,1,nil)) then
+  elseif Duel.IsExistingMatchingCard(c99990680.filter1,tp,LOCATION_MZONE,0,1,nil) 
+  and not Duel.IsPlayerCanDraw(tp,2) then
   select=Duel.SelectOption(tp,aux.Stringid(99990680,0))
   elseif Duel.IsPlayerCanDraw(tp,2) then
   select=Duel.SelectOption(tp,aux.Stringid(99990680,1))

@@ -84,8 +84,8 @@ function c78219325.repop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RaiseEvent(c,EVENT_CUSTOM+78219325,e,0,tp,0,0)
 end
 function c78219325.descost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1108,2,REASON_COST) end
-	Duel.RemoveCounter(tp,1,1,0x1108,2,REASON_COST)
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1115,2,REASON_COST) end
+	Duel.RemoveCounter(tp,1,1,0x1115,2,REASON_COST)
 end
 function c78219325.desfilter(c)
 	return c:IsFaceup() and c:IsDestructable()

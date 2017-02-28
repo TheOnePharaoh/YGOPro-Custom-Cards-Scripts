@@ -1,19 +1,17 @@
 --BRS - Black Gold Saw
 function c99960040.initial_effect(c)
-  c:SetUniqueOnField(1,0,99960040)
   --Xyz Summon
   aux.AddXyzProcedure(c,nil,4,2)
   c:EnableReviveLimit()
  --Attach
   local e1=Effect.CreateEffect(c)
   e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
-  e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
+  e1:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET)
   e1:SetCode(EVENT_SPSUMMON_SUCCESS)
-  e1:SetCountLimit(1)
   e1:SetRange(LOCATION_MZONE)
-  e1:SetCondition(c99960040.matcon)
-  e1:SetTarget(c99960040.mattg)
-  e1:SetOperation(c99960040.matop)
+  e1:SetCondition(c99960040.attachcon)
+  e1:SetTarget(c99960040.attachtg)
+  e1:SetOperation(c99960040.attachop)
   c:RegisterEffect(e1)
   --Special Summon 1 BRS
   local e2=Effect.CreateEffect(c)
@@ -26,12 +24,11 @@ function c99960040.initial_effect(c)
   e2:SetTarget(c99960040.sptg)
   e2:SetOperation(c99960040.spop)
   c:RegisterEffect(e2)
-  --ATK Gain
+  --Halve ATK
   local e3=Effect.CreateEffect(c)
   e3:SetDescription(aux.Stringid(99960040,1))
-  e3:SetCategory(CATEGORY_ATKCHANGE)
-  e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
   e3:SetType(EFFECT_TYPE_IGNITION)
+  e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
   e3:SetCountLimit(1)
   e3:SetRange(LOCATION_MZONE)
   e3:SetCost(c99960040.atkcost)
@@ -46,9 +43,9 @@ function c99960040.initial_effect(c)
   e4:SetCode(EFFECT_UPDATE_ATTACK)
   e4:SetValue(c99960040.value)
   c:RegisterEffect(e4)
-  --Detach
+  --Detached
   local e5=Effect.CreateEffect(c)
-  e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
+  e5:SetCategory(CATEGORY_TODECK)
   e5:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
   e5:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
   e5:SetCode(EVENT_TO_GRAVE)
@@ -57,43 +54,35 @@ function c99960040.initial_effect(c)
   e5:SetOperation(c99960040.detop)
   c:RegisterEffect(e5)
 end
-function c99960040.matcon(e,tp,eg,ep,ev,re,r,rp)
-  return e:GetHandler():GetSummonType()==SUMMON_TYPE_SPECIAL+9996
+function c99960040.attachcon(e,tp,eg,ep,ev,re,r,rp)
+  return re and re:GetHandler():IsSetCard(0x996) and not (e:GetHandler():IsPreviousLocation(LOCATION_EXTRA)
+  and e:GetHandler():GetSummonType()==SUMMON_TYPE_XYZ and re:GetHandler()==e:GetHandler())
 end
-function c99960040.matfilter(c)
-  return c:IsType(TYPE_MONSTER+TYPE_SPELL+TYPE_TRAP) and not c:IsHasEffect(EFFECT_NECRO_VALLEY)
+function c99960040.attachfilter(c)
+  return not c:IsHasEffect(EFFECT_NECRO_VALLEY)
 end
-function c99960040.mattg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-  if chkc then return chkc:IsLocation(LOCATION_GRAVE) and chkc:IsControler(tp) and c99960040.matfilter(chkc) end
-  if chk==0 then return Duel.IsExistingTarget(c99960040.matfilter,tp,LOCATION_GRAVE,0,1,nil) end
-  Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(99960040,2))
-  local g=Duel.SelectTarget(tp,c99960040.matfilter,tp,LOCATION_GRAVE,0,1,1,nil)
-  Duel.SetOperationInfo(0,CATEGORY_LEAVE_GRAVE,g,1,0,0)
+function c99960040.attachtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+  if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_GRAVE) and c99960040.attachfilter(chkc) end
+  if chk==0 then return Duel.IsExistingTarget(c99960040.attachfilter,tp,LOCATION_GRAVE,0,1,nil) end
+  Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_XMATERIAL)
+  Duel.SelectTarget(tp,c99960040.attachfilter,tp,LOCATION_GRAVE,0,1,1,nil)
 end
-function c99960040.matop(e,tp,eg,ep,ev,re,r,rp)
+function c99960040.attachop(e,tp,eg,ep,ev,re,r,rp)
   local c=e:GetHandler()
   local tc=Duel.GetFirstTarget()
-  if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) then
-  local og=c:GetOverlayGroup()
+  if c:IsFaceup() and c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) then
   Duel.Overlay(c,Group.FromCards(tc))
   end
 end
-function c99960040.fildfilter(c)
-  return c:IsFaceup() and c:IsCode(99960300)
-end
 function c99960040.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
-  if chk==0 then return (Duel.GetLP(tp)>=250 and Duel.IsExistingMatchingCard(c99960040.fildfilter,tp,LOCATION_ONFIELD,0,1,nil))
-  or (Duel.GetLP(tp)>=500 and not Duel.IsExistingMatchingCard(c99960040.fildfilter,tp,LOCATION_ONFIELD,0,1,nil)) end
-  if Duel.IsExistingMatchingCard(c99960040.fildfilter,tp,LOCATION_ONFIELD,0,1,nil) then 
-  Duel.PayLPCost(tp,250)
-  elseif not Duel.IsExistingMatchingCard(c99960040.fildfilter,tp,LOCATION_ONFIELD,0,1,nil) then
-  Duel.PayLPCost(tp,500)
-  end
+  if chk==0 then return Duel.CheckLPCost(tp,700) end
+  Duel.PayLPCost(tp,700)
 end
 function c99960040.spfilter(c,e,tp)
-  return c:IsSetCard(0x9996) and c:IsType(TYPE_XYZ) and c:IsRankBelow(4) and c:IsCanBeSpecialSummoned(e,9996,tp,false,false)
+  return c:IsSetCard(0x996) and c:IsType(TYPE_XYZ) and c:GetRank()==4 and not c:IsCode(99960040)
+  and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
-function c99960040.sptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
+function c99960040.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
   if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
   and Duel.IsExistingMatchingCard(c99960040.spfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp) end
   Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
@@ -103,7 +92,7 @@ function c99960040.spop(e,tp,eg,ep,ev,re,r,rp)
   Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
   local g=Duel.SelectMatchingCard(tp,c99960040.spfilter,tp,LOCATION_EXTRA,0,1,1,nil,e,tp)
   if g:GetCount()>0 then
-  Duel.SpecialSummon(g,9996,tp,tp,false,false,POS_FACEUP)
+  Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
   end
 end
 function c99960040.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
@@ -124,7 +113,7 @@ function c99960040.atkop(e,tp,eg,ep,ev,re,r,rp)
   local e1=Effect.CreateEffect(c)
   e1:SetType(EFFECT_TYPE_SINGLE)
   e1:SetCode(EFFECT_SET_ATTACK_FINAL)
-  e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
+  e1:SetReset(RESET_EVENT+0x1fe0000)
   e1:SetValue(math.ceil(atk/2))
   tc:RegisterEffect(e1)
   if c:IsRelateToEffect(e) and c:IsFaceup() then
@@ -132,8 +121,8 @@ function c99960040.atkop(e,tp,eg,ep,ev,re,r,rp)
   e2:SetType(EFFECT_TYPE_SINGLE)
   e2:SetCode(EFFECT_UPDATE_ATTACK)
   e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-  e2:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
-  e2:SetValue(500)
+  e2:SetReset(RESET_EVENT+0x1ff0000+RESET_PHASE+PHASE_END)
+  e2:SetValue(math.ceil(atk/2))
   c:RegisterEffect(e2)
   end
   end

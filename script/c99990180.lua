@@ -23,12 +23,11 @@ function c99990180.initial_effect(c)
   e3:SetTarget(c99990180.sptg)
   e3:SetOperation(c99990180.spop)
   c:RegisterEffect(e3)
-  --ATK/DEF Gain
+  --ATK/DEF
   local e4=Effect.CreateEffect(c)
   e4:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_DEFCHANGE)
   e4:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
-  e4:SetCode(EVENT_BATTLED)
-  e4:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+  e4:SetCode(EVENT_BATTLE_DESTROYED)
   e4:SetRange(LOCATION_MZONE)
   e4:SetCondition(c99990180.atkcon)
   e4:SetOperation(c99990180.atkop)
@@ -38,15 +37,12 @@ function c99990180.lcktg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
   if chkc then return chkc:IsLocation(LOCATION_SZONE) and chkc:IsControler(1-tp) and chkc:IsFacedown() end
   if chk==0 then return Duel.IsExistingTarget(Card.IsFacedown,tp,0,LOCATION_SZONE,1,nil) end
   Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEDOWN)
-  Duel.SelectTarget(tp,Card.IsFacedown,tp,0,LOCATION_SZONE,1,1,nil)
-  if e:IsHasType(EFFECT_TYPE_ACTIVATE) then
-  Duel.SetChainLimit(c99990180.limit(g:GetFirst()))
-  end
+  local g=Duel.SelectTarget(tp,Card.IsFacedown,tp,0,LOCATION_SZONE,1,1,nil)
+  Duel.SetChainLimit(c99990180.chlimit)
 end
-function c99990180.limit(c)
-  return  function (e,lp,tp)
-  return e:GetHandler()~=c
-  end
+function c99990180.chlimit(e,ep,tp)
+  local g=Duel.GetChainInfo(0,CHAININFO_TARGET_CARDS)
+  return tp==ep or not g:IsContains(e:GetHandler())
 end
 function c99990180.lckop(e,tp,eg,ep,ev,re,r,rp)
   local tc=Duel.GetFirstTarget()
@@ -76,16 +72,14 @@ function c99990180.spop(e,tp,eg,ep,ev,re,r,rp)
   end
 end
 function c99990180.atkcon(e,tp,eg,ep,ev,re,r,rp)
-  local a=Duel.GetAttacker()
-  local d=Duel.GetAttackTarget()
-  if not d then return false end
-  if d:IsControler(tp) then a,d=d,a end
-  if d:IsType(TYPE_XYZ) then
-  e:SetLabel(d:GetRank()) 
+  local des=eg:GetFirst()
+  local rc=des:GetReasonCard()
+  if des:IsType(TYPE_XYZ) then
+  e:SetLabel(des:GetRank()) 
   else
-  e:SetLabel(d:GetLevel())
+  e:SetLabel(des:GetLevel())
   end
-  return a:IsControler(tp) and a:IsSetCard(0x999) and not a:IsStatus(STATUS_BATTLE_DESTROYED) and d:IsStatus(STATUS_BATTLE_DESTROYED)
+  return rc and rc:IsSetCard(0x999) and rc:IsControler(tp) and rc:IsRelateToBattle() and des:IsReason(REASON_BATTLE) 
 end
 function c99990180.atkop(e,tp,eg,ep,ev,re,r,rp)
   local c=e:GetHandler()

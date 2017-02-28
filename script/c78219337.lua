@@ -56,8 +56,8 @@ function c78219337.descon(e)
 	return not Duel.IsEnvironment(78219337)
 end
 function c78219337.atkcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1108,4,REASON_COST) end
-	Duel.RemoveCounter(tp,1,1,0x1108,4,REASON_COST)
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1115,4,REASON_COST) end
+	Duel.RemoveCounter(tp,1,1,0x1115,4,REASON_COST)
 end
 function c78219337.atkup(e,tp,eg,ep,ev,re,r,rp)
 	local a=Duel.GetAttacker()

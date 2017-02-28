@@ -31,7 +31,7 @@ function c99980240.desfilter1(c,tp)
   return c:IsFaceup() and c:IsSetCard(0x998) and c:IsControler(tp) and c:GetSummonType()==SUMMON_TYPE_XYZ
 end
 function c99980240.descon(e,tp,eg,ep,ev,re,r,rp)
-  return eg:IsExists(c99980240.desfilter1,1,nil,tp)
+  return eg:IsExists(c99980240.desfilter1,1,nil,tp) and rp==tp
 end
 function c99980240.desfilter2(c)
   return c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsDestructable()

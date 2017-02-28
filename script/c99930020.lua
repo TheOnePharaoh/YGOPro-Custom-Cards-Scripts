@@ -169,12 +169,13 @@ end
 function c99930020.dsstg(e,tp,eg,ep,ev,re,r,rp,chk)
   if chk==0 then return true end
   Duel.SetOperationInfo(0,CATEGORY_DISABLE_SUMMON,eg,eg:GetCount(),0,0)
+  Duel.SetOperationInfo(0,CATEGORY_DESTROY,eg,eg:GetCount(),0,0)
 end
 function c99930020.dssop(e,tp,eg,ep,ev,re,r,rp,chk)
   local tc=eg:GetFirst()
-  if Duel.NegateSummon(eg)~=0 then
+  Duel.NegateSummon(eg)
+  Duel.Destroy(eg,REASON_EFFECT)
   Duel.Damage(1-tp,tc:GetBaseAttack()/2,REASON_EFFECT)
-  end
 end
 function c99930020.pircon(e,tp,eg,ep,ev,re,r,rp)
   local c=e:GetHandler()

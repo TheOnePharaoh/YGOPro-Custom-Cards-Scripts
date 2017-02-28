@@ -26,8 +26,8 @@ function c78219319.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c78219319.cost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1108,2,REASON_COST) end
-	Duel.RemoveCounter(tp,1,1,0x1108,2,REASON_COST)
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1115,2,REASON_COST) end
+	Duel.RemoveCounter(tp,1,1,0x1115,2,REASON_COST)
 end
 function c78219319.filter1(c,e,sp)
 	return c:IsFaceup() and c:IsSetCard(0x7ad30) and c:IsCanBeSpecialSummoned(e,0,sp,true,false)

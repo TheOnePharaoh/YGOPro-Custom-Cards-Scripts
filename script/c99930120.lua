@@ -22,7 +22,9 @@ function c99930120.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
   if chkc then return false end
   if chk==0 then return not Duel.IsPlayerAffectedByEffect(tp,59822133)
   and Duel.GetLocationCount(tp,LOCATION_MZONE)>1
-  and Duel.IsExistingTarget(c99930120.spfilter1,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,nil,e,tp) end
+  and Duel.IsExistingTarget(c99930120.spfilter1,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,nil,e,tp) 
+  and Duel.IsExistingTarget(c99930120.xyzfilter,tp,LOCATION_EXTRA,0,1,nil,e,tp) 
+end
   local lvl=0
   Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
   local g1=Duel.SelectTarget(tp,c99930120.spfilter1,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,1,nil,e,tp)
@@ -36,8 +38,8 @@ function c99930120.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
   g1:Merge(g2)
   Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,g1,2,0,0)
 end
-function c99930120.xyzfilter(c,mg)
-  return c:IsXyzSummonable(mg,2,2) and c:IsSetCard(0x993)
+function c99930120.xyzfilter(c,e,tp)
+  return c:IsSetCard(0x993) and c:IsCanBeSpecialSummoned(e,SUMMON_TYPE_XYZ,tp,false,false)
 end
 function c99930120.activate(e,tp,eg,ep,ev,re,r,rp)
   if Duel.IsPlayerAffectedByEffect(tp,59822133) then return end
@@ -47,7 +49,7 @@ function c99930120.activate(e,tp,eg,ep,ev,re,r,rp)
   if g:GetCount()<2 then return end
   Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
   Duel.BreakEffect()
-  local xyzg=Duel.GetMatchingGroup(c99930120.xyzfilter,tp,LOCATION_EXTRA,0,nil,g)
+  local xyzg=Duel.GetMatchingGroup(c99930120.xyzfilter,tp,LOCATION_EXTRA,0,nil,e,tp)
   if xyzg:GetCount()>0 then
   Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
   local xyz=xyzg:Select(tp,1,1,nil):GetFirst()

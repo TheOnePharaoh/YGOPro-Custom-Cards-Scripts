@@ -1,6 +1,6 @@
 --The City of Nano Engineering
 function c78219322.initial_effect(c)
-	c:SetCounterLimit(0x1108,7)
+	c:SetCounterLimit(0x1115,7)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -72,11 +72,11 @@ function c78219322.atkcon(e)
 	return Duel.GetTurnPlayer()==e:GetHandlerPlayer()
 end
 function c78219322.atkval(e,c)
-	return e:GetHandler():GetCounter(0x1108)*100
+	return e:GetHandler():GetCounter(0x1115)*100
 end
 function c78219322.ctop(e,tp,eg,ep,ev,re,r,rp)
 	if ep~=tp then return end
-	e:GetHandler():AddCounter(0x1108,1)
+	e:GetHandler():AddCounter(0x1115,1)
 end
 function c78219322.desfilter(c)
 	return c:IsFaceup() and c:IsSetCard(0x7ad30) and c:IsDestructable()
@@ -119,7 +119,7 @@ function c78219322.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return at:IsFaceup() and at:IsControler(tp) and at:IsSetCard(0x48) and not at:IsSetCard(0x1048)
 end
 function c78219322.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():IsAbleToGraveAsCost() and e:GetHandler():GetCounter(0x1108)>=7 end
+	if chk==0 then return e:GetHandler():IsAbleToGraveAsCost() and e:GetHandler():GetCounter(0x1115)>=7 end
 	Duel.SendtoGrave(e:GetHandler(),REASON_COST)
 end
 function c78219322.filter(c,e,tp,mc,no)

@@ -106,12 +106,12 @@ function c78219315.cttg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then return Duel.IsExistingTarget(c78219315.ctcfilter,tp,LOCATION_SZONE,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
 	local g=Duel.SelectTarget(tp,c78219315.ctcfilter,tp,LOCATION_SZONE,0,1,1,nil)
-	Duel.SetOperationInfo(0,CATEGORY_COUNTER,g,1,0x1108,1)
+	Duel.SetOperationInfo(0,CATEGORY_COUNTER,g,1,0x1115,1)
 end
 function c78219315.ctop(e,tp,eg,ep,ev,re,r,rp)
 	if not e:GetHandler():IsRelateToEffect(e) then return end
 	local tc=Duel.GetFirstTarget()
 	if tc:IsFaceup() and tc:IsRelateToEffect(e) then
-		tc:AddCounter(0x1108,1)
+		tc:AddCounter(0x1115,1)
 	end
 end

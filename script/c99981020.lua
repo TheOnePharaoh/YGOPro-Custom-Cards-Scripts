@@ -79,7 +79,7 @@ function c99981020.negfilter1(c,tp)
   return c:IsFaceup() and c:IsSetCard(0x998) and c:IsControler(tp) and c:GetSummonType()==SUMMON_TYPE_XYZ
 end
 function c99981020.negcon(e,tp,eg,ep,ev,re,r,rp)
-  return eg:IsExists(c99981020.negfilter1,1,nil,tp)
+  return eg:IsExists(c99981020.negfilter1,1,nil,tp) and rp==tp
 end
 function c99981020.negtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
   if chkc then return chkc:IsControler(1-tp) and chkc:IsOnField() and aux.disfilter1(chkc) end

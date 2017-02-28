@@ -1,6 +1,6 @@
 --Stalking Out from the Darkness
 function c77662918.initial_effect(c)
-	c:SetCounterLimit(0x104,10)
+	c:SetCounterLimit(0x1111,10)
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
@@ -60,11 +60,11 @@ function c77662918.accon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetTurnPlayer()==tp
 end
 function c77662918.acop(e,tp,eg,ep,ev,re,r,rp)
-	e:GetHandler():AddCounter(0x104,1)
+	e:GetHandler():AddCounter(0x1111,1)
 end
 function c77662918.hdcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():IsCanRemoveCounter(tp,0x104,2,REASON_COST) end
-	e:GetHandler():RemoveCounter(tp,0x104,2,REASON_COST)
+	if chk==0 then return e:GetHandler():IsCanRemoveCounter(tp,0x1111,2,REASON_COST) end
+	e:GetHandler():RemoveCounter(tp,0x1111,2,REASON_COST)
 end
 function c77662918.hdreg(e,tp,eg,ep,ev,re,r,rp)
 	local e1=Effect.CreateEffect(e:GetHandler())
@@ -81,8 +81,8 @@ function c77662918.hdop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c77662918.descost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return e:GetHandler():IsCanRemoveCounter(tp,0x104,6,REASON_COST) end
-	e:GetHandler():RemoveCounter(tp,0x104,6,REASON_COST)
+	if chk==0 then return e:GetHandler():IsCanRemoveCounter(tp,0x1111,6,REASON_COST) end
+	e:GetHandler():RemoveCounter(tp,0x1111,6,REASON_COST)
 end
 function c77662918.destg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(Card.IsDestructable,tp,LOCATION_ONFIELD,LOCATION_ONFIELD,1,e:GetHandler()) end
@@ -94,7 +94,7 @@ function c77662918.desop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.Destroy(g,REASON_EFFECT)
 end
 function c77662918.spcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():GetCounter(0x104)>=9
+	return e:GetHandler():GetCounter(0x1111)>=9
 end
 function c77662918.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsAbleToGraveAsCost() end

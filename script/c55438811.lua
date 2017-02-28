@@ -1,8 +1,8 @@
---Twilight Fusion
+--God's Relic Twilight Fusion
 function c55438811.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_FUSION_SUMMON)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetTarget(c55438811.target)
@@ -21,10 +21,10 @@ function c55438811.initial_effect(c)
 	c:RegisterEffect(e2)
 end
 function c55438811.filter0(c)
-	return c:IsCanBeFusionMaterial() and c:IsAbleToRemove()
+	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and c:IsAbleToRemove()
 end
 function c55438811.filter1(c,e)
-	return c:IsCanBeFusionMaterial() and c:IsAbleToRemove() and not c:IsImmuneToEffect(e)
+	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and c:IsAbleToRemove() and not c:IsImmuneToEffect(e)
 end
 function c55438811.filter2(c,e,tp,m,f,chkf)
 	return c:IsType(TYPE_FUSION) and c:IsSetCard(0xd70) and (not f or f(c))

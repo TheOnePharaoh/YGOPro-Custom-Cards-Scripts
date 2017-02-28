@@ -96,8 +96,8 @@ function c78219314.drcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c78219314.drafilter,1,nil,tp)
 end
 function c78219314.drcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1108,1,REASON_COST) end
-	Duel.RemoveCounter(tp,1,1,0x1108,1,REASON_COST)
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1115,1,REASON_COST) end
+	Duel.RemoveCounter(tp,1,1,0x1115,1,REASON_COST)
 end
 function c78219314.drtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsPlayerCanDraw(tp,1) end

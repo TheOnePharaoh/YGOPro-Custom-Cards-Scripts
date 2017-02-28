@@ -1,6 +1,6 @@
 --No. 27: Colossal Warrior N.A.N.O Rider
 function c78219335.initial_effect(c)
-	c:SetCounterLimit(0x1108,5)
+	c:SetCounterLimit(0x1115,5)
 	--xyz summon
 	aux.AddXyzProcedure(c,aux.FilterBoolFunction(Card.IsRace,RACE_MACHINE),2,2)
 	c:EnableReviveLimit()
@@ -94,8 +94,8 @@ function c78219335.atkop(e,tp,eg,ep,ev,re,r,rp)
 	d:RegisterEffect(e3)
 end
 function c78219335.xyzcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1108,3,REASON_COST) end
-	Duel.RemoveCounter(tp,1,1,0x1108,3,REASON_COST)
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1115,3,REASON_COST) end
+	Duel.RemoveCounter(tp,1,1,0x1115,3,REASON_COST)
 end
 function c78219335.xyzfilter(c)
 	return c:IsPosition(POS_FACEUP_ATTACK) and c:IsAbleToChangeControler()
@@ -138,13 +138,13 @@ function c78219335.cfilter(c)
 end
 function c78219335.counter(e,tp,eg,ep,ev,re,r,rp)
 	if eg:IsExists(c78219335.cfilter,1,nil) then
-		e:GetHandler():AddCounter(0x1108,1)
+		e:GetHandler():AddCounter(0x1115,1)
 	end
 end
 function c78219335.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,0,0x1108,2,REASON_COST) end
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,0,0x1115,2,REASON_COST) end
 	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
-	Duel.RemoveCounter(tp,1,0,0x1108,2,REASON_COST)
+	Duel.RemoveCounter(tp,1,0,0x1115,2,REASON_COST)
 end
 function c78219335.specifilter(c,e,tp)
 	return c:IsFaceup() and c:IsSetCard(0x7ad30) and c:IsDestructable()

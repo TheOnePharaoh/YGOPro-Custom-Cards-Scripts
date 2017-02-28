@@ -70,7 +70,7 @@ function c78219326.descon(e)
 	return not Duel.IsEnvironment(78219322)
 end
 function c78219326.ctop(e,tp,eg,ep,ev,re,r,rp)
-	e:GetHandler():AddCounter(COUNTER_NEED_ENABLE+0x1108,1)
+	e:GetHandler():AddCounter(COUNTER_NEED_ENABLE+0x1115,1)
 end
 function c78219326.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():IsReleasable() end
@@ -80,33 +80,33 @@ function c78219326.condition(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():GetSummonType()==SUMMON_TYPE_PENDULUM
 end
 function c78219326.filter(c)
-	return c:IsFaceup() and c:IsCode(78219322) and c:IsCanAddCounter(0x1108,3)
+	return c:IsFaceup() and c:IsCode(78219322) and c:IsCanAddCounter(0x1115,3)
 end
 function c78219326.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsControler(tp) and chkc:IsOnField() and c78219326.filter(chkc) end
 	if chk==0 then return Duel.IsExistingTarget(c78219326.filter,tp,LOCATION_ONFIELD,0,1,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(78219326,0))
 	Duel.SelectTarget(tp,c78219326.filter,tp,LOCATION_ONFIELD,0,1,1,nil)
-	Duel.SetOperationInfo(0,CATEGORY_COUNTER,nil,3,0,0x1108)
+	Duel.SetOperationInfo(0,CATEGORY_COUNTER,nil,3,0,0x1115)
 end
 function c78219326.activate(e,tp,eg,ep,ev,re,r,rp)
 	local tc=Duel.GetFirstTarget()
 	if tc:IsFaceup() and tc:IsRelateToEffect(e) then
-		tc:AddCounter(0x1108,3)
+		tc:AddCounter(0x1115,3)
 	end
 end
 function c78219326.atkcon(e)
 	return Duel.GetTurnPlayer()==e:GetHandlerPlayer()
 end
 function c78219326.atkval(e,c)
-	return e:GetHandler():GetCounter(0x1108)*100
+	return e:GetHandler():GetCounter(0x1115)*100
 end
 function c78219326.ctofilter(c)
 	return c:IsFaceup() and c:IsSetCard(0x7ad30)
 end
 function c78219326.op(e,tp,eg,ep,ev,re,r,rp)
 	if eg:IsExists(c78219326.ctofilter,1,nil) then
-		e:GetHandler():AddCounter(0x1108,1)
+		e:GetHandler():AddCounter(0x1115,1)
 	end
 end
 function c78219326.tgfilter(c)

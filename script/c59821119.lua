@@ -9,6 +9,15 @@ function c59821119.initial_effect(c)
 	e1:SetTarget(c59821119.target)
 	e1:SetOperation(c59821119.activate)
 	c:RegisterEffect(e1)
+	--act in hand
+	local e2=Effect.CreateEffect(c)
+	e2:SetType(EFFECT_TYPE_SINGLE)
+	e2:SetCode(EFFECT_QP_ACT_IN_NTPHAND)
+	e2:SetCondition(c59821119.handcon)
+	c:RegisterEffect(e2)
+end
+function c59821119.handcon(e)
+	return tp~=Duel.GetTurnPlayer()
 end
 function c59821119.cfilter(c)
 	return c:IsFaceup() and c:IsSetCard(0xa1a2)

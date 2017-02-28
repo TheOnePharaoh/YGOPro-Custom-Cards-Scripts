@@ -19,12 +19,11 @@ function c99990360.initial_effect(c)
   e2:SetCode(EFFECT_EXTRA_ATTACK)
   e2:SetValue(1)
   c:RegisterEffect(e2)
-  --ATK/DEF Gain
+   --ATK/DEF
   local e3=Effect.CreateEffect(c)
   e3:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_DEFCHANGE)
   e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
-  e3:SetCode(EVENT_BATTLED)
-  e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+  e3:SetCode(EVENT_BATTLE_DESTROYED)
   e3:SetRange(LOCATION_MZONE)
   e3:SetCondition(c99990360.atkcon)
   e3:SetOperation(c99990360.atkop)
@@ -45,8 +44,8 @@ function c99990360.thfilter(c)
 end
 function c99990360.desop(e,tp,eg,ep,ev,re,r,rp)
   local tc=Duel.GetFirstTarget()
-  if tc:IsRelateToEffect(e) and Duel.Destroy(tc,REASON_EFFECT)~=0 and Duel.SelectYesNo(tp,aux.Stringid(99990360,0)) 
-  and Duel.IsExistingTarget(c99990360.thfilter,tp,LOCATION_DECK,0,1,nil) then 
+  if tc:IsRelateToEffect(e) and Duel.Destroy(tc,REASON_EFFECT)~=0
+  and Duel.IsExistingTarget(c99990360.thfilter,tp,LOCATION_DECK,0,1,nil) and Duel.SelectYesNo(tp,aux.Stringid(99990360,0)) then 
   Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
   local g=Duel.SelectMatchingCard(tp,c99990360.thfilter,tp,LOCATION_DECK,0,1,1,nil)
   if g:GetCount()>0  then
@@ -56,16 +55,14 @@ function c99990360.desop(e,tp,eg,ep,ev,re,r,rp)
   end
 end
 function c99990360.atkcon(e,tp,eg,ep,ev,re,r,rp)
-  local a=Duel.GetAttacker()
-  local d=Duel.GetAttackTarget()
-  if not d then return false end
-  if d:IsControler(tp) then a,d=d,a end
-  if d:IsType(TYPE_XYZ) then
-  e:SetLabel(d:GetRank()) 
+  local des=eg:GetFirst()
+  local rc=des:GetReasonCard()
+  if des:IsType(TYPE_XYZ) then
+  e:SetLabel(des:GetRank()) 
   else
-  e:SetLabel(d:GetLevel())
+  e:SetLabel(des:GetLevel())
   end
-  return a:IsControler(tp) and a:IsSetCard(0x999) and not a:IsStatus(STATUS_BATTLE_DESTROYED) and d:IsStatus(STATUS_BATTLE_DESTROYED)
+  return rc and rc:IsSetCard(0x999) and rc:IsControler(tp) and rc:IsRelateToBattle() and des:IsReason(REASON_BATTLE) 
 end
 function c99990360.atkop(e,tp,eg,ep,ev,re,r,rp)
   local c=e:GetHandler()

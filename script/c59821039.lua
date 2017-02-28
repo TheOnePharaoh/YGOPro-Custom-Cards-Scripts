@@ -162,7 +162,7 @@ function c59821039.indes(e,c)
 	return not c:IsRace(RACE_SPELLCASTER)
 end
 function c59821039.batlimit(e,c)
-	return c:IsFaceup() and c~=e:GetHandler() and c:IsSetCard(0xa1a2) or c:IsCode(59821040) or c:IsCode(59821041) or c:IsCode(59821042) or c:IsCode(59821043) or c:IsCode(59821044) or c:IsCode(59821045) or c:IsCode(59821046) or c:IsCode(59821048) or c:IsCode(59821049) or c:IsCode(59821085)
+	return c:IsFaceup() and c~=e:GetHandler() and c:IsSetCard(0xa1a2)
 end
 function c59821039.thcon(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -173,7 +173,7 @@ function c59821039.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:GetHandler():RemoveOverlayCard(tp,1,1,REASON_COST)
 end
 function c59821039.thfilter(c)
-	return c:IsCode(59821001) or c:IsCode(59821002) or c:IsCode(59821003) or c:IsCode(59821004) or c:IsCode(59821005) or c:IsCode(59821006) or c:IsCode(59821007) or c:IsCode(59821008) or c:IsCode(59821021) or c:IsCode(59821026) or c:IsCode(59821027) or c:IsCode(59821028) or c:IsCode(59821029) or c:IsCode(59821037) and c:IsAbleToHand()
+	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0xa1a2) and c:IsAbleToHand()
 end
 function c59821039.thtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c59821039.thfilter,tp,LOCATION_DECK+LOCATION_GRAVE,0,1,nil) end
@@ -225,7 +225,7 @@ function c59821039.atkvalcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():GetOverlayGroup():IsExists(Card.IsCode,1,nil,59821008)
 end
 function c59821039.atkvalfilter(c)
-	return c:IsFaceup() and c:IsCode(59821001) or c:IsCode(59821002) or c:IsCode(59821003) or c:IsCode(59821004) or c:IsCode(59821005) or c:IsCode(59821006) or c:IsCode(59821007) or c:IsCode(59821021) or c:IsCode(59821008) or c:IsCode(59821009) or c:IsCode(59821010) or c:IsCode(59821011) or c:IsCode(59821012) or c:IsCode(59821024) or c:IsCode(59821025) or c:IsCode(59821026) or c:IsCode(59821027) or c:IsCode(59821028) or c:IsCode(59821029) or c:IsCode(59821030) or c:IsCode(59821031) or c:IsCode(59821036) or c:IsCode(59821037) or c:IsCode(59821039) or c:IsCode(59821040) or c:IsCode(59821041) or c:IsCode(59821042) or c:IsCode(59821043) or c:IsCode(59821044) or c:IsCode(59821045) or c:IsCode(59821046) or c:IsCode(59821048) or c:IsCode(59821049)
+	return c:IsFaceup() and c:IsSetCard(0xa1a2)
 end
 function c59821039.atkval(e,c)
 	return Duel.GetMatchingGroupCount(c59821039.atkvalfilter,c:GetControler(),LOCATION_MZONE,0,nil)*300

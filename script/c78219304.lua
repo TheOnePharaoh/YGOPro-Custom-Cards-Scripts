@@ -83,7 +83,7 @@ function c78219304.ctop(e,tp,eg,ep,ev,re,r,rp)
 	for i=1,2 do
 		Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_FACEUP)
 		local sg=g:Select(tp,1,1,nil)
-		sg:GetFirst():AddCounter(0x1108,1)
+		sg:GetFirst():AddCounter(0x1115,1)
 	end
 end
 function c78219304.thfilter(c)
@@ -106,6 +106,6 @@ function c78219304.thop(e,tp,eg,ep,ev,re,r,rp)
 	for i=1,ct do
 		Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(78219304,3))
 		local sg=g:Select(tp,1,1,nil)
-		sg:GetFirst():AddCounter(0x1108,1)
+		sg:GetFirst():AddCounter(0x1115,1)
 	end
 end

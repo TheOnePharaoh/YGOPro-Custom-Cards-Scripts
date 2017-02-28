@@ -105,8 +105,8 @@ function c78219331.discon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetCurrentChain()==0
 end
 function c78219331.discost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1108,4,REASON_COST) end
-	Duel.RemoveCounter(tp,1,1,0x1108,4,REASON_COST)
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1115,4,REASON_COST) end
+	Duel.RemoveCounter(tp,1,1,0x1115,4,REASON_COST)
 end
 function c78219331.distg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
@@ -126,5 +126,5 @@ function c78219331.ctcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c78219331.ctfilter,1,nil)
 end
 function c78219331.ctop(e,tp,eg,ep,ev,re,r,rp)
-	e:GetHandler():AddCounter(0x108,1)
+	e:GetHandler():AddCounter(0x1115,1)
 end

@@ -31,7 +31,7 @@ function c99980340.millfilter(c,tp)
   return c:IsFaceup() and c:IsSetCard(0x998) and c:IsControler(tp) and c:GetSummonType()==SUMMON_TYPE_XYZ
 end
 function c99980340.millcon(e,tp,eg,ep,ev,re,r,rp)
-  return eg:IsExists(c99980340.millfilter,1,nil,tp)
+  return eg:IsExists(c99980340.millfilter,1,nil,tp) and rp==tp
 end
 function c99980340.milltg(e,tp,eg,ep,ev,re,r,rp,chk)
   if chk==0 then return Duel.IsPlayerCanDiscardDeck(1-tp,1) end

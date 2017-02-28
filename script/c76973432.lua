@@ -43,18 +43,9 @@ function c76973432.initial_effect(c)
 	--attack three times
 	local e6=Effect.CreateEffect(c)
 	e6:SetType(EFFECT_TYPE_SINGLE)
-	e6:SetCode(EFFECT_EXTRA_ATTACK)
+	e6:SetCode(EFFECT_EXTRA_ATTACK_MONSTER)
 	e6:SetValue(2)
 	c:RegisterEffect(e6)
-	local e7=Effect.CreateEffect(c)
-	e7:SetType(EFFECT_TYPE_SINGLE)
-	e7:SetCode(EFFECT_CANNOT_DIRECT_ATTACK)
-	e7:SetCondition(c76973432.dircon)
-	c:RegisterEffect(e7)
-	local e8=e7:Clone()
-	e8:SetCode(EFFECT_CANNOT_ATTACK)
-	e8:SetCondition(c76973432.atkcon)
-	c:RegisterEffect(e8)
 end
 function c76973432.incon(e)
 	return e:GetHandler():GetSummonType()==SUMMON_TYPE_SYNCHRO
@@ -114,10 +105,4 @@ function c76973432.damcon(e,tp,eg,ep,ev,re,r,rp)
 end
 function c76973432.damop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.ChangeBattleDamage(ep,ev*2)
-end
-function c76973432.dircon(e)
-	return e:GetHandler():GetAttackAnnouncedCount()>0
-end
-function c76973432.atkcon(e)
-	return e:GetHandler():IsDirectAttacked()
 end

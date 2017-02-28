@@ -1,15 +1,21 @@
 --Sword Art Possessed Armament - Marsil
 function c20912306.initial_effect(c)
 	c:SetUniqueOnField(1,0,20912306)
-	--fusion material
-	aux.AddFusionProcFun2(c,aux.FilterBoolFunction(Card.IsCode,20912302),aux.FilterBoolFunction(Card.IsSetCard,0xd0a2),true)
-	c:EnableReviveLimit()
 	--spsummon condition
+	local e0=Effect.CreateEffect(c)
+	e0:SetType(EFFECT_TYPE_SINGLE)
+	e0:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
+	e0:SetCode(EFFECT_SPSUMMON_CONDITION)
+	c:RegisterEffect(e0)
+	--special summon rule
 	local e1=Effect.CreateEffect(c)
-	e1:SetType(EFFECT_TYPE_SINGLE)
-	e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
-	e1:SetCode(EFFECT_SPSUMMON_CONDITION)
-	e1:SetValue(c20912306.splimit)
+	e1:SetType(EFFECT_TYPE_FIELD)
+	e1:SetCode(EFFECT_SPSUMMON_PROC)
+	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
+	e1:SetRange(LOCATION_EXTRA+LOCATION_GRAVE)
+	e1:SetCondition(c20912306.sprcon)
+	e1:SetOperation(c20912306.sprop)
+	e1:SetValue(SUMMON_TYPE_SPECIAL+280)
 	c:RegisterEffect(e1)
 	--equip
 	local e2=Effect.CreateEffect(c)
@@ -55,6 +61,39 @@ function c20912306.initial_effect(c)
 	e6:SetCode(EFFECT_ADD_SETCODE)
 	e6:SetValue(0xd0a2)
 	c:RegisterEffect(e6)
+	--conjured monster
+	local e7=Effect.CreateEffect(c)
+	e7:SetType(EFFECT_TYPE_SINGLE)
+	e7:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+	e7:SetCode(EFFECT_ADD_TYPE)
+	e7:SetRange(LOCATION_GRAVE)
+	e7:SetValue(TYPE_EQUIP)
+	c:RegisterEffect(e7)
+end
+function c20912306.spfilter1(c,tp)
+	return c:IsFusionSetCard(0xd0a3) and c:IsType(TYPE_UNION) and c:IsDestructable() and c:IsCanBeFusionMaterial()
+		and Duel.IsExistingMatchingCard(c20912306.spfilter2,tp,LOCATION_SZONE,0,1,c)
+end
+function c20912306.spfilter2(c)
+	return c:IsFusionSetCard(0xd0a2) and c:IsType(TYPE_EQUIP) and c:IsDestructable() and c:IsCanBeFusionMaterial()
+end
+function c20912306.sprcon(e,c)
+	if c==nil then return true end
+	local tp=c:GetControler()
+	return Duel.GetLocationCount(tp,LOCATION_MZONE)>-1
+		and Duel.IsExistingMatchingCard(c20912306.spfilter1,tp,LOCATION_SZONE,0,1,nil,tp)
+end
+function c20912306.sprop(e,tp,eg,ep,ev,re,r,rp,c)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
+	local g1=Duel.SelectMatchingCard(tp,c20912306.spfilter1,tp,LOCATION_SZONE,0,1,1,nil,tp)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_DESTROY)
+	local g2=Duel.SelectMatchingCard(tp,c20912306.spfilter2,tp,LOCATION_SZONE,0,1,1,g1:GetFirst())
+	g1:Merge(g2)
+	c:SetMaterial(g1)
+	Duel.Destroy(g1,REASON_EFFECT)
+end
+function c20912306.splimit(e,se,sp,st)
+	return not e:GetHandler():IsLocation(LOCATION_EXTRA) or aux.fuslimit(e,se,sp,st)
 end
 function c20912306.repval1(e,re,r,rp)
 	return bit.band(r,REASON_BATTLE)~=0
@@ -66,7 +105,7 @@ function c20912306.equfilter(c)
 	return c:IsFaceup() and c:IsRace(RACE_WARRIOR) and not c:IsSetCard(0xd0a3)
 end
 function c20912306.splimit(e,se,sp,st)
-	return not e:GetHandler():IsLocation(LOCATION_EXTRA) or bit.band(st,SUMMON_TYPE_FUSION)==SUMMON_TYPE_FUSION
+	return not e:GetHandler():IsLocation(LOCATION_EXTRA) or bit.band(st,SUMMON_TYPE_SPECIAL+280)==SUMMON_TYPE_SPECIAL+280
 end
 function c20912306.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and c20912306.equfilter(chkc) end

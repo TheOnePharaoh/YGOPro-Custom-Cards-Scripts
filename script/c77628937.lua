@@ -18,7 +18,7 @@ function c77628937.initial_effect(c)
 	c:RegisterEffect(e2)
 	--spsummon
 	local e3=Effect.CreateEffect(c)
-	e3:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e3:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_FUSION_SUMMON)
 	e3:SetType(EFFECT_TYPE_IGNITION)
 	e3:SetRange(LOCATION_SZONE)
 	e3:SetCountLimit(1,77628937)
@@ -76,7 +76,7 @@ function c77628937.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.IsExistingMatchingCard(c77628937.grafilter,tp,LOCATION_GRAVE,0,4,nil)
 end
 function c77628937.filter1(c,e)
-	return c:IsCanBeFusionMaterial() and not c:IsImmuneToEffect(e)
+	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and not c:IsImmuneToEffect(e)
 end
 function c77628937.filter2(c,e,tp,m,ec,f,chkf)
 	return c:IsType(TYPE_FUSION) and c:IsSetCard(0xba003) and (not f or f(c))
@@ -87,7 +87,7 @@ function c77628937.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 		local ec=e:GetHandler():GetEquipTarget()
 		if ec:IsControler(1-tp) then return false end
 		local chkf=Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and PLAYER_NONE or tp
-		local mg1=Duel.GetMatchingGroup(Card.IsCanBeFusionMaterial,tp,LOCATION_HAND+LOCATION_MZONE,0,ec)
+		local mg1=Duel.GetMatchingGroup(c77628937.filter1,tp,LOCATION_HAND+LOCATION_MZONE,0,ec)
 		local res=Duel.IsExistingMatchingCard(c77628937.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp,mg1,ec,nil,chkf)
 		if not res then
 			local ce=Duel.GetChainMaterial(tp)

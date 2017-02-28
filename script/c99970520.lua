@@ -33,7 +33,7 @@ function c99970520.ctfilter(c,tp)
   return c:IsFaceup() and c:IsSetCard(9997) and c:IsType(TYPE_MONSTER) and c:IsControler(tp)
 end
 function c99970520.ctcon(e,tp,eg,ep,ev,re,r,rp)
-  return eg:IsExists(c99970520.ctfilter,1,nil,tp)
+  return eg:IsExists(c99970520.ctfilter,1,nil,tp) and rp==tp
 end
 function c99970520.ctop(e,tp,eg,ep,ev,re,r,rp)
   e:GetHandler():AddCounter(0x9997,1)

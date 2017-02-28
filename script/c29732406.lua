@@ -2,10 +2,9 @@
 function c29732406.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_SEARCH+CATEGORY_TOHAND)
+	e1:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_LEAVE_FIELD)
-	e1:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DELAY)
 	e1:SetCountLimit(1,29732406+EFFECT_COUNT_CODE_OATH)
 	e1:SetCondition(c29732406.condition)
 	e1:SetTarget(c29732406.target)
@@ -13,15 +12,14 @@ function c29732406.initial_effect(c)
 	c:RegisterEffect(e1)
 end
 function c29732406.cfilter(c,tp)
-	return c:IsRace(RACE_MACHINE) and c:GetPreviousControler()==tp and c:GetReasonPlayer()~=tp and c:IsReason(REASON_EFFECT)
-		and c:IsPreviousPosition(POS_FACEUP)
+	return c:GetPreviousControler()==tp and c:GetPreviousLocation()==LOCATION_MZONE 
+	and bit.band(c:GetPreviousPosition(),POS_FACEUP)~=0 and c:GetReasonPlayer()==1-tp and c:IsRace(RACE_MACHINE)
 end
-function c29732406.condition(e,tp,eg,ep,ev,re,r,rp,chk)
-	local g=eg:Filter(c29732406.cfilter,nil,tp)
-	return g:GetCount()==1
+function c29732406.condition(e,tp,eg,ep,ev,re,r,rp)
+	return eg:IsExists(c29732406.cfilter,1,nil,tp)
 end
 function c29732406.thfilter(c)
-	return c:IsSetCard(0x0dac405) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()
+	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0x0dac405) and c:IsAbleToHand()
 end
 function c29732406.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c29732406.thfilter,tp,LOCATION_DECK,0,1,nil) end

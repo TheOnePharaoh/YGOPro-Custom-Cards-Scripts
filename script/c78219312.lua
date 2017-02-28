@@ -69,18 +69,18 @@ function c78219312.atkcon(e)
 	return Duel.GetTurnPlayer()==e:GetHandlerPlayer()
 end
 function c78219312.attackup(e,c)
-	return c:GetCounter(0x1108)*300
+	return c:GetCounter(0x1115)*300
 end
 function c78219312.addcc(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():GetSummonType()==SUMMON_TYPE_XYZ
 end
 function c78219312.addct(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	Duel.SetOperationInfo(0,CATEGORY_COUNTER,nil,3,0,0x1108)
+	Duel.SetOperationInfo(0,CATEGORY_COUNTER,nil,3,0,0x1115)
 end
 function c78219312.addc(e,tp,eg,ep,ev,re,r,rp)
 	if e:GetHandler():IsRelateToEffect(e) then
-		e:GetHandler():AddCounter(0x1108,3)
+		e:GetHandler():AddCounter(0x1115,3)
 	end
 end
 function c78219312.repcon(e)
@@ -129,8 +129,8 @@ function c78219312.spcon(e,tp,eg,ep,ev,re,r,rp)
 		and Duel.GetFieldGroupCount(tp,0,LOCATION_MZONE)~=0
 end
 function c78219312.spcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1108,2,REASON_COST) end
-	Duel.RemoveCounter(tp,1,1,0x1108,2,REASON_COST)
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1115,2,REASON_COST) end
+	Duel.RemoveCounter(tp,1,1,0x1115,2,REASON_COST)
 end
 function c78219312.spfilter(c,e,tp)
 	return c:IsRace(RACE_MACHINE) and not c:IsType(TYPE_XYZ)

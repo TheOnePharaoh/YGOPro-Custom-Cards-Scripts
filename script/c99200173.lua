@@ -53,7 +53,7 @@ function c99200173.ctcon(e,tp,eg,ep,ev,re,r,rp)
 	return eg:IsExists(c99200173.cfilter,1,nil)
 end
 function c99200173.ctop(e,tp,eg,ep,ev,re,r,rp)
-	e:GetHandler():AddCounter(0x1106,1)
+	e:GetHandler():AddCounter(0x1113,1)
 end
 function c99200173.filter1(c)
 	return c:IsFaceup() and c:IsRace(RACE_MACHINE)
@@ -62,9 +62,9 @@ function c99200173.filter2(c)
 	return c:IsSetCard(0xda3790) and c:IsAbleToHand()
 end
 function c99200173.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	local b1=e:GetHandler():IsCanRemoveCounter(tp,0x1106,3,REASON_COST)
+	local b1=e:GetHandler():IsCanRemoveCounter(tp,0x1113,3,REASON_COST)
 		and Duel.IsExistingMatchingCard(c99200173.filter1,tp,LOCATION_MZONE,0,1,nil)
-	local b2=e:GetHandler():IsCanRemoveCounter(tp,0x1106,5,REASON_COST)
+	local b2=e:GetHandler():IsCanRemoveCounter(tp,0x1113,5,REASON_COST)
 		and Duel.IsExistingMatchingCard(c99200173.filter2,tp,LOCATION_DECK,0,1,nil)
 	if chk==0 then return b1 or b2 end
 	local op=0
@@ -78,10 +78,10 @@ function c99200173.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	e:SetLabel(op)
 	if op==0 then
 		e:SetCategory(CATEGORY_ATKCHANGE)
-		e:GetHandler():RemoveCounter(tp,0x1106,3,REASON_COST)
+		e:GetHandler():RemoveCounter(tp,0x1113,3,REASON_COST)
 	else
 		e:SetCategory(CATEGORY_TOHAND)
-		e:GetHandler():RemoveCounter(tp,0x1106,5,REASON_COST)
+		e:GetHandler():RemoveCounter(tp,0x1113,5,REASON_COST)
 		Duel.SetOperationInfo(0,CATEGORY_TOHAND,nil,1,tp,LOCATION_DECK)
 	end
 end

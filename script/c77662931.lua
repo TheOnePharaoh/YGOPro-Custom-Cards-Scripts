@@ -31,29 +31,40 @@ function c77662931.initial_effect(c)
 	e4:SetValue(c77662931.valcheck)
 	e4:SetLabelObject(e1)
 	c:RegisterEffect(e4)
-	--copy effect
-	local e5=Effect.CreateEffect(c)
-	e5:SetDescription(aux.Stringid(77662931,0))
-	e5:SetCategory(CATEGORY_TODECK)
-	e5:SetType(EFFECT_TYPE_QUICK_O)
-	e5:SetRange(LOCATION_MZONE)
-	e5:SetCode(EVENT_FREE_CHAIN)
-	e5:SetCountLimit(1)
-	e5:SetCost(c77662931.cpcost)
-	e5:SetTarget(c77662931.cptg)
-	e5:SetOperation(c77662931.cpop)
-	c:RegisterEffect(e5)
 	--spsummon
+	local e5=Effect.CreateEffect(c)
+	e5:SetDescription(aux.Stringid(77662931,1))
+	e5:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e5:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e5:SetCode(EVENT_BE_MATERIAL)
+	e5:SetCountLimit(1,77662931)
+	e5:SetCondition(c77662931.drcon)
+	e5:SetTarget(c77662931.drtg)
+	e5:SetOperation(c77662931.drop)
+	c:RegisterEffect(e5)
+	--copy effect
 	local e6=Effect.CreateEffect(c)
-	e6:SetDescription(aux.Stringid(77662931,1))
-	e6:SetCategory(CATEGORY_SPECIAL_SUMMON)
-	e6:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
-	e6:SetCode(EVENT_BE_MATERIAL)
-	e6:SetCountLimit(1,77662931)
-	e6:SetCondition(c77662931.drcon)
-	e6:SetTarget(c77662931.drtg)
-	e6:SetOperation(c77662931.drop)
+	e6:SetDescription(aux.Stringid(77662931,0))
+	e6:SetType(EFFECT_TYPE_QUICK_O)
+	e6:SetRange(LOCATION_MZONE)
+	e6:SetCode(EVENT_FREE_CHAIN)
+	e6:SetHintTiming(0x3c0)
+	e6:SetCountLimit(1)
+	e6:SetCondition(c77662931.condition)
+	e6:SetCost(c77662931.cost)
+	e6:SetTarget(c77662931.target)
+	e6:SetOperation(c77662931.operation)
 	c:RegisterEffect(e6)
+	local e7=Effect.CreateEffect(c)
+	e7:SetDescription(aux.Stringid(77662931,1))
+	e7:SetType(EFFECT_TYPE_QUICK_O)
+	e7:SetRange(LOCATION_MZONE)
+	e7:SetCode(EVENT_CHAINING)
+	e7:SetCountLimit(1)
+	e7:SetCost(c77662931.cost)
+	e7:SetTarget(c77662931.target2)
+	e7:SetOperation(c77662931.operation)
+	c:RegisterEffect(e7)
 end
 function c77662931.valcheck(e,c)
 	local g=c:GetMaterial()
@@ -76,44 +87,90 @@ function c77662931.tnop(e,tp,eg,ep,ev,re,r,rp)
 	e1:SetReset(RESET_EVENT+0x1fe0000)
 	c:RegisterEffect(e1)
 end
-function c77662931.cpcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.CheckLPCost(tp,1000) end
-	Duel.PayLPCost(tp,1000)
+function c77662931.condition(e,tp,eg,ep,ev,re,r,rp)
+	return not Duel.CheckEvent(EVENT_CHAINING)
 end
-function c77662931.cpfilter(c)
-	return c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsSetCard(0x0dac405) and c:IsAbleToDeck() and c:CheckActivateEffect(false,true,false)~=nil
+function c77662931.cost(e,tp,eg,ep,ev,re,r,rp,chk)
+	e:SetLabel(1)
+	if chk==0 then return e:GetHandler():GetFlagEffect(77662931)==0 end
+	e:GetHandler():RegisterFlagEffect(77662931,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1)
 end
-function c77662931.cptg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then
-		local te=e:GetLabelObject()
-		local tg=te:GetTarget()
-		return tg and tg(e,tp,eg,ep,ev,re,r,rp,0,chkc)
+function c77662931.filter1(c)
+	return c:IsSetCard(0x0dac405) and c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsAbleToDeckAsCost()
+		and c:CheckActivateEffect(false,true,false)~=nil
+end
+function c77662931.target(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then
+		if e:GetLabel()==0 then return false end
+		e:SetLabel(0)
+		return Duel.CheckLPCost(tp,1000)
+			and Duel.IsExistingMatchingCard(c77662931.filter1,tp,LOCATION_REMOVED,0,1,nil)
 	end
-	if chk==0 then return Duel.IsExistingTarget(c77662931.cpfilter,tp,LOCATION_REMOVED,0,1,nil) end
-	e:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
-	local g=Duel.SelectTarget(tp,c77662931.cpfilter,tp,LOCATION_REMOVED,0,1,1,nil)
+	e:SetLabel(0)
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
+	local g=Duel.SelectMatchingCard(tp,c77662931.filter1,tp,LOCATION_REMOVED,0,1,1,nil)
 	local te,ceg,cep,cev,cre,cr,crp=g:GetFirst():CheckActivateEffect(false,true,true)
-	Duel.ClearTargetCard()
-	g:GetFirst():CreateEffectRelation(e)
-	local tg=te:GetTarget()
+	Duel.PayLPCost(tp,1000)
+	Duel.SendtoDeck(g,nil,2,REASON_COST)
 	e:SetCategory(te:GetCategory())
 	e:SetProperty(te:GetProperty())
+	local tg=te:GetTarget()
 	if tg then tg(e,tp,ceg,cep,cev,cre,cr,crp,1) end
 	te:SetLabelObject(e:GetLabelObject())
 	e:SetLabelObject(te)
-	Duel.SetOperationInfo(0,CATEGORY_TODECK,g,1,0,0)
 	Duel.SetOperationInfo(0,CATEGORY_DESTROY,nil,0,0,0)
 end
-function c77662931.cpop(e,tp,eg,ep,ev,re,r,rp)
+function c77662931.operation(e,tp,eg,ep,ev,re,r,rp)
 	local te=e:GetLabelObject()
 	if not te then return end
-	if not te:GetHandler():IsRelateToEffect(e) then return end
 	e:SetLabelObject(te:GetLabelObject())
 	local op=te:GetOperation()
 	if op then op(e,tp,eg,ep,ev,re,r,rp) end
-	Duel.BreakEffect()
-	Duel.SendtoDeck(te:GetHandler(),nil,2,REASON_EFFECT)
+end
+function c77662931.filter2(c,e,tp,eg,ep,ev,re,r,rp)
+	if c:IsType(TYPE_COUNTER) and c:IsAbleToDeckAsCost() then
+		if c:CheckActivateEffect(false,true,false)~=nil then return true end
+		local te=c:GetActivateEffect()
+		if te:GetCode()~=EVENT_CHAINING then return false end
+		local con=te:GetCondition()
+		if con and not con(e,tp,eg,ep,ev,re,r,rp) then return false end
+		local tg=te:GetTarget()
+		if tg and not tg(e,tp,eg,ep,ev,re,r,rp,0) then return false end
+		return true
+	else return false end
+end
+function c77662931.target2(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then
+		if e:GetLabel()==0 then return false end
+		e:SetLabel(0)
+		return Duel.CheckLPCost(tp,1000)
+			and Duel.IsExistingMatchingCard(c77662931.filter2,tp,LOCATION_REMOVED,0,1,nil,e,tp,eg,ep,ev,re,r,rp)
+	end
+	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
+	local g=Duel.SelectMatchingCard(tp,c77662931.filter2,tp,LOCATION_REMOVED,0,1,1,nil,e,tp,eg,ep,ev,re,r,rp)
+	local tc=g:GetFirst()
+	local te,ceg,cep,cev,cre,cr,crp
+	local fchain=c77662931.filter1(tc)
+	if fchain then
+		te,ceg,cep,cev,cre,cr,crp=tc:CheckActivateEffect(false,true,true)
+	else
+		te=tc:GetActivateEffect()
+	end
+	Duel.PayLPCost(tp,1000)
+	Duel.SendtoDeck(g,nil,2,REASON_COST)
+	e:SetCategory(te:GetCategory())
+	e:SetProperty(te:GetProperty())
+	local tg=te:GetTarget()
+	if tg then
+		if fchain then
+			tg(e,tp,ceg,cep,cev,cre,cr,crp,1)
+		else
+			tg(e,tp,eg,ep,ev,re,r,rp,1)
+		end
+	end
+	te:SetLabelObject(e:GetLabelObject())
+	e:SetLabelObject(te)
+	Duel.SetOperationInfo(0,CATEGORY_DESTROY,nil,0,0,0)
 end
 function c77662931.drcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsLocation(LOCATION_GRAVE) and r==REASON_SYNCHRO

@@ -1,6 +1,6 @@
 --Accel Vocaloid Tsukone Tei - Diva of the Morning Twilight
 function c938.initial_effect(c)
-	c:SetCounterLimit(0x104,3)
+	c:SetCounterLimit(0x1111,3)
 	--synchro summon
 	aux.AddSynchroProcedure(c,aux.FilterBoolFunction(Card.IsCode,70978886),aux.NonTuner(Card.IsSetCard,0x0dac402),1)
 	c:EnableReviveLimit()
@@ -152,11 +152,11 @@ function c938.addcc(e,tp,eg,ep,ev,re,r,rp)
 end
 function c938.addct(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
-	Duel.SetOperationInfo(0,CATEGORY_COUNTER,nil,1,0,0x104)
+	Duel.SetOperationInfo(0,CATEGORY_COUNTER,nil,1,0,0x1111)
 end
 function c938.addc(e,tp,eg,ep,ev,re,r,rp)
 	if e:GetHandler():IsRelateToEffect(e) then
-		e:GetHandler():AddCounter(0x104,1)
+		e:GetHandler():AddCounter(0x1111,1)
 	end
 end
 function c938.discon(e,tp,eg,ep,ev,re,r,rp)
@@ -167,8 +167,8 @@ function c938.discon(e,tp,eg,ep,ev,re,r,rp)
 	return tg and tg:IsContains(c) and Duel.IsChainNegatable(ev)
 end
 function c938.discost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,0,0x104,1,REASON_COST) end
-	Duel.RemoveCounter(tp,1,0,0x104,1,REASON_COST)
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,0,0x1111,1,REASON_COST) end
+	Duel.RemoveCounter(tp,1,0,0x1111,1,REASON_COST)
 end
 function c938.distg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
@@ -184,7 +184,7 @@ function c938.disop(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c938.atkup(e,c)
-	return c:GetCounter(0x104)*500
+	return c:GetCounter(0x1111)*500
 end
 function c938.penfilter1(c)
     return c:IsDestructable() and c:GetSequence()==6

@@ -7,71 +7,78 @@ function c99990040.initial_effect(c)
   e1:SetCode(EVENT_FREE_CHAIN)
   c:RegisterEffect(e1)
   --Add Counter
+  local e2=Effect.CreateEffect(c)
+  e2:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_DEFCHANGE)
+  e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
+  e2:SetCode(EVENT_BATTLE_DESTROYED)
+  e2:SetRange(LOCATION_FZONE)
+  e2:SetCondition(c99990040.ctcon)
+  e2:SetOperation(c99990040.ctop)
+  c:RegisterEffect(e2)
+ --Add counter
   local e3=Effect.CreateEffect(c)
-  e3:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_DEFCHANGE)
-  e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
-  e3:SetCode(EVENT_BATTLED)
-  e3:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
+  e3:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+  e3:SetProperty(EFFECT_FLAG_DELAY)
   e3:SetRange(LOCATION_FZONE)
-  e3:SetCondition(c99990040.ctcon)
-  e3:SetOperation(c99990040.ctop)
+  e3:SetCode(EVENT_SUMMON_SUCCESS)
+  e3:SetCondition(c99990040.ctcon2)
+  e3:SetOperation(c99990040.ctop2)
   c:RegisterEffect(e3)
-  --ATK
-  local e3=Effect.CreateEffect(c)
-  e3:SetType(EFFECT_TYPE_FIELD)
-  e3:SetCode(EFFECT_UPDATE_ATTACK)
-  e3:SetRange(LOCATION_FZONE)
-  e3:SetTargetRange(LOCATION_MZONE,0)
-  e3:SetTarget(aux.TargetBoolFunction(Card.IsSetCard,0x999))
-  e3:SetValue(c99990040.val)
-  c:RegisterEffect(e3)
-  --DEF
   local e4=e3:Clone()
-  e4:SetCode(EFFECT_UPDATE_DEFENSE)
+  e4:SetCode(EVENT_SPSUMMON_SUCCESS)
   c:RegisterEffect(e4)
-  --Token
+  --ATK
   local e5=Effect.CreateEffect(c)
-  e5:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_TOKEN)
-  e5:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
+  e5:SetType(EFFECT_TYPE_FIELD)
+  e5:SetCode(EFFECT_UPDATE_ATTACK)
   e5:SetRange(LOCATION_FZONE)
-  e5:SetCode(EVENT_PHASE+PHASE_STANDBY)
-  e5:SetCountLimit(1)
-  e5:SetCondition(c99990040.spcon)
-  e5:SetTarget(c99990040.sptg)
-  e5:SetOperation(c99990040.spop)
-  c:RegisterEffect(e5)  
-  --Destroy replace
-  local e6=Effect.CreateEffect(c)
-  e6:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_SINGLE)
-  e6:SetCode(EFFECT_DESTROY_REPLACE)
-  e6:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-  e6:SetRange(LOCATION_FZONE)
-  e6:SetTarget(c99990040.desreptg)
+  e5:SetTargetRange(LOCATION_MZONE,0)
+  e5:SetTarget(aux.TargetBoolFunction(Card.IsSetCard,0x999))
+  e5:SetValue(c99990040.val)
+  c:RegisterEffect(e5)
+  --DEF
+  local e6=e5:Clone()
+  e6:SetCode(EFFECT_UPDATE_DEFENSE)
   c:RegisterEffect(e6)
-  --Add counter
+  --Token
   local e7=Effect.CreateEffect(c)
-  e7:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-  e7:SetProperty(EFFECT_FLAG_DELAY)
+  e7:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_TOKEN)
+  e7:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_F)
   e7:SetRange(LOCATION_FZONE)
-  e7:SetCode(EVENT_SUMMON_SUCCESS)
-  e7:SetCondition(c99990040.ctcon2)
-  e7:SetOperation(c99990040.ctop2)
-  c:RegisterEffect(e7)
-  local e8=e7:Clone()
-  e8:SetCode(EVENT_FLIP_SUMMON_SUCCESS)
+  e7:SetCode(EVENT_PHASE+PHASE_STANDBY)
+  e7:SetCountLimit(1)
+  e7:SetCondition(c99990040.spcon)
+  e7:SetTarget(c99990040.sptg)
+  e7:SetOperation(c99990040.spop)
+  c:RegisterEffect(e7)  
+  --Destroy replace
+  local e8=Effect.CreateEffect(c)
+  e8:SetType(EFFECT_TYPE_CONTINUOUS+EFFECT_TYPE_SINGLE)
+  e8:SetCode(EFFECT_DESTROY_REPLACE)
+  e8:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
+  e8:SetRange(LOCATION_FZONE)
+  e8:SetTarget(c99990040.desreptg)
   c:RegisterEffect(e8)
-  local e9=e7:Clone()
-  e9:SetCode(EVENT_SPSUMMON_SUCCESS)
-  c:RegisterEffect(e9)
 end
 function c99990040.ctcon(e,tp,eg,ep,ev,re,r,rp)
-  local a=Duel.GetAttacker()
-  local d=Duel.GetAttackTarget()
-  if not d then return false end
-  if d:IsControler(tp) then a,d=d,a end
-  return a:IsControler(tp) and a:IsSetCard(0x999) and not a:IsStatus(STATUS_BATTLE_DESTROYED) and d:IsStatus(STATUS_BATTLE_DESTROYED)
+  local des=eg:GetFirst()
+  local rc=des:GetReasonCard()
+  return rc and rc:IsSetCard(0x999) and rc:IsControler(tp) and rc:IsRelateToBattle() and des:IsReason(REASON_BATTLE) 
 end
 function c99990040.ctop(e,tp,eg,ep,ev,re,r,rp)
+  local c=e:GetHandler()
+  e:GetHandler():AddCounter(0x9999,1)
+  if c:GetCounter(0x9999)>=100 then
+  Duel.Win(tp,0x50)
+  end
+end
+function c99990040.ctfilter(c,tp)
+  return c:IsFaceup() and c:IsSetCard(0x999) and c:IsType(TYPE_MONSTER) and c:IsControler(tp) 
+end
+function c99990040.ctcon2(e,tp,eg,ep,ev,re,r,rp)
+  return eg:IsExists(c99990040.ctfilter,1,nil,tp) and rp==tp
+end
+function c99990040.ctop2(e,tp,eg,ep,ev,re,r,rp)
   local c=e:GetHandler()
   e:GetHandler():AddCounter(0x9999,1)
   if c:GetCounter(0x9999)>=100 then
@@ -99,7 +106,17 @@ function c99990040.spop(e,tp,eg,ep,ev,re,r,rp)
   if Duel.IsPlayerAffectedByEffect(tp,59822133) then ft=1 end
   for i=1,ft do
   local token=Duel.CreateToken(tp,99990640)
-  Duel.SpecialSummon(token,0,tp,1-tp,false,false,POS_FACEUP_ATTACK)
+  if Duel.SpecialSummonStep(token,0,tp,1-tp,false,false,POS_FACEUP_ATTACK) then
+  local e1=Effect.CreateEffect(e:GetHandler())
+  e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+  e1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+  e1:SetRange(LOCATION_MZONE)
+  e1:SetCode(EVENT_PHASE+PHASE_END)
+  e1:SetCountLimit(1)
+  e1:SetOperation(c99990040.desop)
+  e1:SetReset(RESET_EVENT+0x1fe0000)
+  token:RegisterEffect(e1,true)
+  end
   end
   Duel.SpecialSummonComplete()
 end
@@ -116,16 +133,6 @@ function c99990040.desreptg(e,tp,eg,ep,ev,re,r,rp,chk)
   return true
   else return false end
 end
-function c99990040.ctfilter(c,tp)
-  return c:IsFaceup() and c:IsSetCard(0x999) and c:IsType(TYPE_MONSTER) and c:IsControler(tp)
-end
-function c99990040.ctcon2(e,tp,eg,ep,ev,re,r,rp)
-  return eg:IsExists(c99990040.ctfilter,1,nil,tp)
-end
-function c99990040.ctop2(e,tp,eg,ep,ev,re,r,rp)
-  local c=e:GetHandler()
-  e:GetHandler():AddCounter(0x9999,1)
-  if c:GetCounter(0x9999)>=100 then
-  Duel.Win(tp,0x50)
-  end
+function c99990040.desop(e,tp,eg,ep,ev,re,r,rp)
+  Duel.Destroy(e:GetHandler(),REASON_EFFECT)
 end

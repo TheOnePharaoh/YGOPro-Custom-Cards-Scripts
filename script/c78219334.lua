@@ -53,8 +53,8 @@ function c78219334.discon(e,tp,eg,ep,ev,re,r,rp)
 		and re:IsHasType(EFFECT_TYPE_ACTIVATE) and Duel.IsChainDisablable(ev) and not e:GetHandler():IsStatus(STATUS_BATTLE_DESTROYED)
 end
 function c78219334.discost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1108,2,REASON_COST) end
-	Duel.RemoveCounter(tp,1,1,0x1108,2,REASON_COST)
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1115,2,REASON_COST) end
+	Duel.RemoveCounter(tp,1,1,0x1115,2,REASON_COST)
 end
 function c78219334.distg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return true end
@@ -115,8 +115,8 @@ function c78219334.repop(e,tp,eg,ep,ev,re,r,rp)
 	Duel.RaiseEvent(c,EVENT_CUSTOM+78219334,e,0,tp,0,0)
 end
 function c78219334.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1108,3,REASON_COST) end
-	Duel.RemoveCounter(tp,1,1,0x1108,3,REASON_COST)
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1115,3,REASON_COST) end
+	Duel.RemoveCounter(tp,1,1,0x1115,3,REASON_COST)
 end
 function c78219334.thfilter(c)
 	return c:IsSetCard(0x7ad30) and c:IsType(TYPE_MONSTER) and c:IsAbleToHand()

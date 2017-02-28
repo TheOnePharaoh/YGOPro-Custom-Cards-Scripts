@@ -60,12 +60,12 @@ end
 function c70201366.acop(e,tp,eg,ep,ev,re,r,rp)
 	local c=re:GetHandler()
 	if re:IsHasType(EFFECT_TYPE_ACTIVATE) and c:IsType(TYPE_SPELL) then
-		e:GetHandler():AddCounter(0x104,1)
+		e:GetHandler():AddCounter(0x1111,1)
 	end
 end
 function c70201366.thcost(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x104,1,REASON_COST) end
-	Duel.RemoveCounter(tp,1,1,0x104,1,REASON_COST)
+	if chk==0 then return Duel.IsCanRemoveCounter(tp,1,1,0x1111,1,REASON_COST) end
+	Duel.RemoveCounter(tp,1,1,0x1111,1,REASON_COST)
 end
 function c70201366.filter(c)
 	return c:IsFaceup() and c:IsAbleToHand()
