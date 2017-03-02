@@ -131,7 +131,7 @@ function c77662928.atkval(e,c)
 	return c:GetOverlayCount()*800
 end
 function c77662928.filter(c)
-	return c:IsSetCard(0x0dac404) and c:IsType(TYPE_EFFECT)
+	return c:IsSetCard(0x0dac404) and c:IsType(TYPE_EFFECT) and not c:IsOriginalCode(77662928)
 end
 function c77662928.copytg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_GRAVE) and c77662928.filter(chkc) end

@@ -45,7 +45,7 @@ end
 function c34858504.actcon(e)
 	local ph=Duel.GetCurrentPhase()
 	local tp=Duel.GetTurnPlayer()
-	return tp==e:GetHandler():GetControler() and (ph==PHASE_BATTLE or ph==PHASE_DAMAGE or ph==PHASE_DAMAGE_CAL)
+	return tp==e:GetHandler():GetControler() and ((ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE) or ph==PHASE_DAMAGE or ph==PHASE_DAMAGE_CAL)
 end
 function c34858504.actlimit(e,te,tp)
 	return te:IsHasType(EFFECT_TYPE_ACTIVATE)

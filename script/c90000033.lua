@@ -200,7 +200,7 @@ function c90000033.soperation(e,tp,eg,ep,ev,re,r,rp,c,tuner,mg)
 	Duel.SendtoGrave(g,REASON_MATERIAL+REASON_SYNCHRO)
 end
 function c90000033.filter(c)
-  return c:IsType(TYPE_MONSTER) and bit.band(c:GetOriginalType(),TYPE_EFFECT)==TYPE_EFFECT
+  return c:IsType(TYPE_MONSTER) and bit.band(c:GetOriginalType(),TYPE_EFFECT)==TYPE_EFFECT and not c:IsOriginalCode(90000033)
 end
 function c90000033.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chk==0 then return Duel.IsExistingTarget(c90000033.filter,tp,LOCATION_GRAVE,LOCATION_GRAVE,1,nil) end

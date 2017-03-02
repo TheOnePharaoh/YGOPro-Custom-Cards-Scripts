@@ -334,5 +334,5 @@ function c34858536.negop3(e,tp,eg,ep,ev,re,r,rp)
 end
 function c34858536.actcon(e)
 	local ph=Duel.GetCurrentPhase()
-	return ph==PHASE_BATTLE or ph==PHASE_DAMAGE or ph==PHASE_DAMAGE_CAL
+	return (ph>=PHASE_BATTLE_START and ph<=PHASE_BATTLE) or ph==PHASE_DAMAGE or ph==PHASE_DAMAGE_CAL
 end
