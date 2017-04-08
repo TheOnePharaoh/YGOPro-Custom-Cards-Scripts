@@ -60,6 +60,8 @@ function c160008989.initial_effect(c)
 	end
 end
 c160008989.evolute=true
+c160008989.stage_o=8
+c160008989.stage=c160008989.stage_o
 c160008989.material1=function(mc) return mc:IsAttribute(ATTRIBUTE_LIGHT) and mc:IsRace(RACE_FAIRY) and mc:GetLevel()==4 and mc:IsFaceup() end
 c160008989.material2=function(mc) return mc:IsRace(RACE_MACHINE) and mc:IsAttribute(ATTRIBUTE_DARK) and mc:GetLevel()==4 and mc:IsFaceup() end
 function c160008989.chk(e,tp,eg,ep,ev,re,r,rp)

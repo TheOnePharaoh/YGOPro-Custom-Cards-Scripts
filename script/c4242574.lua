@@ -15,11 +15,13 @@ aux.EnablePendulumAttribute(c,true)
 	
 	--Banish
 	local e2=Effect.CreateEffect(c)
-	e2:SetDescription(aux.Stringid(4242564,1))
+	e2:SetDescription(aux.Stringid(4242574,1))
+	e2:SetCountLimit(1,42425741)
 	e2:SetCategory(CATEGORY_REMOVE)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e2:SetCode(EVENT_SUMMON_SUCCESS)
 	e2:SetProperty(EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DAMAGE_STEP)
+	e2:SetCost(c4242574.sccost)
 	e2:SetTarget(c4242574.target2)
 	e2:SetOperation(c4242574.operation2)
 	c:RegisterEffect(e2)
@@ -27,7 +29,7 @@ aux.EnablePendulumAttribute(c,true)
 	e3:SetCode(EVENT_SPSUMMON_SUCCESS)
 	c:RegisterEffect(e3)
 	
-	--shuffle one 0x698 into the deck, select one spell or trap and send it back to the owner's deck
+	--shuffle one 0x666 into the deck, select one spell or trap and send it back to the owner's deck
 	--return a card to deck
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(4242574,3))
@@ -36,11 +38,13 @@ aux.EnablePendulumAttribute(c,true)
 	e4:SetRange(LOCATION_PZONE)
 	e4:SetProperty(EFFECT_FLAG_CARD_TARGET)
 	e4:SetCountLimit(1,4242574)
+	e4:SetCondition(c4242574.condition)
 	e4:SetCost(c4242574.cost4)
 	e4:SetTarget(c4242574.target4)
 	e4:SetOperation(c4242574.operation4)
 	c:RegisterEffect(e4)
 end
+
 
 
 --Effect 1 (Search) Code
@@ -68,10 +72,13 @@ end
 
 
 --Effect 2/3 (Banish code fuction
-
+function c4242574.sccost(e,tp,eg,ep,ev,re,r,rp,chk)
+    if chk==0 then return e:GetHandler() end
+    Duel.Remove(e:GetHandler(),POS_FACEUP,nil)
+end
 function c4242574.target2(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
 	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsAbleToRemove() end
-	if chk==0 then return Duel.IsExistingTarget(Card.IsAbleToRemove,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil) end
+	if chk==0 then return Duel.IsExistingTarget(Card.IsAbleToRemove,tp,LOCATION_MZONE,LOCATION_MZONE,1,c,nil) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_REMOVE)
 	local g=Duel.SelectTarget(tp,Card.IsAbleToRemove,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil)
 	Duel.SetOperationInfo(0,CATEGORY_REMOVE,g,1,0,0)
@@ -84,8 +91,15 @@ function c4242574.operation2(e,tp,eg,ep,ev,re,r,rp)
 end
 
 --Effect 4 anti back row
+function c4242574.cfilter(c)
+	return c:IsFaceup() and c:IsSetCard(0x698)
+end
 function c4242574.filter2(c)
 	return c:IsFaceup() and c:IsType(TYPE_PENDULUM) and c:IsAbleToDeck() and c:IsSetCard(0x698) 
+end
+function c4242574.condition(e,tp,eg,ep,ev,re,r,rp)
+	local g=Duel.GetMatchingGroup(c4242574.cfilter,tp,LOCATION_MZONE,0,nil)
+	return g:GetClassCount(Card.GetCode)>=2
 end
 function c4242574.cost4(e,tp,eg,ep,ev,re,r,rp,chk)
     if chk==0 then return Duel.IsExistingMatchingCard(c4242574.filter2,tp,LOCATION_EXTRA,0,1,nil) end

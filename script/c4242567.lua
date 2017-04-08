@@ -4,6 +4,7 @@ function c4242567.initial_effect(c)
 	local e1=Effect.CreateEffect(c)
 	e1:SetType(EFFECT_TYPE_FIELD)
 	e1:SetCode(EFFECT_SPSUMMON_PROC)
+	e1:SetCountLimit(1,4242567)
 	e1:SetProperty(EFFECT_FLAG_UNCOPYABLE)
 	e1:SetRange(LOCATION_EXTRA)
 	e1:SetCondition(c4242567.spcon)
@@ -24,7 +25,7 @@ function c4242567.initial_effect(c)
 	e3:SetDescription(aux.Stringid(4242567,2))
 	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_F)
 	e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e3:SetCode(EVENT_TO_GRAVE)
+	e3:SetCode(EVENT_DESTROYED)
 	e3:SetCondition(c4242567.condition3)
 	e3:SetTarget(c4242567.target3)
 	e3:SetOperation(c4242567.operation3)
@@ -46,12 +47,12 @@ end
 
 --Sp summon rule
 function c4242567.spfilter(c)
-	return c:IsFusionSetCard(0x698) and c:IsCanBeFusionMaterial() and c:IsAbleToDeckOrExtraAsCost()
+	return c:IsSetCard(0x698) and c:IsAbleToDeckOrExtraAsCost() and c:IsFaceup()
 end
 function c4242567.spcon(e,c)
 	if c==nil then return true end
 	local tp=c:GetControler()
-	return Duel.GetLocationCount(tp,LOCATION_REMOVED)>-3
+	return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
 		and Duel.IsExistingMatchingCard(c4242567.spfilter,tp,LOCATION_REMOVED,0,3,nil)
 end
 function c4242567.spop(e,tp,eg,ep,ev,re,r,rp,c)

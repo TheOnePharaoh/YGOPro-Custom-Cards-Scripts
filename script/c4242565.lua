@@ -11,11 +11,6 @@ function c4242565.initial_effect(c)
 	e1:SetTarget(c4242565.efilter)
 	e1:SetValue(300)
 	c:RegisterEffect(e1)
-	--Def 
-	local e2=e1:Clone()
-	e2:SetCode(EFFECT_UPDATE_DEFENSE)
-	e2:SetValue(300)
-	c:RegisterEffect(e2)
 	
 	--Search
 	local e3=Effect.CreateEffect(c)
@@ -43,9 +38,10 @@ function c4242565.initial_effect(c)
 	--sp summon 
 	local e6=Effect.CreateEffect(c)
 	e6:SetDescription(aux.Stringid(4242565,5))
-	e6:SetCountLimit(1,42425651)
+	e6:SetCountLimit(1,42425652)
 	e6:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e6:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e6:SetProperty(EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_DELAY)
 	e6:SetCode(EVENT_DESTROYED)
 	e6:SetCondition(c4242565.condition3)
 	e6:SetTarget(c4242565.target3)
@@ -80,7 +76,7 @@ function c4242565.desop1(e,tp,eg,ep,ev,re,r,rp,chk)
 	end
 end
 
---Effect 3 (Special Summon) Code
+--Effect 4 (Special Summon) Code
 function c4242565.filter2(c,e,tp)
 	return c:IsType(TYPE_MONSTER) and c:IsLevelBelow(5) and not c:IsLevelBelow(4) and (c:IsSetCard(0x698)
 		and c:IsCanBeSpecialSummoned(e,0,tp,false,false))
@@ -90,36 +86,36 @@ function c4242565.descost2(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.Release(e:GetHandler(),REASON_COST)
 end
 function c4242565.destg2(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c4242565.filter2,tp,LOCATION_DECK+LOCATION_EXTRA,0,1,nil,e,tp)
+	if chk==0 then return Duel.IsExistingMatchingCard(c4242565.filter2,tp,LOCATION_EXTRA,0,1,nil,e,tp)
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 end
-	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK+LOCATION_EXTRA)
+	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_EXTRA)
 end
 function c4242565.desop2(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectMatchingCard(tp,c4242565.filter2,tp,LOCATION_DECK+LOCATION_EXTRA,0,1,1,nil,e,tp)
+	local g=Duel.SelectMatchingCard(tp,c4242565.filter2,tp,LOCATION_EXTRA,0,1,1,nil,e,tp)
 	if g:GetCount()>0 then
 		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP_ATTACK)
 	end
 end
 --Death replace code
 function c4242565.condition3(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():IsLocation(LOCATION_GRAVE+LOCATION_EXTRA) and e:GetHandler():IsReason(REASON_BATTLE+REASON_EFFECT)
+	return e:GetHandler():IsLocation(LOCATION_GRAVE+LOCATION_EXTRA+LOCATION_REMOVED) and e:GetHandler():IsReason(REASON_BATTLE+REASON_EFFECT)
 end
 function c4242565.dfilter(c,e,tp)
 	return c:IsType(TYPE_MONSTER) and c:IsLevelBelow(3) and not c:IsLevelBelow(2) and (c:IsSetCard(0x698)
 		and c:IsCanBeSpecialSummoned(e,0,tp,false,false))
 end
 function c4242565.target3(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c4242565.dfilter,tp,LOCATION_DECK,0,1,nil,e,tp)
+	if chk==0 then return Duel.IsExistingMatchingCard(c4242565.dfilter,tp,LOCATION_DECK+LOCATION_EXTRA,0,1,nil,e,tp)
 		and Duel.GetLocationCount(tp,LOCATION_MZONE)>0 end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK+LOCATION_EXTRA)
 end
 function c4242565.operation3(e,tp,eg,ep,ev,re,r,rp)
 	if Duel.GetLocationCount(tp,LOCATION_MZONE)<=0 then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_SPSUMMON)
-	local g=Duel.SelectMatchingCard(tp,c4242565.dfilter,tp,LOCATION_DECK,0,1,1,nil,e,tp)
+	local g=Duel.SelectMatchingCard(tp,c4242565.dfilter,tp,LOCATION_DECK+LOCATION_EXTRA,0,1,1,nil,e,tp)
 	if g:GetCount()>0 then
-		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP_DEFENSE)
+		Duel.SpecialSummon(g,0,tp,tp,false,false,POS_FACEUP)
 	end
 end

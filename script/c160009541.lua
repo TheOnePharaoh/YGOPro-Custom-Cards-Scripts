@@ -69,6 +69,8 @@ function c160009541.initial_effect(c)
 	end
 end
 c160009541.evolute=true
+c160009541.stage_o=8
+c160009541.stage=c160009541.stage_o
 c160009541.material1=function(mc) return mc:IsRace(RACE_PLANT) and mc:GetLevel()==4 and mc:IsFaceup() end
 c160009541.material2=function(mc) return mc:IsAttribute(ATTRIBUTE_EARTH) and mc:GetLevel()==4 and mc:IsFaceup() end
 function c160009541.chk(e,tp,eg,ep,ev,re,r,rp)

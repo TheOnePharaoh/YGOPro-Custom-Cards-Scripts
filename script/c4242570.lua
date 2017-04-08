@@ -13,12 +13,12 @@ function c4242570.initial_effect(c)
 	--negate
 	local e2=Effect.CreateEffect(c)
 	e2:SetDescription(aux.Stringid(4242570,1))
+	e2:SetCountLimit(1,42425701)
 	e2:SetCategory(CATEGORY_NEGATE+CATEGORY_DESTROY)
 	e2:SetType(EFFECT_TYPE_QUICK_O)
 	e2:SetCode(EVENT_CHAINING)
 	e2:SetProperty(EFFECT_FLAG_DAMAGE_STEP+EFFECT_FLAG_DAMAGE_CAL)
 	e2:SetRange(LOCATION_SZONE)
-	e2:SetCountLimit(1,4242570)
 	e2:SetCondition(c4242570.discon)
 	e2:SetTarget(c4242570.distg)
 	e2:SetOperation(c4242570.disop)
@@ -47,19 +47,20 @@ function c4242570.discon(e,tp,eg,ep,ev,re,r,rp)
 		and (re:IsActiveType(TYPE_MONSTER) or re:IsHasType(EFFECT_TYPE_ACTIVATE)) and Duel.IsChainNegatable(ev)
 end
 function c4242570.disfilter(c)
-	return c:IsSetCard(0x698) and (c:IsLocation(LOCATION_GRAVE) or c:IsFaceup()) and c:IsAbleToDeckAsCost()
+	return c:IsSetCard(0x698) and c:IsType(TYPE_MONSTER) and (c:IsLocation(LOCATION_GRAVE) and c:IsFaceup()) and c:IsAbleToDeckAsCost()
 end
 function c4242570.distg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.IsExistingMatchingCard(c4242570.disfilter,tp,LOCATION_GRAVE+LOCATION_EXTRA,0,2,nil) end
-	Duel.SetOperationInfo(0,CATEGORY_TODECK,nil,2,tp,LOCATION_EXTRA)
+	if chk==0 then return Duel.IsExistingMatchingCard(c4242570.disfilter,tp,LOCATION_GRAVE,0,2,nil) end
+	Duel.SetOperationInfo(0,CATEGORY_TODECK,nil,2,tp,LOCATION_GRAVE)
 	Duel.SetOperationInfo(0,CATEGORY_NEGATE,eg,1,0,0)
 	if re:GetHandler():IsDestructable() and re:GetHandler():IsRelateToEffect(re) then
 		Duel.SetOperationInfo(0,CATEGORY_DESTROY,eg,1,0,0)
 	end
 end
 function c4242570.disop(e,tp,eg,ep,ev,re,r,rp)
+  if not e:GetHandler():IsRelateToEffect(e) then return end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TODECK)
-	local g=Duel.SelectMatchingCard(tp,c4242570.disfilter,tp,LOCATION_GRAVE+LOCATION_EXTRA,0,2,2,nil)
+	local g=Duel.SelectMatchingCard(tp,c4242570.disfilter,tp,LOCATION_GRAVE,0,2,2,nil)
 	if Duel.SendtoDeck(g,nil,2,REASON_EFFECT)~=0 then
 		Duel.NegateActivation(ev)
 		if re:GetHandler():IsRelateToEffect(re) then

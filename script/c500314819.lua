@@ -1,7 +1,6 @@
 --Neo Paintress Goghi
 function c500314819.initial_effect(c)
 	c:EnableReviveLimit()
-	c:EnableCounterPermit(0x1088)
 		--atk
 	local e99=Effect.CreateEffect(c)
 	e99:SetDescription(aux.Stringid(500314819,1))
@@ -40,7 +39,9 @@ function c500314819.initial_effect(c)
 	end
 end
 c500314819.evolute=true
-c500314819.material1=function(mc) return mc:IsAttribute(ATTRIBUTE_LIGHT) and mc:IsType(TYPE_NORMAL) and mc:GetLevel()==4 and mc:IsFaceup() end
+c500314819.stage_o=7
+c500314819.stage=c500314819.stage_o
+c500314819.material1=function(mc) return mc:IsAttribute(ATTRIBUTE_LIGHT) and mc:IsType(TYPE_NORMAL) and mc:GetLevel()==3 and mc:IsFaceup() end
 c500314819.material2=function(mc) return mc:IsAttribute(ATTRIBUTE_LIGHT) and mc:IsType(TYPE_NORMAL) and mc:GetLevel()==4 and mc:IsFaceup() end
 function c500314819.chk(e,tp,eg,ep,ev,re,r,rp)
 	Duel.CreateToken(tp,388)

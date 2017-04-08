@@ -24,6 +24,7 @@ local e2=Effect.CreateEffect(c)
 	--If deal damage,kill a thing
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(4242566,2))
+	e3:SetCountLimit(1,42425661)
 	e3:SetCategory(CATEGORY_DESTROY)
 	e3:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e3:SetCode(EVENT_BATTLE_DAMAGE)
@@ -35,19 +36,19 @@ local e2=Effect.CreateEffect(c)
 --Kill card draw
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(4242566,3))
+	e4:SetCountLimit(1,42425662)
 	e4:SetCategory(CATEGORY_DRAW)
 	e4:SetType(EFFECT_TYPE_IGNITION)
 	e4:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e4:SetCode(EVENT_FREE_CHAIN)
 	e4:SetRange(LOCATION_PZONE)
-	e4:SetCountLimit(1,42425661)
 	e4:SetCost(c4242566.cost4)
 	e4:SetTarget(c4242566.target4)
 	e4:SetOperation(c4242566.operation4)
 	c:RegisterEffect(e4)
 end
 function c4242566.filter4(c)
-	return c:IsFaceup() and c:IsSetCard(0x698) and not c:IsCode(4242566)
+	return c:IsFaceup() and c:IsSetCard(0x698) and c:IsType(TYPE_SPELL+TYPE_TRAP) and not c:IsCode(4242566)
 end
 function c4242566.cost4(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingTarget(c4242566.filter4,tp,LOCATION_ONFIELD,0,1,nil) end
@@ -63,8 +64,9 @@ function c4242566.target4(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,2)
 end
 function c4242566.operation4(e,tp,eg,ep,ev,re,r,rp)
-	local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
-	Duel.Draw(p,d,REASON_EFFECT)
+        if not e:GetHandler():IsRelateToEffect(e) then return end
+    local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
+    Duel.Draw(p,d,REASON_EFFECT)
 end
 
 

@@ -81,6 +81,8 @@ function c160000860.initial_effect(c)
 	end
 end
 c160000860.evolute=true
+c160000860.stage_o=8
+c160000860.stage=c160000860.stage_o
 c160000860.material1=function(mc) return mc:IsCode(38033121) and mc:IsFaceup() end
 c160000860.material2=function(mc) return mc:GetLevel()==2 and mc:IsFaceup() end
 c160000860.dark_magician_list=true
