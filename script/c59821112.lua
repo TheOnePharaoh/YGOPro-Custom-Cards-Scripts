@@ -39,7 +39,7 @@ function c59821112.initial_effect(c)
 	--Activate4
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(59821112,0))
-	e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e4:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_FUSION_SUMMON)
 	e4:SetType(EFFECT_TYPE_ACTIVATE)
 	e4:SetCode(EVENT_FREE_CHAIN)
 	e4:SetCondition(c59821112.condition)

@@ -65,5 +65,11 @@ function c87002917.setop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetReset(RESET_EVENT+0x47e0000)
 		e1:SetValue(LOCATION_REMOVED)
 		c:RegisterEffect(e1)
+		local e2=Effect.CreateEffect(c)
+		e2:SetType(EFFECT_TYPE_SINGLE)
+		e2:SetCode(EFFECT_TRAP_ACT_IN_SET_TURN)
+		e2:SetProperty(EFFECT_FLAG_SET_AVAILABLE)
+		e2:SetReset(RESET_EVENT+0x1fe0000)
+		c:RegisterEffect(e2)
 	end
 end

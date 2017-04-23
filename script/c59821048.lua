@@ -55,6 +55,7 @@ function c59821048.initial_effect(c)
 	e6:SetCategory(CATEGORY_TODECK+CATEGORY_DRAW)
 	e6:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e6:SetCode(EVENT_BATTLE_DESTROYING)
+	e6:SetProperty(0,EFFECT_FLAG2_XMDETACH)
 	e6:SetCondition(c59821048.drcon)
 	e6:SetCost(c59821048.drcost)
 	e6:SetTarget(c59821048.drtg)
@@ -233,8 +234,11 @@ end
 function c59821048.atkval(e,c)
 	return e:GetHandler():GetOverlayCount()*200
 end
-function c59821048.overcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():GetOverlayGroup():IsExists(Card.IsCode,1,nil,59821003)
+function c59821048.overlayfilter(c)
+	return c:IsCode(59821003) or c:IsHasEffect(59821167)
+end
+function c59821048.overcon(e)
+	return e:GetHandler():GetOverlayGroup():IsExists(c59821048.overlayfilter,1,nil)
 end
 function c59821048.overfilter(c,tp)
 	return c:IsPosition(POS_FACEUP_ATTACK) and not c:IsType(TYPE_TOKEN)

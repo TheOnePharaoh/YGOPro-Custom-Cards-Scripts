@@ -1,13 +1,6 @@
 --The First Panticle of Iron
 function c80106540.initial_effect(c)
-	--Activate
-	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_EQUIP)
-	e1:SetType(EFFECT_TYPE_ACTIVATE)
-	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e1:SetTarget(c80106540.eqtg)
-	e1:SetOperation(c80106540.eqop)
+	aux.AddEquipProcedure(c,nil,c80106540.eqfilter)
 	c:RegisterEffect(e1)
 	--self destroy
 	local e2=Effect.CreateEffect(c)
@@ -58,7 +51,7 @@ function c80106540.initial_effect(c)
 	e7:SetValue(c80106540.eqlimit)
 	c:RegisterEffect(e7)
 end
-function c80106540.eqlimit(e,c)
+function c80106540.eqfilter(c)
 	return c:IsSetCard(0xca00)
 end
 function c80106540.sdfilter(c)
@@ -66,23 +59,6 @@ function c80106540.sdfilter(c)
 end
 function c80106540.sdcon(e)
 	return Duel.IsExistingMatchingCard(c80106540.sdfilter,e:GetHandlerPlayer(),LOCATION_MZONE,0,1,nil)
-end
-function c80106540.eqfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0xca00)
-end
-function c80106540.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and c80106540.eqfilter(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(c80106540.eqfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
-	Duel.SelectTarget(tp,c80106540.eqfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil)
-	Duel.SetOperationInfo(0,CATEGORY_EQUIP,e:GetHandler(),1,0,0)
-end
-function c80106540.eqop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	local tc=Duel.GetFirstTarget()
-	if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsFaceup() then
-		Duel.Equip(tp,c,tc)
-	end
 end
 function c80106540.spcon(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsReason(REASON_EFFECT) and e:GetHandler():IsPreviousLocation(LOCATION_HAND) and not e:GetHandler():IsReason(REASON_RETURN)

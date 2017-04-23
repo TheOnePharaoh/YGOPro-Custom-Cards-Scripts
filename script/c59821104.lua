@@ -27,6 +27,15 @@ function c59821104.initial_effect(c)
 	e3:SetCode(EFFECT_ADD_SETCODE)
 	e3:SetValue(0x95)
 	c:RegisterEffect(e3)
+	--act in hand
+	local e4=Effect.CreateEffect(c)
+	e4:SetType(EFFECT_TYPE_SINGLE)
+	e4:SetCode(EFFECT_QP_ACT_IN_NTPHAND)
+	e4:SetCondition(c59821104.handcon)
+	c:RegisterEffect(e4)
+end
+function c59821104.handcon(e)
+	return tp~=Duel.GetTurnPlayer()
 end
 function c59821104.filter1(c,e,tp)
 	local rk=c:GetRank()

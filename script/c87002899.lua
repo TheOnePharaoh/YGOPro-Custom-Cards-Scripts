@@ -38,7 +38,7 @@ function c87002899.initial_effect(c)
 	e6:SetCategory(CATEGORY_SPECIAL_SUMMON)
 	e6:SetType(EFFECT_TYPE_IGNITION)
 	e6:SetRange(LOCATION_SZONE)
-	e6:SetCondition(c87002899.uncon)
+	e6:SetCondition(aux.IsUnionState)
 	e6:SetTarget(c87002899.sptg)
 	e6:SetOperation(c87002899.spop)
 	c:RegisterEffect(e6)
@@ -47,21 +47,21 @@ function c87002899.initial_effect(c)
 	e7:SetType(EFFECT_TYPE_EQUIP)
 	e7:SetCode(EFFECT_UPDATE_ATTACK)
 	e7:SetValue(500)
-	e7:SetCondition(c87002899.uncon)
+	e7:SetCondition(aux.IsUnionState)
 	c:RegisterEffect(e7)
 	--Def up
 	local e8=Effect.CreateEffect(c)
 	e8:SetType(EFFECT_TYPE_EQUIP)
 	e8:SetCode(EFFECT_UPDATE_DEFENSE)
 	e8:SetValue(500)
-	e8:SetCondition(c87002899.uncon)
+	e8:SetCondition(aux.IsUnionState)
 	c:RegisterEffect(e8)
 	--destroy sub
 	local e9=Effect.CreateEffect(c)
 	e9:SetType(EFFECT_TYPE_EQUIP)
 	e9:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
 	e9:SetCode(EFFECT_DESTROY_SUBSTITUTE)
-	e9:SetCondition(c87002899.uncon)
+	e9:SetCondition(aux.IsUnionState)
 	e9:SetValue(1)
 	c:RegisterEffect(e9)
 	--eqlimit
@@ -72,6 +72,7 @@ function c87002899.initial_effect(c)
 	e10:SetValue(c87002899.eqlimit)
 	c:RegisterEffect(e10)
 end
+c87002899.old_union=true
 function c87002899.spefilter(c,e,tp)
 	return c:IsCode(87002898) and c:IsCanBeSpecialSummoned(e,200,tp,false,false)
 end
@@ -88,9 +89,6 @@ function c87002899.specop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.SpecialSummon(g,200,tp,tp,false,false,POS_FACEUP)
 	end
 end
-function c87002899.uncon(e)
-	return e:GetHandler():IsStatus(STATUS_UNION)
-end
 function c87002899.eqlimit(e,c)
 	return c:IsType(TYPE_MONSTER) and c:IsSetCard(0xe291ca)
 end
@@ -98,7 +96,7 @@ function c87002899.filter(c)
 	return c:IsFaceup() and c:IsSetCard(0xe291ca) and c:GetUnionCount()==0
 end
 function c87002899.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and c87002899.filter(chkc) end
+	if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and c87002899.filter(chkc) and chkc~=e:GetHandler() end
 	if chk==0 then return e:GetHandler():GetFlagEffect(87002899)==0 and Duel.GetLocationCount(tp,LOCATION_SZONE)>0
 		and Duel.IsExistingTarget(c87002899.filter,tp,LOCATION_MZONE,0,1,e:GetHandler()) end
 	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
@@ -115,11 +113,11 @@ function c87002899.eqop(e,tp,eg,ep,ev,re,r,rp)
 		return
 	end
 	if not Duel.Equip(tp,c,tc,false) then return end
-	c:SetStatus(STATUS_UNION,true)
+	aux.SetUnionState(c)
 end
 function c87002899.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():GetFlagEffect(87002899)==0 and Duel.GetLocationCount(tp,LOCATION_MZONE)>0
-		and e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,false,false) end
+		and e:GetHandler():IsCanBeSpecialSummoned(e,0,tp,true,false) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,e:GetHandler(),1,0,0)
 	e:GetHandler():RegisterFlagEffect(87002899,RESET_EVENT+0x7e0000+RESET_PHASE+PHASE_END,0,1)
 end

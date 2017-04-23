@@ -45,6 +45,7 @@ function c59821085.initial_effect(c)
 	e5:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 	e5:SetType(EFFECT_TYPE_TRIGGER_O+EFFECT_TYPE_SINGLE)
 	e5:SetCode(EVENT_BATTLE_DESTROYING)
+	e5:SetProperty(0,EFFECT_FLAG2_XMDETACH)
 	e5:SetCondition(c59821085.thcon)
 	e5:SetCost(c59821085.thcost)
 	e5:SetTarget(c59821085.thtg)
@@ -177,8 +178,11 @@ end
 function c59821085.indes(e,c)
 	return not c:IsRace(RACE_FAIRY)
 end
-function c59821085.setcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():GetOverlayGroup():IsExists(Card.IsCode,1,nil,59821012)
+function c59821085.overlayfilter(c)
+	return c:IsCode(59821012) or c:IsHasEffect(59821167)
+end
+function c59821085.setcon(e)
+	return e:GetHandler():GetOverlayGroup():IsExists(c59821085.overlayfilter,1,nil)
 end
 function c59821085.setfilter1(c,tp)
 	return c:IsDiscardable() and ((c59821085.setfilter2(c) and c:IsAbleToGraveAsCost())

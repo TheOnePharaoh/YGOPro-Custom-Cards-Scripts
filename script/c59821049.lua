@@ -54,7 +54,7 @@ function c59821049.initial_effect(c)
 	e6:SetDescription(aux.Stringid(59821049,2))
 	e6:SetCategory(CATEGORY_DESTROY)
 	e6:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
-	e6:SetProperty(EFFECT_FLAG_CARD_TARGET)
+	e6:SetProperty(EFFECT_FLAG_CARD_TARGET,EFFECT_FLAG2_XMDETACH)
 	e6:SetCode(EVENT_BATTLED)
 	e6:SetCondition(c59821049.descon)
 	e6:SetCost(c59821049.descost)
@@ -208,8 +208,11 @@ end
 function c59821049.atkval(e,c)
 	return c:GetOverlayCount()*500
 end
-function c59821049.attcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():GetOverlayGroup():IsExists(Card.IsCode,1,nil,59821005)
+function c59821049.overlayfilter(c)
+	return c:IsCode(59821005) or c:IsHasEffect(59821167)
+end
+function c59821049.attcon(e)
+	return e:GetHandler():GetOverlayGroup():IsExists(c59821049.overlayfilter,1,nil)
 end
 function c59821049.attfilter(c)
 	return c:IsSetCard(0xa1a2) and c:IsType(TYPE_MONSTER) and not c:IsHasEffect(EFFECT_NECRO_VALLEY)

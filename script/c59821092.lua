@@ -77,6 +77,7 @@ function c59821092.initial_effect(c)
 	e9:SetCategory(CATEGORY_DAMAGE)
 	e9:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e9:SetCode(EVENT_BATTLE_DESTROYING)
+	e9:SetProperty(0,EFFECT_FLAG2_XMDETACH)
 	e9:SetCondition(c59821092.damcon)
 	e9:SetCost(c59821092.damcost)
 	e9:SetOperation(c59821092.damop)
@@ -204,8 +205,11 @@ function c59821092.atkchaop(e,tp,eg,ep,ev,re,r,rp)
 		tc=g:GetNext()
 	end
 end
-function c59821092.disacon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():GetOverlayGroup():IsExists(Card.IsCode,1,nil,59821009)
+function c59821092.overlayfilter(c)
+	return c:IsCode(59821009) or c:IsHasEffect(59821167)
+end
+function c59821092.disacon(e)
+	return e:GetHandler():GetOverlayGroup():IsExists(c59821092.overlayfilter,1,nil)
 end
 function c59821092.disatg(e,c)
 	return c:IsType(TYPE_XYZ) and c:IsRankBelow(4) and bit.band(c:GetSummonType(),SUMMON_TYPE_XYZ)==SUMMON_TYPE_XYZ

@@ -20,7 +20,7 @@ function c59821110.initial_effect(c)
 	e2:SetCategory(CATEGORY_DESTROY+CATEGORY_REMOVE)
 	e2:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e2:SetCode(EVENT_BATTLE_DESTROYING)
-	e2:SetProperty(EFFECT_FLAG_CARD_TARGET)
+	e2:SetProperty(EFFECT_FLAG_CARD_TARGET,EFFECT_FLAG2_XMDETACH)
 	e2:SetCountLimit(1)
 	e2:SetCondition(c59821110.descon)
 	e2:SetCost(c59821110.descost)
@@ -118,7 +118,6 @@ function c59821110.descon(e,tp,eg,ep,ev,re,r,rp)
 end
 function c59821110.descost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return e:GetHandler():CheckRemoveOverlayCard(tp,1,REASON_COST) end
-	Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
 	e:GetHandler():RemoveOverlayCard(tp,1,1,REASON_COST)
 end
 function c59821110.desfilter12(c)

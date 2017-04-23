@@ -26,7 +26,7 @@ function c99199021.initial_effect(c)
 	--immune
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(99199021,0))
-	e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
+	e3:SetProperty(EFFECT_FLAG_CARD_TARGET,EFFECT_FLAG2_XMDETACH)
 	e3:SetType(EFFECT_TYPE_QUICK_O)
 	e3:SetCode(EVENT_FREE_CHAIN)
 	e3:SetRange(LOCATION_MZONE)

@@ -89,9 +89,7 @@ end
 function c99199040.ritualtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local mg=Duel.GetRitualMaterial(tp)
-		mg:RemoveCard(e:GetHandler())
 		local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
-		if e:GetHandler():IsLocation(LOCATION_MZONE) then ft=ft+1 end
 		return Duel.IsExistingMatchingCard(c99199040.ritualsumfilter,tp,LOCATION_HAND+LOCATION_EXTRA,0,1,nil,e,tp,mg,ft)
 	end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_HAND+LOCATION_EXTRA)

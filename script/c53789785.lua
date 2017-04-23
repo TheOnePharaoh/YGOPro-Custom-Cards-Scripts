@@ -29,7 +29,7 @@ function c53789785.initial_effect(c)
 	--fusion
 	local e4=Effect.CreateEffect(c)
 	e4:SetDescription(aux.Stringid(53789785,1))
-	e4:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e4:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_FUSION_SUMMON)
 	e4:SetType(EFFECT_TYPE_IGNITION)
 	e4:SetRange(LOCATION_SZONE)
 	e4:SetCountLimit(1,53789785)

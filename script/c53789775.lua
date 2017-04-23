@@ -73,7 +73,7 @@ function c53789775.con(e,tp,eg,ep,ev,re,r,rp)
 	return st>=(SUMMON_TYPE_SPECIAL+200) and st<(SUMMON_TYPE_SPECIAL+250)
 end
 function c53789775.seafilter(c)
-	return c:IsCode(1200843) or c:IsCode(48716139) or c:IsCode(74115234) and c:IsAbleToHand()
+	return c:IsCode(1200843) or c:IsCode(48716139) or c:IsCode(74115234) or c:IsCode(53789787) or c:IsCode(53789792) and c:IsAbleToHand()
 end
 function c53789775.tg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.IsExistingMatchingCard(c53789775.seafilter,tp,LOCATION_DECK,0,1,nil) end

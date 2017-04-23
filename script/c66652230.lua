@@ -1,8 +1,8 @@
---S.A. Embrace the Darkness
+--Secret Art of Darkness Step 1 - Embrace the Darkness
 function c66652230.initial_effect(c)
 	--Activate
 	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_FUSION_SUMMON)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetTarget(c66652230.target)
@@ -28,7 +28,7 @@ function c66652230.initial_effect(c)
 	c:RegisterEffect(e3)
 end
 function c66652230.filter1(c,e)
-	return c:IsCanBeFusionMaterial() and not c:IsType(TYPE_FUSION) and not c:IsImmuneToEffect(e)
+	return c:IsType(TYPE_MONSTER) and not c:IsType(TYPE_FUSION) and c:IsCanBeFusionMaterial() and not c:IsImmuneToEffect(e)
 end
 function c66652230.filter2(c,e,tp,m,f,chkf)
 	return c:IsType(TYPE_FUSION) and c:IsSetCard(0x0dac403) and (not f or f(c))
@@ -37,7 +37,7 @@ end
 function c66652230.target(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local chkf=Duel.GetLocationCount(tp,LOCATION_MZONE)>0 and PLAYER_NONE or tp
-		local mg1=Duel.GetMatchingGroup(Card.IsCanBeFusionMaterial,tp,LOCATION_HAND+LOCATION_MZONE+LOCATION_EXTRA,0,nil)
+		local mg1=Duel.GetMatchingGroup(c66652230.filter1,tp,LOCATION_HAND+LOCATION_MZONE+LOCATION_EXTRA,0,nil)
 		local res=Duel.IsExistingMatchingCard(c66652230.filter2,tp,LOCATION_EXTRA+LOCATION_GRAVE,0,1,nil,e,tp,mg1,nil,chkf)
 		if not res then
 			local ce=Duel.GetChainMaterial(tp)

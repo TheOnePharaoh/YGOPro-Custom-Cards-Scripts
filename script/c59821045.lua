@@ -55,6 +55,7 @@ function c59821045.initial_effect(c)
 	e6:SetCategory(CATEGORY_DESTROY)
 	e6:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e6:SetCode(EVENT_BATTLE_DESTROYING)
+	e6:SetProperty(0,EFFECT_FLAG2_XMDETACH)
 	e6:SetCondition(c59821045.descon)
 	e6:SetCost(c59821045.descost)
 	e6:SetTarget(c59821045.destg)
@@ -188,6 +189,9 @@ function c59821045.op(e,tp,eg,ep,ev,re,r,rp)
 	        Duel.MoveToField(c,tp,tp,LOCATION_SZONE,POS_FACEUP,true)
 	end 
 end
-function c59821045.doublecon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():GetOverlayGroup():IsExists(Card.IsCode,1,nil,59821029)
+function c59821045.overlayfilter(c)
+	return c:IsCode(59821029) or c:IsHasEffect(59821167)
+end
+function c59821045.doublecon(e)
+	return e:GetHandler():GetOverlayGroup():IsExists(c59821045.overlayfilter,1,nil)
 end

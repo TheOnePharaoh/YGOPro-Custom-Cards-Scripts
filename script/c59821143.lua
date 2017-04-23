@@ -26,6 +26,13 @@ function c59821143.initial_effect(c)
 	e3:SetCode(EFFECT_QP_ACT_IN_NTPHAND)
 	e3:SetCondition(c59821143.handcon)
 	c:RegisterEffect(e3)
+	--add setcode
+	local e4=Effect.CreateEffect(c)
+	e4:SetType(EFFECT_TYPE_SINGLE)
+	e4:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
+	e4:SetCode(EFFECT_ADD_SETCODE)
+	e4:SetValue(0x95)
+	c:RegisterEffect(e4)
 end
 function c59821143.handcon(e)
 	return tp~=Duel.GetTurnPlayer()

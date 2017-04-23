@@ -46,7 +46,7 @@ function c59821017.initial_effect(c)
 	e5:SetDescription(aux.Stringid(59821017,3))
 	e5:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_TOKEN)
 	e5:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
-	e5:SetCode(EVENT_BATTLED)
+	e5:SetCode(EVENT_BATTLE_DESTROYING)
 	e5:SetRange(LOCATION_SZONE)
 	e5:SetCountLimit(2,59821017)
 	e5:SetCondition(c59821017.spcon)
@@ -125,26 +125,26 @@ function c59821017.op(e,tp,eg,ep,ev,re,r,rp)
 	end
 end
 function c59821017.spcon(e,tp,eg,ep,ev,re,r,rp)
-	local a=Duel.GetAttacker()
-	local d=Duel.GetAttackTarget()
-	if not d then return false end
-	if d:IsControler(tp) then a,d=d,a end
-	return a:IsType(TYPE_MONSTER) and a:IsSetCard(0xa1a2) or a:IsCode(59821039) or a:IsCode(59821040) or a:IsCode(59821041) or a:IsCode(59821042) or a:IsCode(59821043) or a:IsCode(59821044) or a:IsCode(59821045) or a:IsCode(59821046) or a:IsCode(59821048) or a:IsCode(59821049)
-		and not a:IsStatus(STATUS_BATTLE_DESTROYED) and d:IsStatus(STATUS_BATTLE_DESTROYED)
+	local c=e:GetHandler()
+	local rc=eg:GetFirst()
+	return rc:IsRelateToBattle() and rc:IsStatus(STATUS_OPPO_BATTLE)
+		and rc:IsFaceup() and rc:IsSetCard(0xa1a2) and rc:IsControler(tp)
 end
 function c59821017.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return true end
-	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,0,0)
+	if chk==0 then return Duel.GetLocationCount(1-tp,LOCATION_MZONE)>0
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,59821023,0,0xa1a2,800,2000,4,RACE_FAIRY,ATTRIBUTE_DARK,POS_FACEUP_DEFENSE,1-tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,0,0)
+	Duel.SetOperationInfo(0,CATEGORY_TOKEN,nil,1,tp,0)
 end
 function c59821017.spop(e,tp,eg,ep,ev,re,r,rp)
-	local ft=Duel.GetLocationCount(1-tp,LOCATION_MZONE)
-	if ft<=0 or not Duel.IsPlayerCanSpecialSummonMonster(tp,59821023,0xf,0x4011,800,2000,4,RACE_FAIRY,ATTRIBUTE_DARK,POS_FACEUP_DEFENSE,1-tp) then return end
-	local token=Duel.CreateToken(tp,59821023)
-	Duel.SpecialSummon(token,0,tp,1-tp,false,false,POS_FACEUP_DEFENSE)
+	if e:GetHandler():IsRelateToEffect(e) and Duel.GetLocationCount(1-tp,LOCATION_MZONE)>0
+		and Duel.IsPlayerCanSpecialSummonMonster(tp,59821023,0,0xa1a2,800,2000,4,RACE_FAIRY,ATTRIBUTE_DARK,POS_FACEUP_DEFENSE,1-tp) then
+		local token=Duel.CreateToken(tp,59821023)
+		Duel.SpecialSummon(token,0,tp,1-tp,false,false,POS_FACEUP_DEFENSE)
 	local e1=Effect.CreateEffect(e:GetHandler())
 	e1:SetType(EFFECT_TYPE_SINGLE)
 	e1:SetCode(EFFECT_CANNOT_ATTACK_ANNOUNCE)
 	e1:SetReset(RESET_EVENT+0x1fe0000)
 	token:RegisterEffect(e1,true)
+	end
 end

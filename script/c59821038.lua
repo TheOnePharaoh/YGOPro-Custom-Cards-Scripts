@@ -18,6 +18,15 @@ function c59821038.initial_effect(c)
 	e2:SetCode(EFFECT_ADD_SETCODE)
 	e2:SetValue(0x95)
 	c:RegisterEffect(e2)
+	--act in hand
+	local e3=Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_SINGLE)
+	e3:SetCode(EFFECT_QP_ACT_IN_NTPHAND)
+	e3:SetCondition(c59821038.handcon)
+	c:RegisterEffect(e3)
+end
+function c59821038.handcon(e)
+	return tp~=Duel.GetTurnPlayer()
 end
 function c59821038.cost(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.CheckLPCost(tp,1500) end

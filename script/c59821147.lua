@@ -75,6 +75,7 @@ function c59821147.initial_effect(c)
 	e8:SetCategory(CATEGORY_DAMAGE+CATEGORY_RECOVER)
 	e8:SetCode(EVENT_BATTLE_DESTROYING)
 	e8:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e8:SetCondition(c59821147.hlcon)
 	e8:SetTarget(c59821147.hltg)
 	e8:SetOperation(c59821147.hlop)
 	c:RegisterEffect(e8)
@@ -193,6 +194,10 @@ function c59821147.tdop(e,tp,eg,ep,ev,re,r,rp)
 		tc:RegisterEffect(e1)
 		tc=g:GetNext()
 	end
+end
+function c59821147.hlcon(e,tp,eg,ep,ev,re,r,rp)
+	local c=e:GetHandler()
+	return c:IsRelateToBattle() and c:GetBattleTarget():IsType(TYPE_MONSTER)
 end
 function c59821147.hltg(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then return Duel.GetAttackTarget()~=nil end

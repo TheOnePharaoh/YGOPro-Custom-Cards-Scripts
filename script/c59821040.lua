@@ -79,7 +79,7 @@ function c59821040.initial_effect(c)
 	--set
 	local e9=Effect.CreateEffect(c)
 	e9:SetDescription(aux.Stringid(59821040,1))
-	e9:SetProperty(EFFECT_FLAG_CARD_TARGET)
+	e9:SetProperty(EFFECT_FLAG_CARD_TARGET,EFFECT_FLAG2_XMDETACH)
 	e9:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e9:SetCode(EVENT_BATTLE_DESTROYING)
 	e9:SetCountLimit(1)
@@ -242,6 +242,9 @@ function c59821040.op(e,tp,eg,ep,ev,re,r,rp)
 	        Duel.MoveToField(c,tp,tp,LOCATION_SZONE,POS_FACEUP,true)
 	end 
 end
-function c59821040.tgcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():GetOverlayGroup():IsExists(Card.IsCode,1,nil,59821011)
+function c59821040.overlayfilter(c)
+	return c:IsCode(59821011) or c:IsHasEffect(59821167)
+end
+function c59821040.tgcon(e)
+	return e:GetHandler():GetOverlayGroup():IsExists(c59821040.overlayfilter,1,nil)
 end

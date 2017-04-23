@@ -28,6 +28,15 @@ function c59821074.initial_effect(c)
 	e3:SetTarget(c59821074.attg)
 	e3:SetOperation(c59821074.atop)
 	c:RegisterEffect(e3)
+	--act in hand
+	local e4=Effect.CreateEffect(c)
+	e4:SetType(EFFECT_TYPE_SINGLE)
+	e4:SetCode(EFFECT_QP_ACT_IN_NTPHAND)
+	e4:SetCondition(c59821074.handcon)
+	c:RegisterEffect(e4)
+end
+function c59821074.handcon(e)
+	return tp~=Duel.GetTurnPlayer()
 end
 function c59821074.cfilter(c,tp)
 	return c:IsReason(REASON_BATTLE) and c:GetPreviousControler()==tp and c:IsRankBelow(4) and c:IsType(TYPE_XYZ) and c:IsSetCard(0xa1a2)

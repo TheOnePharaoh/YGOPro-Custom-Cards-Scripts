@@ -1,15 +1,7 @@
 --The Soul Eating Sword Mourneblade
 function c20912259.initial_effect(c)
 	c:SetUniqueOnField(1,0,20912259)
-	--Activate
-	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_EQUIP)
-	e1:SetType(EFFECT_TYPE_ACTIVATE)
-	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e1:SetTarget(c20912259.target)
-	e1:SetOperation(c20912259.operation)
-	c:RegisterEffect(e1)
+	aux.AddEquipProcedure(c,0,aux.FilterBoolFunction(Card.IsRace,RACE_WARRIOR))
 	--remove
 	local e3=Effect.CreateEffect(c)
 	e3:SetDescription(aux.Stringid(20912259,0))
@@ -44,16 +36,6 @@ function c20912259.initial_effect(c)
 end
 function c20912259.eqlimit(e,c)
 	return c:IsRace(RACE_WARRIOR)
-end
-function c20912259.eqfilter1(c)
-	return c:IsFaceup() and c:IsRace(RACE_WARRIOR)
-end
-function c20912259.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and c20912259.eqfilter1(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(c20912259.eqfilter1,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
-	Duel.SelectTarget(tp,c20912259.eqfilter1,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil)
-	Duel.SetOperationInfo(0,CATEGORY_EQUIP,e:GetHandler(),1,0,0)
 end
 function c20912259.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()

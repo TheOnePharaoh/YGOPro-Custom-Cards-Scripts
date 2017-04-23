@@ -110,7 +110,7 @@ end
 function c97341617.checkop(e,tp,eg,ep,ev,re,r,rp)
 	local tc=eg:GetFirst()
 	if tc:IsSetCard(0x0dac402) and tc:GetSummonType()==SUMMON_TYPE_SYNCHRO then
-		c97341617[ep]=c97341617[ep]+1
+		c97341617[tc:GetSummonPlayer()]=c97341617[tc:GetSummonPlayer()]+1
 	end
 end
 function c97341617.clear(e,tp,eg,ep,ev,re,r,rp)
@@ -130,7 +130,7 @@ function c97341617.atkop(e,tp,eg,ep,ev,re,r,rp)
 		e1:SetType(EFFECT_TYPE_SINGLE)
 		e1:SetCode(EFFECT_UPDATE_ATTACK)
 		e1:SetValue(ct*300)
-		e1:SetReset(RESET_EVENT+0x1ff0000)
+		e1:SetReset(RESET_PHASE+PHASE_DAMAGE_CAL)
 		c:RegisterEffect(e1)
 	end
 end

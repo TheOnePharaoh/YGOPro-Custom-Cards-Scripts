@@ -20,6 +20,15 @@ function c59821101.initial_effect(c)
 	e2:SetCode(EFFECT_ADD_SETCODE)
 	e2:SetValue(0x95)
 	c:RegisterEffect(e2)
+	--act in hand
+	local e3=Effect.CreateEffect(c)
+	e3:SetType(EFFECT_TYPE_SINGLE)
+	e3:SetCode(EFFECT_QP_ACT_IN_NTPHAND)
+	e3:SetCondition(c59821101.handcon)
+	c:RegisterEffect(e3)
+end
+function c59821101.handcon(e)
+	return tp~=Duel.GetTurnPlayer()
 end
 function c59821101.condition(e,tp,eg,ep,ev,re,r,rp)
 	return Duel.GetLP(tp)<=Duel.GetLP(1-tp)-3000

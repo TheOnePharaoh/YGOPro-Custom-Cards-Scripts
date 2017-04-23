@@ -1,6 +1,7 @@
 --The Holy Sword Harper
 function c20912228.initial_effect(c)
 	c:SetUniqueOnField(1,0,20912228)
+	aux.AddEquipProcedure(c,0,aux.FilterBoolFunction(Card.IsRace,RACE_WARRIOR))
 	--Activate
 	local e1=Effect.CreateEffect(c)
 	e1:SetCategory(CATEGORY_EQUIP)
@@ -49,16 +50,6 @@ function c20912228.initial_effect(c)
 end
 function c20912228.eqlimit(e,c)
 	return c:IsRace(RACE_WARRIOR)
-end
-function c20912228.eqfilter1(c)
-	return c:IsFaceup() and c:IsRace(RACE_WARRIOR)
-end
-function c20912228.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and c20912228.eqfilter1(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(c20912228.eqfilter1,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
-	Duel.SelectTarget(tp,c20912228.eqfilter1,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil)
-	Duel.SetOperationInfo(0,CATEGORY_EQUIP,e:GetHandler(),1,0,0)
 end
 function c20912228.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()

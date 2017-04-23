@@ -1,14 +1,6 @@
 --The First Panticle Chain
 function c80106538.initial_effect(c)
-	--Activate
-	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_EQUIP)
-	e1:SetType(EFFECT_TYPE_ACTIVATE)
-	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e1:SetTarget(c80106538.eqtg)
-	e1:SetOperation(c80106538.eqop)
-	c:RegisterEffect(e1)
+	aux.AddEquipProcedure(c,nil,c80106538.eqfilter)
 	--self destroy
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_SINGLE)
@@ -49,15 +41,8 @@ function c80106538.initial_effect(c)
 	e6:SetCondition(c80106538.actcon)
 	e6:SetOperation(c80106538.actop)
 	c:RegisterEffect(e6)
-	--Equip limit
-	local e7=Effect.CreateEffect(c)
-	e7:SetType(EFFECT_TYPE_SINGLE)
-	e7:SetCode(EFFECT_EQUIP_LIMIT)
-	e7:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
-	e7:SetValue(c80106538.eqlimit)
-	c:RegisterEffect(e7)
 end
-function c80106538.eqlimit(e,c)
+function c80106538.eqfilter(c)
 	return c:IsSetCard(0xca00)
 end
 function c80106538.sdfilter(c)

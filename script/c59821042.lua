@@ -61,6 +61,7 @@ function c59821042.initial_effect(c)
 	e7:SetDescription(aux.Stringid(59821042,1))
 	e7:SetCode(EVENT_BATTLE_DESTROYING)
 	e7:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+	e7:SetProperty(0,EFFECT_FLAG2_XMDETACH)
 	e7:SetCountLimit(1,59821042)
 	e7:SetCondition(c59821042.actrescon)
 	e7:SetCost(c59821042.actrescost)
@@ -207,8 +208,11 @@ function c59821042.op(e,tp,eg,ep,ev,re,r,rp)
 	        Duel.MoveToField(c,tp,tp,LOCATION_SZONE,POS_FACEUP,true)
 	end 
 end
-function c59821042.atkcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():GetOverlayGroup():IsExists(Card.IsCode,1,nil,59821002)
+function c59821042.overlayfilter(c)
+	return c:IsCode(59821002) or c:IsHasEffect(59821167)
+end
+function c59821042.atkcon(e)
+	return e:GetHandler():GetOverlayGroup():IsExists(c59821042.overlayfilter,1,nil)
 end
 function c59821042.atkop(e,tp,eg,ep,ev,re,r,rp)
 	local e1=Effect.CreateEffect(e:GetHandler())

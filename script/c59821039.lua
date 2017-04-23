@@ -73,6 +73,7 @@ function c59821039.initial_effect(c)
 	e9:SetCategory(CATEGORY_TOHAND+CATEGORY_SEARCH)
 	e9:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
 	e9:SetCode(EVENT_BATTLE_DESTROYING)
+	e9:SetProperty(0,EFFECT_FLAG2_XMDETACH)
 	e9:SetCondition(c59821039.thcon)
 	e9:SetCost(c59821039.thcost)
 	e9:SetTarget(c59821039.thtg)
@@ -103,18 +104,6 @@ function c59821039.initial_effect(c)
 	e12:SetCode(EFFECT_ADD_SETCODE)
 	e12:SetValue(0x1073)
 	c:RegisterEffect(e12)
-	--only 1 can exists
-	local e13=Effect.CreateEffect(c)
-	e13:SetType(EFFECT_TYPE_SINGLE)
-	e13:SetCode(EFFECT_CANNOT_SUMMON)
-	e13:SetCondition(c59821039.exccon)
-	c:RegisterEffect(e13)
-	local e14=e13:Clone()
-	e14:SetCode(EFFECT_CANNOT_FLIP_SUMMON)
-	c:RegisterEffect(e14)
-	local e15=e14:Clone()
-	e15:SetCode(EFFECT_CANNOT_SPECIAL_SUMMON)
-	c:RegisterEffect(e15)
 end
 function c59821039.penfilter4(c)
     return c:IsSetCard(0xa1a2)
@@ -221,18 +210,15 @@ function c59821039.op(e,tp,eg,ep,ev,re,r,rp)
 	        Duel.MoveToField(c,tp,tp,LOCATION_SZONE,POS_FACEUP,true)
 	end 
 end
-function c59821039.atkvalcon(e,tp,eg,ep,ev,re,r,rp)
-	return e:GetHandler():GetOverlayGroup():IsExists(Card.IsCode,1,nil,59821008)
+function c59821039.overlayfilter(c)
+	return c:IsCode(59821008) or c:IsHasEffect(59821167)
+end
+function c59821039.atkvalcon(e)
+	return e:GetHandler():GetOverlayGroup():IsExists(c59821039.overlayfilter,1,nil)
 end
 function c59821039.atkvalfilter(c)
 	return c:IsFaceup() and c:IsSetCard(0xa1a2)
 end
 function c59821039.atkval(e,c)
 	return Duel.GetMatchingGroupCount(c59821039.atkvalfilter,c:GetControler(),LOCATION_MZONE,0,nil)*300
-end
-function c59821039.excfilter(c)
-	return c:IsFaceup() and c:IsCode(59821039)
-end
-function c59821039.exccon(e)
-	return Duel.IsExistingMatchingCard(c59821039.excfilter,0,LOCATION_MZONE,0,1,nil)
 end

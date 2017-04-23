@@ -34,7 +34,7 @@ function c59821145.filter0(c,e)
 	return c:IsFaceup() and c:IsLevelBelow(4) and c:IsType(TYPE_PENDULUM) and c:IsSetCard(0xa1a2) and not c:IsType(TYPE_FUSION) and c:IsCanBeFusionMaterial(nil,true) and not c:IsImmuneToEffect(e)
 end
 function c59821145.filter1(c,e)
-	return c:IsCanBeFusionMaterial() and not c:IsImmuneToEffect(e)
+	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and not c:IsImmuneToEffect(e)
 end
 function c59821145.filter2(c,e,tp,m,f,chkf)
 	return c:IsType(TYPE_FUSION) and c:IsSetCard(0xa1a2) and (not f or f(c))

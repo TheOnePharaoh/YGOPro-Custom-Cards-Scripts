@@ -1,15 +1,7 @@
 --The Sword of Creation Durandal
 function c20912312.initial_effect(c)
 	c:SetUniqueOnField(1,0,20912312)
-	--Activate
-	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_EQUIP)
-	e1:SetType(EFFECT_TYPE_ACTIVATE)
-	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e1:SetTarget(c20912312.target)
-	e1:SetOperation(c20912312.operation)
-	c:RegisterEffect(e1)
+	aux.AddEquipProcedure(c,nil,c20912312.filter)
 	--level
 	local e2=Effect.CreateEffect(c)
 	e2:SetType(EFFECT_TYPE_EQUIP)
@@ -52,18 +44,11 @@ function c20912312.initial_effect(c)
 	e6:SetOperation(c20912312.spop)
 	c:RegisterEffect(e6)
 end
-function c20912312.eqlimit(e,c)
+function c20912312.filter(c)
 	return c:IsRace(RACE_WARRIOR) and not c:IsType(TYPE_XYZ)
 end
-function c20912312.eqfilter1(c)
-	return c:IsFaceup() and c:IsRace(RACE_WARRIOR) and not c:IsType(TYPE_XYZ)
-end
-function c20912312.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and c20912312.eqfilter1(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(c20912312.eqfilter1,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
-	Duel.SelectTarget(tp,c20912312.eqfilter1,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil)
-	Duel.SetOperationInfo(0,CATEGORY_EQUIP,e:GetHandler(),1,0,0)
+function c20912312.eqlimit(e,c)
+	return c:IsRace(RACE_WARRIOR) and not c:IsType(TYPE_XYZ)
 end
 function c20912312.operation(e,tp,eg,ep,ev,re,r,rp)
 	local c=e:GetHandler()
@@ -101,7 +86,7 @@ function c20912312.spfilter(c,e,tp)
 	return c:IsRace(RACE_WARRIOR) and c:IsCanBeSpecialSummoned(e,0,tp,false,false)
 end
 function c20912312.sptg(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>0
+	if chk==0 then return Duel.GetLocationCount(tp,LOCATION_MZONE)>-1
 		and Duel.IsExistingMatchingCard(c20912312.spfilter,tp,LOCATION_DECK,0,1,nil,e,tp) end
 	Duel.SetOperationInfo(0,CATEGORY_SPECIAL_SUMMON,nil,1,tp,LOCATION_DECK)
 end

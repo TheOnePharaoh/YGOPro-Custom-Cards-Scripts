@@ -2,7 +2,7 @@
 function c66652262.initial_effect(c)
 	--activate
 	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_SPECIAL_SUMMON)
+	e1:SetCategory(CATEGORY_SPECIAL_SUMMON+CATEGORY_FUSION_SUMMON)
 	e1:SetType(EFFECT_TYPE_ACTIVATE)
 	e1:SetCode(EVENT_FREE_CHAIN)
 	e1:SetTarget(c66652262.target)
@@ -37,7 +37,7 @@ function c66652262.mfilter0(c)
 	return c:IsType(TYPE_MONSTER) and c66652262.confilter(c) and c:IsCanBeFusionMaterial() and c:IsAbleToRemove()
 end
 function c66652262.mfilter1(c,e)
-	return c:IsCanBeFusionMaterial() and not c:IsImmuneToEffect(e)
+	return c:IsType(TYPE_MONSTER) and c:IsCanBeFusionMaterial() and not c:IsImmuneToEffect(e)
 end
 function c66652262.mfilter2(c,e)
 	return c:IsType(TYPE_MONSTER) and c66652262.confilter(c) and c:IsCanBeFusionMaterial() and c:IsAbleToRemove() and not c:IsImmuneToEffect(e)

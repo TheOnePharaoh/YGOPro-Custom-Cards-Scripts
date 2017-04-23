@@ -1,14 +1,6 @@
---The First Panticle Chain
+--Aetherian's Constellation Party
 function c59821081.initial_effect(c)
-	--Activate
-	local e1=Effect.CreateEffect(c)
-	e1:SetCategory(CATEGORY_EQUIP)
-	e1:SetType(EFFECT_TYPE_ACTIVATE)
-	e1:SetCode(EVENT_FREE_CHAIN)
-	e1:SetProperty(EFFECT_FLAG_CARD_TARGET)
-	e1:SetTarget(c59821081.eqtg)
-	e1:SetOperation(c59821081.eqop)
-	c:RegisterEffect(e1)
+	aux.AddEquipProcedure(c,0,aux.FilterBoolFunction(Card.IsSetCard,0xa1a2))
 	--Equip limit
 	local e2=Effect.CreateEffect(c)
 	e2:SetProperty(EFFECT_FLAG_CANNOT_DISABLE)
@@ -43,23 +35,6 @@ function c59821081.initial_effect(c)
 	e4:SetTarget(c59821081.botg)
 	e4:SetOperation(c59821081.eqop)
 	c:RegisterEffect(e4)
-end
-function c59821081.eqfilter(c)
-	return c:IsFaceup() and c:IsSetCard(0xa1a2)
-end
-function c59821081.eqtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-	if chkc then return chkc:IsLocation(LOCATION_MZONE) and c59821081.eqfilter(chkc) end
-	if chk==0 then return Duel.IsExistingTarget(c59821081.eqfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil) end
-	Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_EQUIP)
-	Duel.SelectTarget(tp,c59821081.eqfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil)
-	Duel.SetOperationInfo(0,CATEGORY_EQUIP,e:GetHandler(),1,0,0)
-end
-function c59821081.eqop(e,tp,eg,ep,ev,re,r,rp)
-	local c=e:GetHandler()
-	local tc=Duel.GetFirstTarget()
-	if c:IsRelateToEffect(e) and tc:IsRelateToEffect(e) and tc:IsFaceup() then
-		Duel.Equip(tp,c,tc)
-	end
 end
 function c59821081.eqlimit(e,c)
 	return c:IsSetCard(0xa1a2)

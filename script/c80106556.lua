@@ -13,9 +13,9 @@ function c80106556.initial_effect(c)
 	e2:SetProperty(EFFECT_FLAG_PLAYER_TARGET)
 	e2:SetCode(EVENT_TO_GRAVE)
 	e2:SetRange(LOCATION_SZONE)
-	e2:SetCondition(c80106556.condition1)
-	e2:SetTarget(c80106556.target)
-	e2:SetOperation(c80106556.operation)
+	e2:SetCondition(c30653113.condition1)
+	e2:SetTarget(c30653113.target1)
+	e2:SetOperation(c80106556.operation1)
 	c:RegisterEffect(e2)
 	--search
 	local e3=Effect.CreateEffect(c)
@@ -49,29 +49,23 @@ function c80106556.initial_effect(c)
 	e5:SetCode(EVENT_TO_GRAVE)
 	e5:SetRange(LOCATION_SZONE)
 	e5:SetCondition(c80106556.condition2)
-	e5:SetTarget(c80106556.target)
-	e5:SetOperation(c80106556.operation)
+	e5:SetTarget(c80106556.target2)
+	e5:SetOperation(c80106556.operation2)
 	c:RegisterEffect(e5)
 end
-function c80106556.leavefilter1(c,tp)
-	return c:IsPreviousLocation(LOCATION_HAND) and c:IsControler(tp) and c:IsReason(REASON_DISCARD+REASON_EFFECT)
+function c80106556.leftfilter(c,tp)
+	return c:IsPreviousLocation(LOCATION_HAND) and c:IsControler(tp) and c:IsReason(REASON_EFFECT) and c:IsReason(REASON_DISCARD)
 end
 function c80106556.condition1(e,tp,eg,ep,ev,re,r,rp)
-	return rp==tp and eg:IsExists(c80106556.leavefilter1,1,nil,tp)
+	return rp==tp and eg:IsExists(c80106556.leftfilter,1,nil,tp)
 end
-function c80106556.leavefilter2(c,tp)
-	return c:IsPreviousLocation(LOCATION_HAND) and c:IsControler(tp) and c:IsReason(REASON_COST+REASON_DISCARD+REASON_EFFECT)
-end
-function c80106556.condition2(e,tp,eg,ep,ev,re,r,rp)
-	return eg:IsExists(c80106556.leavefilter2,1,nil,tp)
-end
-function c80106556.target(e,tp,eg,ep,ev,re,r,rp,chk)
-	if chk==0 then return true end
+function c80106556.target1(e,tp,eg,ep,ev,re,r,rp,chk)
+	if chk==0 then return Duel.IsPlayerCanDraw(tp,1) end
 	Duel.SetTargetPlayer(tp)
 	Duel.SetTargetParam(1)
 	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,1)
 end
-function c80106556.operation(e,tp,eg,ep,ev,re,r,rp)
+function c80106556.operation1(e,tp,eg,ep,ev,re,r,rp)
 	local p,d=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER,CHAININFO_TARGET_PARAM)
 	Duel.Draw(p,d,REASON_EFFECT)
 end
@@ -105,10 +99,10 @@ function c80106556.thop(e,tp,eg,ep,ev,re,r,rp)
 		Duel.ConfirmCards(1-tp,sel)
 	end
 end
-function c80106556.hdcon(e,tp,eg,ep,ev,re,r,rp)
+function c80106556.condition2(e,tp,eg,ep,ev,re,r,rp)
 	return e:GetHandler():IsReason(REASON_EFFECT) and e:GetHandler():IsPreviousLocation(LOCATION_HAND) and not e:GetHandler():IsReason(REASON_RETURN)
 end
-function c80106556.hdtg(e,tp,eg,ep,ev,re,r,rp,chk)
+function c80106556.target2(e,tp,eg,ep,ev,re,r,rp,chk)
 	if chk==0 then
 		local h=Duel.GetFieldGroupCount(tp,LOCATION_HAND,0)
 		return h<3 and Duel.IsPlayerCanDraw(tp,3-h)
@@ -118,7 +112,7 @@ function c80106556.hdtg(e,tp,eg,ep,ev,re,r,rp,chk)
 	Duel.SetTargetParam(3-h)
 	Duel.SetOperationInfo(0,CATEGORY_DRAW,nil,0,tp,3-h)
 end
-function c80106556.hdop(e,tp,eg,ep,ev,re,r,rp)
+function c80106556.operation2(e,tp,eg,ep,ev,re,r,rp)
 	local p=Duel.GetChainInfo(0,CHAININFO_TARGET_PLAYER)
 	local h=Duel.GetFieldGroupCount(p,LOCATION_HAND,0)
 	if h>=3 then return end
