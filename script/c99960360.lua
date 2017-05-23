@@ -48,7 +48,6 @@ function c99960360.retop(e,tp,eg,ep,ev,re,r,rp)
   if g:IsExists(Card.IsLocation,1,nil,LOCATION_DECK) then Duel.ShuffleDeck(tp) end
   local ct=g:FilterCount(Card.IsLocation,nil,LOCATION_DECK+LOCATION_EXTRA)
   if ct>0 then
-  Duel.BreakEffect()
   Duel.Draw(tp,2,REASON_EFFECT)
   end
 end

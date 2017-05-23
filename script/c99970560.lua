@@ -1,92 +1,75 @@
 --DAL - Gabriel
 function c99970560.initial_effect(c)
-  --Actuvate
+  --Activate
   local e1=Effect.CreateEffect(c)
   e1:SetType(EFFECT_TYPE_ACTIVATE)
   e1:SetCode(EVENT_FREE_CHAIN)
+  e1:SetCountLimit(1,99970560+EFFECT_COUNT_CODE_OATH)
   e1:SetTarget(c99970560.target)
-  e1:SetOperation(c99970560.operation)
+  e1:SetOperation(c99970560.activate)
   c:RegisterEffect(e1)
 end
-function c99970560.filter1(c)
-  return c:IsFaceup() and c:IsSetCard(9997) and c:IsType(TYPE_MONSTER)
-end
-function c99970560.filter2(c)
-  return c:IsFaceup() and c:IsSetCard(9997) and c:IsLevelAbove(5)
-end
-function c99970560.filter3(c)
-  return c:IsPosition(POS_FACEUP_DEFENSE)
-end
-function c99970560.filter4(c)
-  return c:IsSetCard(9997) and c:IsType(TYPE_SPELL+TYPE_TRAP) and c:IsAbleToHand() and not c:IsCode(99970560) and not c:IsHasEffect(EFFECT_NECRO_VALLEY)
-end
-function c99970560.filter5(c)
-  return c:IsControlerCanBeChanged() and c:IsFaceup()
+function c99970560.atkfilter(c)
+  return c:IsFaceup() and c:IsSetCard(0x997) and c:IsType(TYPE_MONSTER)
 end
 function c99970560.target(e,tp,eg,ep,ev,re,r,rp,chk)
-  local b1=Duel.IsExistingMatchingCard(c99970560.filter2,tp,LOCATION_MZONE,0,1,nil)
-  local b2=Duel.IsExistingMatchingCard(c99970560.filter3,tp,0,LOCATION_MZONE,1,nil)
-  local b3=Duel.IsExistingTarget(c99970560.filter4,tp,LOCATION_GRAVE,0,1,nil)
-  if chk==0 then return b1 or b2 or b3 end
-  local off=1
-  local ops={}
-  local opval={}
-  if b1 then
-  ops[off]=aux.Stringid(99970560,0)
-  opval[off-1]=1
-  off=off+1
+  local b1=Duel.IsExistingTarget(c99970560.atkfilter,tp,LOCATION_MZONE,0,1,nil) 
+  local b2=Duel.IsExistingMatchingCard(Card.IsDefensePos,tp,0,LOCATION_MZONE,1,nil)
+  if chk==0 then return b1 or b2 end
+  local op=0
+  if b1 and b2 then
+  op=Duel.SelectOption(tp,aux.Stringid(99970560,0),aux.Stringid(99970560,1))
+  elseif b1 then
+  op=Duel.SelectOption(tp,aux.Stringid(99970560,0))
+  else
+  op=Duel.SelectOption(tp,aux.Stringid(99970560,1))+1
   end
-  if b2 then
-  ops[off]=aux.Stringid(99970560,1)
-  opval[off-1]=2
-  off=off+1
+  e:SetLabel(op)
+  if op==0 then
+  e:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_DEFCHANGE)
+  else
+  e:SetCategory(CATEGORY_POSITION)
+  local g=Duel.GetMatchingGroup(Card.IsDefensePos,tp,0,LOCATION_MZONE,nil)
+  Duel.SetOperationInfo(0,CATEGORY_POSITION,g,g:GetCount(),0,0)
   end
-  if b3 then
-  ops[off]=aux.Stringid(99970560,2)
-  opval[off-1]=3
-  off=off+1
-  end
-  if Duel.GetMatchingGroupCount(c99970560.filter2,tp,LOCATION_MZONE,0,nil)==1 and Duel.IsExistingTarget(c99970560.filter5,tp,0,LOCATION_MZONE,1,nil) 
-  and Duel.SelectYesNo(tp,aux.Stringid(99970560,3)) then
-  Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_CONTROL)
-  local g=Duel.SelectTarget(tp,c99970560.filter5,tp,0,LOCATION_MZONE,1,1,nil)
-  local tc=Duel.GetFirstTarget()
-  if tc:IsRelateToEffect(e) and not Duel.GetControl(tc,tp,PHASE_END,1) then
-  if not tc:IsImmuneToEffect(e) and tc:IsAbleToChangeControler() then
-  Duel.Destroy(tc,REASON_EFFECT)
-  end
-  end
-  end
-  local op=Duel.SelectOption(tp,table.unpack(ops))
-  local sel=opval[op]
-  e:SetLabel(sel)
 end
-function c99970560.operation(e,tp,eg,ep,ev,re,r,rp)
-  local sel=e:GetLabel()
-  local c=e:GetHandler() 
-  if sel==1 then
-  local g=Duel.GetMatchingGroup(c99970560.filter1,tp,LOCATION_MZONE,0,nil)
-  local tc=g:GetFirst()
-  while tc do
-  local e1=Effect.CreateEffect(c)
+function c99970560.activate(e,tp,eg,ep,ev,re,r,rp)
+  local c=e:GetHandler()
+  local op=e:GetLabel()
+  if op==0 then
+  local g1=Duel.GetMatchingGroup(c99970560.atkfilter,tp,LOCATION_MZONE,0,nil)
+  if g1:GetCount()>0 then
+  local atk=g1:GetCount()*200
+  local sc1=g1:GetFirst()
+  while sc1 do
+  local e1=Effect.CreateEffect(e:GetHandler())
   e1:SetType(EFFECT_TYPE_SINGLE)
   e1:SetCode(EFFECT_UPDATE_ATTACK)
-  e1:SetValue(Duel.GetMatchingGroupCount(c99970560.filter2,c:GetControler(),LOCATION_MZONE,0,nil)*200)
   e1:SetReset(RESET_EVENT+0x1ff0000+RESET_PHASE+PHASE_END)
-  tc:RegisterEffect(e1)
-  tc=g:GetNext()
+  e1:SetValue(atk)
+  sc1:RegisterEffect(e1)
+  sc1=g1:GetNext()
   end
-  elseif sel==2 then
-  local g=Duel.GetMatchingGroup(c99970560.filter3,tp,0,LOCATION_MZONE,nil)
-  if g:GetCount()>0 then
-  Duel.ChangePosition(g,POS_FACEUP_ATTACK)
+  end
+  Duel.BreakEffect()
+  local g2=Duel.GetMatchingGroup(Card.IsFaceup,tp,0,LOCATION_MZONE,nil)
+  if g2:GetCount()>0 then
+  local sc2=g2:GetFirst()
+  while sc2 do
+  local e1=Effect.CreateEffect(e:GetHandler())
+  e1:SetType(EFFECT_TYPE_SINGLE)
+  e1:SetCode(EFFECT_UPDATE_ATTACK)
+  e1:SetReset(RESET_EVENT+0x1ff0000+RESET_PHASE+PHASE_END)
+  e1:SetValue(-500)
+  sc2:RegisterEffect(e1)
+  local e2=e1:Clone()
+  e2:SetCode(EFFECT_UPDATE_DEFENSE)
+  sc2:RegisterEffect(e2)
+  sc2=g2:GetNext()
+  end
   end
   else
-  Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
-  local g=Duel.SelectMatchingCard(tp,c99970560.filter4,tp,LOCATION_GRAVE,0,1,1,nil)
-  if g:GetCount()>0 then
-  Duel.SendtoHand(g,nil,REASON_EFFECT)
-  Duel.ConfirmCards(1-tp,g)
-  end
+  local g=Duel.GetMatchingGroup(Card.IsDefensePos,tp,0,LOCATION_MZONE,nil)
+  Duel.ChangePosition(g,0,0,POS_FACEUP_ATTACK,POS_FACEUP_ATTACK,true)
   end
 end

@@ -104,21 +104,44 @@ function c99990040.spop(e,tp,eg,ep,ev,re,r,rp)
   if ft<=0 or not 
   Duel.IsPlayerCanSpecialSummonMonster(tp,99990640,0,0x4011,500,500,2,RACE_BEASTWARRIOR,ATTRIBUTE_DARK,POS_FACEUP_ATTACK,1-tp) then return end
   if Duel.IsPlayerAffectedByEffect(tp,59822133) then ft=1 end
+  local fid=e:GetHandler():GetFieldID()
+  local g=Group.CreateGroup()
   for i=1,ft do
   local token=Duel.CreateToken(tp,99990640)
-  if Duel.SpecialSummonStep(token,0,tp,1-tp,false,false,POS_FACEUP_ATTACK) then
-  local e1=Effect.CreateEffect(e:GetHandler())
-  e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
-  e1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
-  e1:SetRange(LOCATION_MZONE)
-  e1:SetCode(EVENT_PHASE+PHASE_END)
-  e1:SetCountLimit(1)
-  e1:SetOperation(c99990040.desop)
-  e1:SetReset(RESET_EVENT+0x1fe0000)
-  token:RegisterEffect(e1,true)
-  end
+  Duel.SpecialSummonStep(token,0,tp,1-tp,false,false,POS_FACEUP_ATTACK) 
+  token:RegisterFlagEffect(99990040,RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,0,1,fid)
+  g:AddCard(token)
   end
   Duel.SpecialSummonComplete()
+  g:KeepAlive()
+  local e1=Effect.CreateEffect(e:GetHandler())
+  e1:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_CONTINUOUS)
+  e1:SetCode(EVENT_PHASE+PHASE_END)
+  e1:SetProperty(EFFECT_FLAG_IGNORE_IMMUNE)
+  e1:SetReset(RESET_PHASE+PHASE_END)
+  e1:SetCountLimit(1)
+  e1:SetLabel(fid)
+  e1:SetLabelObject(g)
+  e1:SetCondition(c99990040.descon)
+  e1:SetOperation(c99990040.desop)
+  Duel.RegisterEffect(e1,tp)
+end
+function c99990040.desfilter(c,fid)
+  return c:GetFlagEffectLabel(99990040)==fid
+end
+function c99990040.descon(e,tp,eg,ep,ev,re,r,rp)
+  local g=e:GetLabelObject()
+  if not g:IsExists(c99990040.desfilter,1,nil,e:GetLabel()) then
+  g:DeleteGroup()
+  e:Reset()
+  return false
+  else return true end
+end
+function c99990040.desop(e,tp,eg,ep,ev,re,r,rp)
+  local g=e:GetLabelObject()
+  local tg=g:Filter(c99990040.desfilter,nil,e:GetLabel())
+  g:DeleteGroup()
+  Duel.Destroy(tg,REASON_EFFECT)
 end
 function c99990040.desrepfilter(c)
   return c:IsSetCard(0x999) and c:IsType(TYPE_MONSTER) and c:IsAbleToRemoveAsCost()
@@ -132,7 +155,4 @@ function c99990040.desreptg(e,tp,eg,ep,ev,re,r,rp,chk)
   Duel.Remove(g,POS_FACEUP,REASON_COST)
   return true
   else return false end
-end
-function c99990040.desop(e,tp,eg,ep,ev,re,r,rp)
-  Duel.Destroy(e:GetHandler(),REASON_EFFECT)
 end

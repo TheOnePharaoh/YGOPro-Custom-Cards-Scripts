@@ -59,7 +59,7 @@ function c99960460.damcon(e,tp,eg,ep,ev,re,r,rp)
   and c:IsPreviousLocation(LOCATION_OVERLAY) and re:GetHandler():IsSetCard(0x996) 
 end
 function c99960460.damfilter(c)
-  return c:IsFaceup() and c:IsSetCard(0x996) and c:IsType(TYPE_XYZ)
+  return c:IsFaceup() and c:IsSetCard(0x996) and c:IsType(TYPE_MONSTER)
 end
 function c99960460.damtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
   if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc:IsControler(tp) and c99960460.damfilter(chkc) end
@@ -77,11 +77,12 @@ function c99960460.damop(e,tp,eg,ep,ev,re,r,rp)
   e1:SetCode(EVENT_PHASE+PHASE_END)
   e1:SetCountLimit(1)
   e1:SetOperation(c99960460.desop)
-  e1:SetReset(RESET_EVENT+0x1fe0000)
+  e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END)
   tc:RegisterEffect(e1,true)
   end
 end
 function c99960460.desop(e,tp,eg,ep,ev,re,r,rp)
+  Duel.Hint(HINT_CARD,0,99960460)
   local atk=e:GetHandler():GetAttack()
   if Duel.Destroy(e:GetHandler(),REASON_EFFECT)~=0 then
   Duel.Damage(tp,atk/2,REASON_EFFECT,true)

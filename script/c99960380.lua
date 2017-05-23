@@ -50,16 +50,8 @@ function c99960380.initial_effect(c)
   e5:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
   e5:SetRange(LOCATION_MZONE)
   e5:SetCode(EFFECT_UPDATE_ATTACK)
-  e5:SetValue(c99960380.value1)
+  e5:SetValue(c99960380.value)
   c:RegisterEffect(e5)
-  --ATK Up
-  local e6=Effect.CreateEffect(c)
-  e6:SetType(EFFECT_TYPE_SINGLE)
-  e6:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-  e6:SetRange(LOCATION_MZONE)
-  e6:SetCode(EFFECT_UPDATE_ATTACK)
-  e6:SetValue(c99960380.value2)
-  c:RegisterEffect(e6)
 end
 function c99960380.ovfilter(c,tp,xyzc)
   return c:IsFaceup() and c:IsCode(99960000) and c:IsCanBeXyzMaterial(xyzc)
@@ -164,12 +156,6 @@ function c99960380.desop(e,tp,eg,ep,ev,re,r,rp)
   end
   end
 end
-function c99960380.atkfilter(c)
-  return c:IsFaceup() and c:IsSetCard(0x996)
-end
-function c99960380.value1(e,c)
-  return Duel.GetMatchingGroupCount(c99960380.atkfilter,c:GetControler(),LOCATION_MZONE,0,c)*100
-end
-function c99960380.value2(e,c)
+function c99960380.value(e,c)
   return Duel.GetMatchingGroupCount(Card.IsType,c:GetControler(),0,LOCATION_GRAVE,nil,TYPE_MONSTER)*100
 end

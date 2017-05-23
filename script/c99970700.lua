@@ -1,90 +1,84 @@
 --DAL - Witch
 function c99970700.initial_effect(c)
-  --Cannot Special Summon
+  --ATK/DEF + Search
   local e1=Effect.CreateEffect(c)
-  e1:SetProperty(EFFECT_FLAG_CANNOT_DISABLE+EFFECT_FLAG_UNCOPYABLE)
-  e1:SetType(EFFECT_TYPE_SINGLE)
-  e1:SetCode(EFFECT_SPSUMMON_CONDITION)
-  e1:SetValue(c99970700.splimit)
+  e1:SetDescription(aux.Stringid(99970700,0))
+  e1:SetCategory(CATEGORY_ATKCHANGE+CATEGORY_DEFCHANGE+CATEGORY_TOHAND+CATEGORY_SEARCH)
+  e1:SetType(EFFECT_TYPE_SINGLE+EFFECT_TYPE_TRIGGER_O)
+  e1:SetCode(EVENT_SPSUMMON_SUCCESS)
+  e1:SetProperty(EFFECT_FLAG_DELAY+EFFECT_FLAG_CARD_TARGET)
+  e1:SetCondition(c99970700.atkcon)
+  e1:SetTarget(c99970700.atktg)
+  e1:SetOperation(c99970700.atkop)
   c:RegisterEffect(e1)
-  --Negate ATK
+  --Negate Attack
   local e2=Effect.CreateEffect(c)
-  e2:SetProperty(EFFECT_FLAG_CARD_TARGET+EFFECT_FLAG_NO_TURN_RESET)
+  e2:SetDescription(aux.Stringid(99970700,2))
   e2:SetType(EFFECT_TYPE_FIELD+EFFECT_TYPE_TRIGGER_O)
   e2:SetCode(EVENT_ATTACK_ANNOUNCE)
   e2:SetRange(LOCATION_MZONE)
   e2:SetCountLimit(1)
-  e2:SetCondition(c99970700.condition)
-  e2:SetTarget(c99970700.target)
-  e2:SetOperation(c99970700.operation)
+  e2:SetCondition(c99970700.negcon)
+  e2:SetTarget(c99970700.negtg)
+  e2:SetOperation(c99970700.negop)
   c:RegisterEffect(e2)
-  --Copy ATK/DEF
-  local e3=Effect.CreateEffect(c)
-  e3:SetDescription(aux.Stringid(99970700,0))
-  e3:SetProperty(EFFECT_FLAG_CARD_TARGET)
-  e3:SetType(EFFECT_TYPE_IGNITION)
-  e3:SetRange(LOCATION_MZONE)
-  e3:SetCountLimit(1)
-  e3:SetTarget(c99970700.lvtg)
-  e3:SetOperation(c99970700.lvop)
-  c:RegisterEffect(e3)
-  local e4=Effect.CreateEffect(c)
-  e4:SetType(EFFECT_TYPE_SINGLE)
-  e4:SetProperty(EFFECT_FLAG_SINGLE_RANGE)
-  e4:SetRange(LOCATION_MZONE)
-  e4:SetCode(EFFECT_UPDATE_ATTACK)
-  e4:SetValue(c99970700.atkval)
-  c:RegisterEffect(e4)
 end
-function c99970700.splimit(e,se,sp,st)
-  return se:GetHandler():IsSetCard(9997)
+function c99970700.atkcon(e,tp,eg,ep,ev,re,r,rp)
+  return re and re:GetHandler():IsSetCard(0x997) and not (e:GetHandler():GetSummonType()==SUMMON_TYPE_PENDULUM)
 end
-function c99970700.condition(e,tp,eg,ep,ev,re,r,rp)
-  return Duel.GetAttacker():IsControler(1-tp)
+function c99970700.atkfilter(c,atk)
+  return c:IsFaceup() and c:GetAttack()~=atk
 end
-function c99970700.target(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-  local tg=Duel.GetAttacker()
-  if chkc then return chkc==tg end
-  if chk==0 then return tg:IsOnField() and tg:IsCanBeEffectTarget(e) end
-  Duel.SetTargetCard(tg)
+function c99970700.thfilter(c)
+  return c:IsSetCard(0x997) and c:GetLevel()==3 and c:IsAbleToHand()
 end
-function c99970700.operation(e,tp,eg,ep,ev,re,r,rp)
-  local tc=Duel.GetFirstTarget()
-  Duel.NegateAttack()
-  Duel.Damage(1-tp,tc:GetAttack(),REASON_EFFECT)
-end
-function c99970700.filter1(c,lv)
-  return c:IsFaceup()
-end
-function c99970700.lvtg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
-  if chkc then return chkc:IsControler(tp) and chkc:IsLocation(LOCATION_MZONE) and c99970700.filter1(chkc) end
-  if chk==0 then return Duel.IsExistingTarget(c99970700.filter1,tp,LOCATION_MZONE,LOCATION_MZONE,1,nil) end
-  Duel.Hint(HINT_SELECTMSG,tp,aux.Stringid(99970700,0))
-  Duel.SelectTarget(tp,c99970700.filter1,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,nil)
-end
-function c99970700.lvop(e,tp,eg,ep,ev,re,r,rp)
+function c99970700.atktg(e,tp,eg,ep,ev,re,r,rp,chk,chkc)
   local c=e:GetHandler()
+  local atk=c:GetAttack()
+  if chkc then return chkc:IsLocation(LOCATION_MZONE) and chkc~=c and c99970700.atkfilter(chkc,atk) end
+  if chk==0 then return Duel.IsExistingTarget(c99970700.atkfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,c,atk) end
+  Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
+  Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_TARGET)
+  Duel.SelectTarget(tp,c99970700.atkfilter,tp,LOCATION_MZONE,LOCATION_MZONE,1,1,c,atk)
+end
+function c99970700.atkop(e,tp,eg,ep,ev,re,r,rp)
+  local c=e:GetHandler() 
   local tc=Duel.GetFirstTarget()
-  local atk=tc:GetBaseAttack()
-  local def=tc:GetBaseDefense()
-  if tc and c:IsRelateToEffect(e) and c:IsFaceup() and tc:IsRelateToEffect(e) then
+  local atk=tc:GetAttack()
+  local def=tc:GetDefense()
+  if not tc:IsRelateToEffect(e) or not tc:IsFaceup() or not c:IsRelateToEffect(e) or not c:IsFaceup() then return end
   local e1=Effect.CreateEffect(c)
   e1:SetType(EFFECT_TYPE_SINGLE)
-  e1:SetCode(EFFECT_UPDATE_ATTACK)
+  e1:SetCode(EFFECT_SET_ATTACK_FINAL)
   e1:SetValue(atk)
-  e1:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,1)
+  e1:SetReset(RESET_EVENT+0x1fe0000)
   c:RegisterEffect(e1)
   local e2=Effect.CreateEffect(c)
   e2:SetType(EFFECT_TYPE_SINGLE)
-  e2:SetCode(EFFECT_UPDATE_DEFENSE)
+  e2:SetCode(EFFECT_SET_DEFENSE_FINAL)
   e2:SetValue(def)
-  e2:SetReset(RESET_EVENT+0x1fe0000+RESET_PHASE+PHASE_END,1)
+  e2:SetReset(RESET_EVENT+0x1fe0000)
   c:RegisterEffect(e2)
+  if Duel.IsExistingMatchingCard(c99970700.thfilter,tp,LOCATION_DECK,0,1,nil) 
+  and Duel.SelectYesNo(tp,aux.Stringid(99970700,1)) then
+  Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_ATOHAND)
+  local g=Duel.SelectMatchingCard(tp,c99970700.thfilter,tp,LOCATION_DECK,0,1,1,nil)
+  if g:GetCount()>0 then
+  Duel.SendtoHand(g,nil,REASON_EFFECT)
+  Duel.ConfirmCards(1-tp,g)
+  end
   end
 end
-function c99970700.filter2(c)
-  return c:IsFaceup() and c:IsSetCard(9997) and c:IsLevelAbove(5)
+function c99970700.negcon(e,tp,eg,ep,ev,re,r,rp)
+  return Duel.GetAttacker():IsControler(1-tp)
 end
-function c99970700.atkval(e,c)
-  return Duel.GetMatchingGroupCount(c99970700.filter2,c:GetControler(),LOCATION_MZONE,LOCATION_MZONE,nil)*100
+function c99970700.negtg(e,tp,eg,ep,ev,re,r,rp,chk)
+  if chk==0 then return true end
+  Duel.Hint(HINT_OPSELECTED,1-tp,e:GetDescription())
+end
+function c99970700.negop(e,tp,eg,ep,ev,re,r,rp)
+  local a=Duel.GetAttacker()
+  if Duel.NegateAttack() then
+  Duel.Damage(1-tp,a:GetAttack(),REASON_EFFECT)
+  end
 end

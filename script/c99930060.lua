@@ -11,9 +11,10 @@ function c99930060.initial_effect(c)
   local e2=Effect.CreateEffect(c)
   e2:SetType(EFFECT_TYPE_FIELD)
   e2:SetCode(EFFECT_SPSUMMON_PROC)
-  e2:SetRange(LOCATION_EXTRA)
   e2:SetProperty(EFFECT_FLAG_UNCOPYABLE)
+  e2:SetRange(LOCATION_EXTRA)
   e2:SetCondition(c99930060.xyzcon)
+  e2:SetTarget(c99930060.xyztg)
   e2:SetOperation(c99930060.xyzop)
   e2:SetValue(SUMMON_TYPE_XYZ)
   c:RegisterEffect(e2)
@@ -86,32 +87,50 @@ function c99930060.initial_effect(c)
   e10:SetOperation(c99930060.desop)
   c:RegisterEffect(e10)
 end
-function c99930060.ovfilter(c)
+function c99930060.ovfilter(c,tp,xyzc)
   return c:IsFaceup() and c:IsSetCard(0x993) and c:IsType(TYPE_XYZ) 
   and c:GetOverlayCount()>=5 and not c:IsCode(99930060)
 end
 function c99930060.xyzcon(e,c,og,min,max)
-  local c=e:GetHandler() 
   if c==nil then return true end
   local tp=c:GetControler()
-  altmg=Duel.GetFieldGroup(tp,LOCATION_MZONE,0)
-  if altmg:IsExists(aux.XyzAlterFilter,1,nil,c99930060.ovfilter,c) then
+  local mg=nil
+  mg=Duel.GetFieldGroup(tp,LOCATION_MZONE,0)
+  if mg:IsExists(c99930060.ovfilter,1,nil,tp,c) then
   return true
   end
 end
-function c99930060.xyzop(e,tp,eg,ep,ev,re,r,rp,c,og,min,max)
-  local c=e:GetHandler() 
-  local tp=c:GetControler()
-  altmg=Duel.GetFieldGroup(tp,LOCATION_MZONE,0)
-  if altmg:IsExists(aux.XyzAlterFilter,1,nil,c99930060.ovfilter,c) then
+function c99930060.xyztg(e,tp,eg,ep,ev,re,r,rp,chk,c,og,min,max)
+  local ft=Duel.GetLocationCount(tp,LOCATION_MZONE)
+  local mg=nil
+  mg=Duel.GetFieldGroup(tp,LOCATION_MZONE,0)
+  local g=nil
+  if mg:IsExists(c99930060.ovfilter,1,nil,tp,c) then
+  e:SetLabel(1)
   Duel.Hint(HINT_SELECTMSG,tp,HINTMSG_XMATERIAL)
-  local g=altmg:FilterSelect(tp,aux.XyzAlterFilter,1,1,nil,c99930060.ovfilter,c)
-  local g2=g:GetFirst():GetOverlayGroup()
-  if g2:GetCount()~=0 then
-  Duel.Overlay(c,g2)
+  g=mg:FilterSelect(tp,c99930060.ovfilter,1,1,nil,tp,c)
   end
-  c:SetMaterial(g)
-  Duel.Overlay(c,g)
+  if g then
+  g:KeepAlive()
+  e:SetLabelObject(g)
+  return true
+  else return false end
+end
+function c99930060.xyzop(e,tp,eg,ep,ev,re,r,rp,c,og,min,max)
+  if og and not min then
+  c:SetMaterial(og)
+  Duel.Overlay(c,og)
+  else
+  local mg=e:GetLabelObject()
+  if e:GetLabel()==1 then
+  local mg2=mg:GetFirst():GetOverlayGroup()
+  if mg2:GetCount()~=0 then
+  Duel.Overlay(c,mg2)
+  end
+  end
+  c:SetMaterial(mg)
+  Duel.Overlay(c,mg)
+  mg:DeleteGroup()
   end
 end
 function c99930060.indfilter(c)
